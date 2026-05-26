@@ -1,0 +1,105 @@
+import Anthropic from '@anthropic-ai/sdk'
+import { NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+})
+
+export async function POST(request: NextRequest) {
+  try {
+    const { image, plan } = await request.json()
+    // Vérifier les limites selon le plan
+const cookieStoreCheck = await cookies()
+const supabaseCheck = createServerClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  { cookies: { getAll() { return cookieStoreCheck.getAll() }, setAll() {} } }
+)
+
+const { data: { user: currentUser } } = await supabaseCheck.auth.getUser()
+
+if (currentUser && plan === 'free') {
+  const startOfMonth = new Date()
+  startOfMonth.setDate(1)
+  startOfMonth.setHours(0, 0, 0, 0)
+
+  const { count } = await supabaseCheck
+    .from('scans')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', currentUser.id)
+    .gte('created_at', startOfMonth.toISOString())
+
+  if ((count ?? 0) >= 3) {
+    return NextResponse.json(
+      { error: 'Limite de 3 scans/mois atteinte. Passez au plan Pro !' },
+      { status: 403 }
+    )
+  }
+}
+
+    const prompt = plan === 'free'
+      ? `Analyse cet article à vendre. Réponds UNIQUEMENT en JSON sans markdown :
+{"nom": "nom de l'article", "score": 85, "prix_conseille": "15-20€", "plateformes": ["Vinted", "Leboncoin"]}`
+      : `Analyse cet article à vendre. Réponds UNIQUEMENT en JSON sans markdown :
+{"nom": "nom de l'article", "score": 85, "prix_conseille": "15-20€", "plateformes": ["Vinted", "Leboncoin", "eBay"], "titre": "titre optimisé", "description": "description complète", "roi": "bénéfice potentiel"}`
+
+    const response = await anthropic.messages.create({
+      model: 'claude-opus-4-5',
+      max_tokens: 1024,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: 'image/jpeg',
+                data: image,
+              },
+            },
+            {
+              type: 'text',
+              text: prompt,
+            },
+          ],
+        },
+      ],
+    })
+
+    const text = response.content[0].type === 'text' ? response.content[0].text : ''
+    const clean = text.replace(/```json|```/g, '').trim()
+    const result = JSON.parse(clean)
+
+    // Sauvegarder dans Supabase
+    const cookieStore = await cookies()
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll() },
+          setAll() {},
+        },
+      }
+    )
+
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      await supabase.from('scans').insert({
+        user_id: user.id,
+        nom: result.nom,
+        score: result.score,
+        prix_conseille: result.prix_conseille,
+        plateformes: result.plateformes,
+      })
+    }
+
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Erreur lors du scan' }, { status: 500 })
+  }
+}
