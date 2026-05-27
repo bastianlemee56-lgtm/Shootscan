@@ -136,10 +136,7 @@ export default function Dashboard() {
 
       <nav className="nav">
         <a href="/" className="nav-logo">shoot<strong>scan</strong></a>
-        <div className="nav-right">
-          <span className="nav-email">{email}</span>
-          <button className="nav-logout" onClick={handleLogout}>Se déconnecter</button>
-        </div>
+        <a href="/" style={{ fontSize: '13px', color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>← Accueil</a>
       </nav>
 
       <div className="scanner-wrap">

@@ -87,7 +87,7 @@ export default function Tarifs() {
 
       <nav className="nav">
         <a href="/" className="nav-logo">shoot<strong>scan</strong></a>
-        <a href="/dashboard" style={{ fontSize: '13px', color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>← Scanner</a>
+        <a href="/dashboard" style={{ fontSize: '13px', color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>← Accueil</a>
       </nav>
 
       <div className="wrap">
