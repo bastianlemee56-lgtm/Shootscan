@@ -71,7 +71,7 @@ export default function Tarifs() {
         .plan.highlight { border-color: #00B874; border-width: 2px; }
         .plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #00B874; color: white; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 20px; white-space: nowrap; }
         .plan-name { font-size: 14px; font-weight: 600; color: #4A7A58; margin-bottom: 0.5rem; }
-        .plan-price { font-size: 36px; font-weight: 700; color: #0A1A10; margin-bottom: 0.25rem; }
+        .plan-price { font-size: 32px; font-weight: 700; color: #0A1A10; margin-bottom: 0.25rem; }
         .plan-price span { font-size: 14px; font-weight: 400; color: #4A7A58; }
         .plan-desc { font-size: 13px; color: #4A7A58; margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid #E0EFE4; }
         .plan-features { list-style: none; padding: 0; margin: 0 0 1.5rem; }
