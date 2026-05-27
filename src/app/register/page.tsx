@@ -34,7 +34,7 @@ export default function Register() {
         .field { margin-bottom: 1rem; }
         .field label { display: block; font-size: 13px; font-weight: 500; color: #0A1A10; margin-bottom: 6px; }
         .field input { width: 100%; padding: 10px 12px; border: 1.5px solid #E0EFE4; border-radius: 10px; font-size: 14px; outline: none; box-sizing: border-box; transition: border 0.2s; }
-        .field input:focus { border-color: #00B874; }
+        .field input::placeholder { color: #4A7A58; }
         .badge { background: #E8F5EE; color: #00B874; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px; margin-bottom: 1.25rem; display: inline-block; }
         .btn { width: 100%; padding: 12px; background: #00B874; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; }
         .btn:hover { background: #008850; }
