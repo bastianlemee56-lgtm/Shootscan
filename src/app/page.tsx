@@ -1,9 +1,9 @@
 export default function Home() {
   return (
-    <main style={{ fontFamily: "'DM Sans', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh', colorScheme: 'light' }}>
+    <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh', colorScheme: 'light' }}>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         :root {
           --mint: #00B874;
@@ -21,7 +21,7 @@ export default function Home() {
           --border: #C0DDD0;
           --border2: #9ABDA0;
           --serif: 'Instrument Serif', Georgia, serif;
-          --sans: 'DM Sans', system-ui, sans-serif;
+          --sans: 'Inter', system-ui, sans-serif;
           --r: 10px;
           --rl: 16px;
         }
