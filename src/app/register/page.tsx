@@ -7,66 +7,73 @@ import { createClient } from '@/lib/supabase/client'
 export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const handleRegister = async () => {
-    setError('')
-    if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas')
-      return
-    }
     setLoading(true)
+    setError('')
     const supabase = createClient()
     const { error } = await supabase.auth.signUp({ email, password })
-    if (error) {
-      setError(error.message)
-    } else {
-      router.push('/login?registered=true')
-    }
-    setLoading(false)
+    if (error) { setError(error.message); setLoading(false); return }
+    router.push('/dashboard')
   }
 
   return (
-    <main style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#FFFFFF' }}>
-      <div style={{ width: '100%', maxWidth: '400px', padding: '2rem' }}>
-        <h1 style={{ textAlign: 'center', color: '#0A0A0A', marginBottom: '2rem', fontSize: '24px', fontWeight: 700 }}>
-          Créer un compte
-        </h1>
+    <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <style>{`
+        .nav { background: white; border-bottom: 1px solid #E0EFE4; padding: 0 1.5rem; display: flex; align-items: center; height: 56px; }
+        .nav-logo { font-size: 18px; font-weight: 300; color: #0A1A10; text-decoration: none; }
+        .nav-logo strong { font-weight: 600; color: #00B874; }
+        .center { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+        .card { background: white; border: 1px solid #E0EFE4; border-radius: 16px; padding: 2rem; width: 100%; max-width: 400px; }
+        .card-title { font-size: 22px; font-weight: 700; color: #0A1A10; margin-bottom: 0.25rem; }
+        .card-title em { font-style: italic; color: #00B874; font-family: 'Instrument Serif', Georgia, serif; }
+        .card-sub { font-size: 14px; color: #4A7A58; margin-bottom: 1.75rem; }
+        .field { margin-bottom: 1rem; }
+        .field label { display: block; font-size: 13px; font-weight: 500; color: #0A1A10; margin-bottom: 6px; }
+        .field input { width: 100%; padding: 10px 12px; border: 1.5px solid #E0EFE4; border-radius: 10px; font-size: 14px; outline: none; box-sizing: border-box; transition: border 0.2s; }
+        .field input:focus { border-color: #00B874; }
+        .badge { background: #E8F5EE; color: #00B874; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px; margin-bottom: 1.25rem; display: inline-block; }
+        .btn { width: 100%; padding: 12px; background: #00B874; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; }
+        .btn:hover { background: #008850; }
+        .btn:disabled { background: #C0DDD0; cursor: not-allowed; }
+        .error { color: #E24B4A; font-size: 13px; margin-top: 0.75rem; }
+        .link { text-align: center; font-size: 13px; color: #4A7A58; margin-top: 1.25rem; }
+        .link a { color: #00B874; text-decoration: none; font-weight: 600; }
+      `}</style>
 
-        {error && (
-          <p style={{ color: '#FF4444', textAlign: 'center', marginBottom: '1rem', fontSize: '12px' }}>{error}</p>
-        )}
+      <nav className="nav">
+        <a href="/" className="nav-logo">shoot<strong>scan</strong></a>
+      </nav>
 
-        <div style={{ marginBottom: '1.5rem' }}>
-          <label style={{ fontSize: '12px', fontWeight: 500, color: '#4A7A58', display: 'block', marginBottom: '6px' }}>Email</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ton@email.com"
-            style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', fontSize: '14px', boxSizing: 'border-box' }} />
+      <div className="center">
+        <div className="card">
+          <div className="card-title">Créer un <em>compte</em></div>
+          <div className="card-sub">3 scans gratuits, sans carte bancaire.</div>
+
+          <div className="badge">✓ 3 scans gratuits offerts</div>
+
+          <div className="field">
+            <label>Email</label>
+            <input type="email" placeholder="ton@email.com" value={email} onChange={e => setEmail(e.target.value)} />
+          </div>
+          <div className="field">
+            <label>Mot de passe</label>
+            <input type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} />
+          </div>
+
+          {error && <div className="error">{error}</div>}
+
+          <button className="btn" onClick={handleRegister} disabled={loading}>
+            {loading ? 'Création...' : 'Créer mon compte →'}
+          </button>
+
+          <div className="link">
+            Déjà un compte ? <a href="/login">Se connecter</a>
+          </div>
         </div>
-
-        <div style={{ marginBottom: '1.5rem' }}>
-          <label style={{ fontSize: '12px', fontWeight: 500, color: '#4A7A58', display: 'block', marginBottom: '6px' }}>Mot de passe</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="********"
-            style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', fontSize: '14px', boxSizing: 'border-box' }} />
-        </div>
-
-        <div style={{ marginBottom: '1.5rem' }}>
-          <label style={{ fontSize: '12px', fontWeight: 500, color: '#4A7A58', display: 'block', marginBottom: '6px' }}>Confirmer le mot de passe</label>
-          <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="********"
-            style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', fontSize: '14px', boxSizing: 'border-box' }} />
-        </div>
-
-        <button onClick={handleRegister} disabled={loading}
-          style={{ width: '100%', background: loading ? '#ccc' : '#00B874', color: '#fff', padding: '12px', borderRadius: '6px', border: 'none', fontWeight: 600, cursor: 'pointer', fontSize: '14px' }}>
-          {loading ? 'Inscription...' : "S'inscrire"}
-        </button>
-
-        <p style={{ textAlign: 'center', fontSize: '12px', color: '#4A7A58', marginTop: '1rem' }}>
-          Déjà un compte ?{' '}
-          <a href="/login" style={{ color: '#00B874', fontWeight: 500 }}>Se connecter</a>
-        </p>
       </div>
     </main>
   )
