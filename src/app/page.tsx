@@ -1,4 +1,7 @@
+'use client'
+import { useState } from 'react'
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false)
   return (
     <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh', colorScheme: 'light' }}>
 
@@ -192,14 +195,14 @@ export default function Home() {
       {/* NAV */}
       <nav className="nav">
         <a href="/" className="nav-logo">shoot<strong>scan</strong></a>
-        <div className="nav-links">
+        <div className="nav-links" style={{ display: menuOpen ? 'flex' : undefined }}>
           <a href="/dashboard" className="nav-btn">Scanner</a>
           <a href="/stats" className="nav-btn">Dashboard</a>
           <a href="/tarifs" className="nav-btn">Tarifs</a>
           <a href="/login" className="nav-btn">Connexion</a>
           <a href="/register" className="nav-cta">Commencer →</a>
         </div>
-        <div className="nav-hamburger">
+        <div className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)}>
           <span></span><span></span><span></span>
         </div>
       </nav>
