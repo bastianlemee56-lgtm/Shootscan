@@ -194,6 +194,7 @@ export default function Home() {
         <a href="/" className="nav-logo">shoot<strong>scan</strong></a>
         <div className="nav-links">
           <a href="/dashboard" className="nav-btn">Scanner</a>
+          <a href="/stats" className="nav-btn">Dashboard</a>
           <a href="/tarifs" className="nav-btn">Tarifs</a>
           <a href="/login" className="nav-btn">Connexion</a>
           <a href="/register" className="nav-cta">Commencer →</a>
