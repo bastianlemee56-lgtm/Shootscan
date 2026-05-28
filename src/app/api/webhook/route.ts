@@ -4,23 +4,22 @@ import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
-
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
 const PRICE_TO_PLAN: Record<string, string> = {
-  price_1Tb711KAwbn5ymOfc6uE3QMC: 'pro_monthly',
-  price_1Tb73YKAwbn5ymOfJ2yTOvGO: 'pro_annual',
+  price_1Tb711KAwbn5ymOfc6uE3QMC: 'pro',
+  price_1Tb73YKAwbn5ymOfJ2yTOvGO: 'pro',
   price_1Tb76LKAwbn5ymOfEj6044PF: 'business',
 }
 
 export async function POST(req: Request) {
   const body = await req.text()
   const sig = (await headers()).get('stripe-signature')!
-
   let event: Stripe.Event
+
   try {
     event = stripe.webhooks.constructEvent(
       body, sig, process.env.STRIPE_WEBHOOK_SECRET!
@@ -35,13 +34,17 @@ export async function POST(req: Request) {
     const priceId = session.metadata?.price_id
 
     if (userId && priceId) {
-      await supabase.from('profiles').upsert({
-        id: userId,
-        plan: PRICE_TO_PLAN[priceId] ?? 'pro_monthly',
-        stripe_customer_id: session.customer,
-        subscription_id: session.subscription,
-        updated_at: new Date().toISOString(),
-      })
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          plan: PRICE_TO_PLAN[priceId] ?? 'pro',
+          stripe_customer_id: session.customer as string,
+          stripe_subscription_id: session.subscription as string,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', userId)
+
+      if (error) console.error('Supabase update error:', error)
     }
   }
 
@@ -50,12 +53,13 @@ export async function POST(req: Request) {
     const { data: profile } = await supabase
       .from('profiles')
       .select('id')
-      .eq('subscription_id', sub.id)
+      .eq('stripe_subscription_id', sub.id)
       .single()
 
     if (profile) {
-      await supabase.from('profiles')
-        .update({ plan: 'free', updated_at: new Date().toISOString() })
+      await supabase
+        .from('profiles')
+        .update({ plan: 'gratuit', updated_at: new Date().toISOString() })
         .eq('id', profile.id)
     }
   }
