@@ -13,6 +13,7 @@ export default function Dashboard() {
   const [error, setError] = useState('')
   const [historique, setHistorique] = useState<any[]>([])
   const [scanCount, setScanCount] = useState(0)
+  const [plan, setPlan] = useState('gratuit')
   const [activeTab, setActiveTab] = useState<'simple' | 'lot'>('simple')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
@@ -22,7 +23,16 @@ export default function Dashboard() {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/login'); return }
-      setEmail(user.email || '')
+      setEmail(user.email || '')const { data: profile } = await supabase
+  .from('profiles')
+  .select('plan, scans_used_this_month')
+  .eq('id', user.id)
+  .single()
+
+if (profile) {
+  setPlan(profile.plan)
+  setScanCount(profile.scans_used_this_month)
+}
       const { data } = await supabase
         .from('scans')
         .select('*')
@@ -150,8 +160,8 @@ export default function Dashboard() {
               <div className="scan-limit-fill" style={{ width: `${(scanCount / 3) * 100}%` }}></div>
             </div>
           </div>
-          <div className="scan-limit-count">{scanCount} / 3</div>
-          <a href="/tarifs" className="upgrade-link">Passer Pro →</a>
+          <div className="scan-limit-count">{plan === 'gratuit' ? `${scanCount} / 3` : '∞ Illimité'}</div>
+          {plan === 'gratuit' && <a href="/tarifs" className="upgrade-link">Passer Pro →</a>}
         </div>
 
         <div className="tab-switch">
