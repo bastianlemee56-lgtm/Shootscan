@@ -1,3 +1,4 @@
+Set-Content src/app/api/webhook/route.ts @'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
@@ -33,6 +34,8 @@ export async function POST(req: Request) {
     const userId = session.metadata?.user_id
     const priceId = session.metadata?.price_id
 
+    console.log('🔥 userId:', userId, 'priceId:', priceId)
+
     if (userId && priceId) {
       const { error } = await supabase
         .from('profiles')
@@ -44,7 +47,7 @@ export async function POST(req: Request) {
         })
         .eq('id', userId)
 
-      if (error) console.error('Supabase update error:', error)
+      console.log('✅ Supabase error:', error)
     }
   }
 
