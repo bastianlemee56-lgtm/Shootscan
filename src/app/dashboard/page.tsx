@@ -71,7 +71,7 @@ if (profile) {
       const res = await fetch('/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image }),
+        body: JSON.stringify({ image, plan }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur')
