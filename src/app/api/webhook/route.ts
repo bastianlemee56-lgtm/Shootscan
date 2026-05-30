@@ -1,8 +1,7 @@
-Set-Content src/app/api/webhook/route.ts @'
-import { headers } from 'next/headers'
-import { NextResponse } from 'next/server'
-import Stripe from 'stripe'
-import { createClient } from '@supabase/supabase-js'
+import { headers } from "next/headers"
+import { NextResponse } from "next/server"
+import Stripe from "stripe"
+import { createClient } from "@supabase/supabase-js"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 const supabase = createClient(
@@ -11,14 +10,14 @@ const supabase = createClient(
 )
 
 const PRICE_TO_PLAN: Record<string, string> = {
-  price_1Tb711KAwbn5ymOfc6uE3QMC: 'pro',
-  price_1Tb73YKAwbn5ymOfJ2yTOvGO: 'pro',
-  price_1Tb76LKAwbn5ymOfEj6044PF: 'business',
+  price_1Tb711KAwbn5ymOfc6uE3QMC: "pro",
+  price_1Tb73YKAwbn5ymOfJ2yTOvGO: "pro",
+  price_1Tb76LKAwbn5ymOfEj6044PF: "business",
 }
 
 export async function POST(req: Request) {
   const body = await req.text()
-  const sig = (await headers()).get('stripe-signature')!
+  const sig = (await headers()).get("stripe-signature")!
   let event: Stripe.Event
 
   try {
@@ -26,44 +25,44 @@ export async function POST(req: Request) {
       body, sig, process.env.STRIPE_WEBHOOK_SECRET!
     )
   } catch {
-    return NextResponse.json({ error: 'Signature invalide' }, { status: 400 })
+    return NextResponse.json({ error: "Signature invalide" }, { status: 400 })
   }
 
-  if (event.type === 'checkout.session.completed') {
+  if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session
     const userId = session.metadata?.user_id
     const priceId = session.metadata?.price_id
 
-    console.log('🔥 userId:', userId, 'priceId:', priceId)
+    console.log("userId:", userId, "priceId:", priceId)
 
     if (userId && priceId) {
       const { error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update({
-          plan: PRICE_TO_PLAN[priceId] ?? 'pro',
+          plan: PRICE_TO_PLAN[priceId] ?? "pro",
           stripe_customer_id: session.customer as string,
           stripe_subscription_id: session.subscription as string,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', userId)
+        .eq("id", userId)
 
-      console.log('✅ Supabase error:', error)
+      console.log("Supabase error:", error)
     }
   }
 
-  if (event.type === 'customer.subscription.deleted') {
+  if (event.type === "customer.subscription.deleted") {
     const sub = event.data.object as Stripe.Subscription
     const { data: profile } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('stripe_subscription_id', sub.id)
+      .from("profiles")
+      .select("id")
+      .eq("stripe_subscription_id", sub.id)
       .single()
 
     if (profile) {
       await supabase
-        .from('profiles')
-        .update({ plan: 'gratuit', updated_at: new Date().toISOString() })
-        .eq('id', profile.id)
+        .from("profiles")
+        .update({ plan: "gratuit", updated_at: new Date().toISOString() })
+        .eq("id", profile.id)
     }
   }
 
