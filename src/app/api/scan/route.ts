@@ -20,22 +20,30 @@ const supabaseCheck = createServerClient(
 
 const { data: { user: currentUser } } = await supabaseCheck.auth.getUser()
 
-if (currentUser && plan === 'free') {
-  const startOfMonth = new Date()
-  startOfMonth.setDate(1)
-  startOfMonth.setHours(0, 0, 0, 0)
+if (currentUser) {
+  const { data: profile } = await supabaseCheck
+    .from("profiles")
+    .select("plan")
+    .eq("id", currentUser.id)
+    .single()
 
-  const { count } = await supabaseCheck
-    .from('scans')
-    .select('*', { count: 'exact', head: true })
-    .eq('user_id', currentUser.id)
-    .gte('created_at', startOfMonth.toISOString())
+  const userPlan = profile?.plan ?? "gratuit"
 
-  if ((count ?? 0) >= 3) {
-    return NextResponse.json(
-      { error: 'Limite de 3 scans/mois atteinte. Passez au plan Pro !' },
-      { status: 403 }
-    )
+  if (userPlan === "gratuit") {
+    const startOfMonth = new Date()
+    startOfMonth.setDate(1)
+    startOfMonth.setHours(0, 0, 0, 0)
+    const { count } = await supabaseCheck
+      .from("scans")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", currentUser.id)
+      .gte("created_at", startOfMonth.toISOString())
+    if ((count ?? 0) >= 3) {
+      return NextResponse.json(
+        { error: "Limite de 3 scans/mois atteinte. Passez au plan Pro !" },
+        { status: 403 }
+      )
+    }
   }
 }
 
