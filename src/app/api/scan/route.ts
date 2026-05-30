@@ -47,11 +47,11 @@ if (currentUser) {
   }
 }
 
-    const prompt = plan === 'free'
-      ? `Analyse cet article à vendre. Réponds UNIQUEMENT en JSON sans markdown :
-{"nom": "nom de l'article", "score": 85, "prix_conseille": "15-20€", "plateformes": ["Vinted", "Leboncoin"]}`
-      : `Analyse cet article à vendre. Réponds UNIQUEMENT en JSON sans markdown :
-{"nom": "nom de l'article", "score": 85, "prix_conseille": "15-20€", "plateformes": ["Vinted", "Leboncoin", "eBay"], "titre": "titre optimisé", "description": "description complète", "roi": "bénéfice potentiel"}`
+    const prompt = plan === "gratuit"
+      ? `Analyse cet article a vendre. Reponds UNIQUEMENT en JSON sans markdown :
+{"nom": "nom de larticle", "score": 85, "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin"]}`
+      : `Analyse cet article a vendre en detail. Reponds UNIQUEMENT en JSON sans markdown :
+{"nom": "nom de larticle", "score": 85, "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace"], "titre": "titre optimise pour la vente", "description": "description complete et attractive", "etat_conseille": "Tres bon etat", "roi": "benefice potentiel estime"}`
 
     const response = await anthropic.messages.create({
       model: 'claude-opus-4-5',
@@ -111,3 +111,4 @@ if (currentUser) {
     return NextResponse.json({ error: 'Erreur lors du scan' }, { status: 500 })
   }
 }
+
