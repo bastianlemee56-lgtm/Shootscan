@@ -23,7 +23,8 @@ export default function Dashboard() {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/login'); return }
-      setEmail(user.email || '')const { data: profile } = await supabase
+      setEmail(user.email || '')
+      const { data: profile } = await supabase
   .from('profiles')
   .select('plan, scans_used_this_month')
   .eq('id', user.id)
