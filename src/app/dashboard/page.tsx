@@ -218,6 +218,13 @@ if (profile) {
                 <div className="result-tags">
                   {result.tags?.map((t: string) => <span key={t} className="result-tag">{t}</span>)}
                 </div>
+                {result.plateformes && (
+  <div style={{marginTop:'0.5rem', display:'flex', gap:'6px', flexWrap:'wrap'}}>
+    {result.plateformes.map((p: string) => (
+      <span key={p} style={{background:'#E8F5EE', color:'#00B874', fontSize:'11px', padding:'3px 10px', borderRadius:'20px'}}>{p}</span>
+    ))}
+  </div>
+)}
               </div>
             </div>
             <div className="price-grid">
