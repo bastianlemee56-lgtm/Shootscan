@@ -30,24 +30,22 @@ if (currentUser) {
   const userPlan = profile?.plan ?? "free"
 
   if (userPlan === "free") {
-    const startOfMonth = new Date()
-    startOfMonth.setDate(1)
-    startOfMonth.setHours(0, 0, 0, 0)
-    const { count } = await supabaseCheck
-      .from("scans")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", currentUser.id)
-      .gte("created_at", startOfMonth.toISOString())
-    if ((count ?? 0) >= 3) {
-      return NextResponse.json(
-        { error: "Limite de 3 scans/mois atteinte. Passez au plan Pro !" },
-        { status: 403 }
-      )
-    }
+  const { data: profileCheck } = await supabaseCheck
+    .from("profiles")
+    .select("scans_used_this_month")
+    .eq("id", currentUser.id)
+    .single()
+
+  if ((profileCheck?.scans_used_this_month ?? 0) >= 3) {
+    return NextResponse.json(
+      { error: "Limite de 3 scans/mois atteinte. Passez au plan Pro !" },
+      { status: 403 }
+    )
   }
 }
+}
 
-    const prompt = plan === "gratuit"
+    const prompt = plan === "free"
       ? `Analyse cet article a vendre. Reponds UNIQUEMENT en JSON sans markdown :
 {"nom": "nom", "score": 85, "categorie": "Electronique", "etat": "Bon etat", "couleur": "Noir", "tags": ["Forte demande", "Populaire"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin"], "conseil": "conseil de vente court"}`
       : `Analyse cet article a vendre en detail. Reponds UNIQUEMENT en JSON sans markdown :
