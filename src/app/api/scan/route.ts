@@ -49,9 +49,9 @@ if (currentUser) {
 
     const prompt = plan === "gratuit"
       ? `Analyse cet article a vendre. Reponds UNIQUEMENT en JSON sans markdown :
-{"nom": "nom de larticle", "score": 85, "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin"]}`
+{"nom": "nom", "score": 85, "categorie": "Electronique", "etat": "Bon etat", "couleur": "Noir", "tags": ["Forte demande", "Populaire"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin"], "conseil": "conseil de vente court"}`
       : `Analyse cet article a vendre en detail. Reponds UNIQUEMENT en JSON sans markdown :
-{"nom": "nom de larticle", "score": 85, "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace"], "titre": "titre optimise pour la vente", "description": "description complete et attractive", "etat_conseille": "Tres bon etat", "roi": "benefice potentiel estime"}`
+{"nom": "nom", "score": 85, "categorie": "Electronique", "etat": "Bon etat", "couleur": "Noir", "tags": ["Forte demande", "Populaire"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace"], "conseil": "conseil de vente court", "titre": "titre optimise", "description": "description complete", "etat_conseille": "Tres bon etat", "roi": "benefice potentiel"}`
 
     const response = await anthropic.messages.create({
       model: 'claude-opus-4-5',
@@ -111,4 +111,5 @@ if (currentUser) {
     return NextResponse.json({ error: 'Erreur lors du scan' }, { status: 500 })
   }
 }
+
 
