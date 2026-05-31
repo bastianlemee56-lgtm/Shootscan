@@ -10,42 +10,38 @@ const anthropic = new Anthropic({
 export async function POST(request: NextRequest) {
   try {
     const { image, plan } = await request.json()
-    // Vérifier les limites selon le plan
-const cookieStoreCheck = await cookies()
-const supabaseCheck = createServerClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  { cookies: { getAll() { return cookieStoreCheck.getAll() }, setAll() {} } }
-)
 
-const { data: { user: currentUser } } = await supabaseCheck.auth.getUser()
-
-if (currentUser) {
-  const { data: profile } = await supabaseCheck
-    .from("profiles")
-    .select("plan")
-    .eq("id", currentUser.id)
-    .single()
-
-  const userPlan = profile?.plan ?? "free"
-
-  if (userPlan === "free") {
-  const { data: profileCheck } = await supabaseCheck
-    .from("profiles")
-    .select("scans_used_this_month")
-    .eq("id", currentUser.id)
-    .single()
-
-  if ((profileCheck?.scans_used_this_month ?? 0) >= 3) {
-    return NextResponse.json(
-      { error: "Limite de 3 scans/mois atteinte. Passez au plan Pro !" },
-      { status: 403 }
+    const cookieStoreCheck = await cookies()
+    const supabaseCheck = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { cookies: { getAll() { return cookieStoreCheck.getAll() }, setAll() {} } }
     )
-  }
-}
-}
 
-    const prompt = plan === "free"
+    const { data: { user: currentUser } } = await supabaseCheck.auth.getUser()
+
+    let scansUsed = 0
+    let userPlan = 'free'
+
+    if (currentUser) {
+      const { data: profile } = await supabaseCheck
+        .from('profiles')
+        .select('plan, scans_used_this_month')
+        .eq('id', currentUser.id)
+        .single()
+
+      userPlan = profile?.plan ?? 'free'
+      scansUsed = profile?.scans_used_this_month ?? 0
+
+      if (userPlan === 'free' && scansUsed >= 3) {
+        return NextResponse.json(
+          { error: 'Limite de 3 scans/mois atteinte. Passez au plan Pro !' },
+          { status: 403 }
+        )
+      }
+    }
+
+    const prompt = userPlan === 'free'
       ? `Analyse cet article a vendre. Reponds UNIQUEMENT en JSON sans markdown :
 {"nom": "nom", "score": 85, "categorie": "Electronique", "etat": "Bon etat", "couleur": "Noir", "tags": ["Forte demande", "Populaire"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin"], "conseil": "conseil de vente court"}`
       : `Analyse cet article a vendre en detail. Reponds UNIQUEMENT en JSON sans markdown :
@@ -60,16 +56,9 @@ if (currentUser) {
           content: [
             {
               type: 'image',
-              source: {
-                type: 'base64',
-                media_type: 'image/jpeg',
-                data: image,
-              },
+              source: { type: 'base64', media_type: 'image/jpeg', data: image },
             },
-            {
-              type: 'text',
-              text: prompt,
-            },
+            { type: 'text', text: prompt },
           ],
         },
       ],
@@ -79,17 +68,11 @@ if (currentUser) {
     const clean = text.replace(/```json|```/g, '').trim()
     const result = JSON.parse(clean)
 
-    // Sauvegarder dans Supabase
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() { return cookieStore.getAll() },
-          setAll() {},
-        },
-      }
+      { cookies: { getAll() { return cookieStore.getAll() }, setAll() {} } }
     )
 
     const { data: { user } } = await supabase.auth.getUser()
@@ -101,6 +84,13 @@ if (currentUser) {
         prix_conseille: result.prix_conseille,
         plateformes: result.plateformes,
       })
+
+      if (userPlan === 'free') {
+        await supabase
+          .from('profiles')
+          .update({ scans_used_this_month: scansUsed + 1 })
+          .eq('id', user.id)
+      }
     }
 
     return NextResponse.json(result)
@@ -109,5 +99,3 @@ if (currentUser) {
     return NextResponse.json({ error: 'Erreur lors du scan' }, { status: 500 })
   }
 }
-
-
