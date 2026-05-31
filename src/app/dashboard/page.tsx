@@ -124,7 +124,7 @@ if (profile) {
         .btn-scan:disabled { background: #C0DDD0; cursor: not-allowed; }
         .result-card { background: white; border: 1px solid #E0EFE4; border-radius: 16px; padding: 1.5rem; margin-top: 1.25rem; }
         .result-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
-        .result-score { width: 52px; height: 52px; border-radius: 50%; background: #00B874; color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; flex-shrink: 0; }
+        .result-score { width: 52px; height: 52px; border-radius: 50%; background: transparent; color: #00B874; border: 2px solid #00B874; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; flex-shrink: 0; }
         .result-name { font-size: 17px; font-weight: 700; color: #0A1A10; margin-bottom: 4px; }
         .result-meta { font-size: 13px; color: #4A7A58; }
         .result-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
