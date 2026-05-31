@@ -161,8 +161,8 @@ if (profile) {
               <div className="scan-limit-fill" style={{ width: `${(scanCount / 3) * 100}%` }}></div>
             </div>
           </div>
-          <div className="scan-limit-count">{plan === 'gratuit' ? `${scanCount} / 3` : '∞ Illimité'}</div>
-          {plan === 'gratuit' && <a href="/tarifs" className="upgrade-link">Passer Pro →</a>}
+          <div className="scan-limit-count">{plan === 'free' ? `${scanCount} / 3` : '∞ Illimité'}</div>
+          {plan === 'free' && <a href="/tarifs" className="upgrade-link">Passer Pro →</a>}
         </div>
 
         <div className="tab-switch">

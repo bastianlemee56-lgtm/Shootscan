@@ -27,9 +27,9 @@ if (currentUser) {
     .eq("id", currentUser.id)
     .single()
 
-  const userPlan = profile?.plan ?? "gratuit"
+  const userPlan = profile?.plan ?? "free"
 
-  if (userPlan === "gratuit") {
+  if (userPlan === "free") {
     const startOfMonth = new Date()
     startOfMonth.setDate(1)
     startOfMonth.setHours(0, 0, 0, 0)
