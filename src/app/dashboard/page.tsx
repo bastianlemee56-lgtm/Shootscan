@@ -221,7 +221,7 @@ if (profile) {
                 {result.plateformes && (
   <div style={{marginTop:'0.5rem', display:'flex', gap:'6px', flexWrap:'wrap'}}>
     {result.plateformes.map((p: string) => (
-      <span key={p} style={{background:'#E8F5EE', color:'#00B874', fontSize:'11px', padding:'3px 10px', borderRadius:'20px'}}>{p}</span>
+      <span key={p} style={{background:'#E8F5EE', color:'#00B874', fontSize:'11px', padding:'3px 10px', borderRadius:'20px', border:'1px solid #00B874'}}>{p}</span>
     ))}
   </div>
 )}
