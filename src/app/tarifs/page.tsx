@@ -20,9 +20,9 @@ export default function Tarifs() {
   const plans = [
     {
       name: 'Gratuit',
-      price: '0€',
+      price: '0',
       period: '/mois',
-      desc: 'Pour découvrir Shootscan',
+      desc: 'Pour decouvrir Shootscan',
       features: ['3 scans par mois', 'Estimation IA de base', 'Historique 7 jours'],
       cta: 'Commencer gratuitement',
       priceId: null,
@@ -30,20 +30,20 @@ export default function Tarifs() {
     },
     {
       name: 'Pro',
-      price: annual ? '8,25€' : '11,99€',
+      price: annual ? '8,25' : '11,99',
       period: '/mois',
       desc: 'Pour les revendeurs actifs',
-      features: ['Scans illimités', 'Scan en lot', 'Historique complet', 'Export CSV', 'Support prioritaire'],
+      features: ['Scans illimites', 'Scan en lot', 'Historique complet', 'Export CSV', 'Support prioritaire'],
       cta: 'Passer Pro',
       priceId: annual ? 'price_1Tb73YKAwbn5ymOfJ2yTOvGO' : 'price_1Tb711KAwbn5ymOfc6uE3QMC',
       highlight: true,
     },
     {
       name: 'Business',
-      price: '29,99€',
+      price: '29,99',
       period: '/mois',
       desc: 'Pour les pros du volume',
-      features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard équipe', 'Onboarding dédié'],
+      features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard equipe', 'Onboarding dedie'],
       cta: 'Contacter',
       priceId: 'price_1Tb76LKAwbn5ymOfEj6044PF',
       highlight: false,
@@ -58,13 +58,12 @@ export default function Tarifs() {
         .nav-logo strong { font-weight: 600; color: #00B874; }
         .wrap { max-width: 900px; margin: 0 auto; padding: 3rem 1rem; }
         .page-title { font-size: 32px; font-weight: 700; color: #0A1A10; text-align: center; margin-bottom: 0.5rem; }
-        .page-title em { font-style: italic; color: #00B874; font-family: 'Instrument Serif', Georgia, serif; }
+        .page-title em { font-style: italic; color: #00B874; font-family: Georgia, serif; }
         .page-sub { font-size: 15px; color: #4A7A58; text-align: center; margin-bottom: 2rem; }
         .toggle { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; }
         .toggle-label { font-size: 14px; color: #4A7A58; }
         .toggle-label.active { color: #0A1A10; font-weight: 600; }
         .toggle-switch { width: 44px; height: 24px; background: #00B874; border-radius: 12px; cursor: pointer; position: relative; border: none; }
-        .toggle-switch::after { content: ''; position: absolute; width: 18px; height: 18px; background: white; border-radius: 50%; top: 3px; transition: left 0.2s; left: ${annual ? '23px' : '3px'}; }
         .badge-save { background: #E8F5EE; color: #00B874; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
         .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         .plan { background: white; border: 1.5px solid #E0EFE4; border-radius: 16px; padding: 1.75rem 1.5rem; position: relative; }
@@ -87,7 +86,7 @@ export default function Tarifs() {
 
       <nav className="nav">
         <a href="/" className="nav-logo">shoot<strong>scan</strong></a>
-        <a href="/ style={{ fontSize: '13px', color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>← Accueil</a>
+        <a href="/" style={{ fontSize: '13px', color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>Accueil</a>
       </nav>
 
       <div className="wrap">
@@ -98,13 +97,13 @@ export default function Tarifs() {
           <span className={`toggle-label ${!annual ? 'active' : ''}`}>Mensuel</span>
           <button className="toggle-switch" onClick={() => setAnnual(!annual)} />
           <span className={`toggle-label ${annual ? 'active' : ''}`}>Annuel</span>
-          {annual && <span className="badge-save">-31% 🎉</span>}
+          {annual && <span className="badge-save">-31%</span>}
         </div>
 
         <div className="plans">
           {plans.map((plan) => (
             <div key={plan.name} className={`plan ${plan.highlight ? 'highlight' : ''}`}>
-              {plan.highlight && <div className="plan-badge">⭐ Le plus populaire</div>}
+              {plan.highlight && <div className="plan-badge">Le plus populaire</div>}
               <div className="plan-name">{plan.name}</div>
               <div className="plan-price">{plan.price}<span>{plan.period}</span></div>
               <div className="plan-desc">{plan.desc}</div>
