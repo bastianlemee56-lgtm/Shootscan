@@ -126,7 +126,7 @@ export default function Home() {
         .pricing-card.pop { border: 1.5px solid var(--mint); }
         .pop-badge { display: inline-block; background: var(--mint-light); color: var(--mint-xdark); font-size: 10px; font-weight: 500; padding: 2px 9px; border-radius: 10px; margin-bottom: 0.75rem; }
         .pricing-plan { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.4rem; }
-        .pricing-price { font-family: var(--serif); font-size: 40px; font-weight: 400; color: var(--text); line-height: 1; margin-bottom: 0.2rem; }
+        .pricing-price { font-size: 27px; font-weight: 700; color: #0A1A10; margin-bottom: 0.25rem; }
         .pricing-period { font-size: 11px; color: var(--text3); margin-bottom: 1.5rem; }
         .pricing-feats { list-style: none; margin-bottom: 1.75rem; }
         .pricing-feats li { font-size: 12px; color: var(--text2); padding: 5px 0; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; gap: 7px; }
