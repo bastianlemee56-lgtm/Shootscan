@@ -92,7 +92,7 @@ export default function Tarifs() {
 
       <div className="wrap">
         <div className="page-title">Choisir un <em>plan</em></div>
-        <div className="page-sub">Commence gratuitement, passe Pro quand tu es prêt.</div>
+        <div className="page-sub">Commence gratuitement, passe Pro quand tu es pret.</div>
 
         <div className="toggle">
           <span className={`toggle-label ${!annual ? 'active' : ''}`}>Mensuel</span>
