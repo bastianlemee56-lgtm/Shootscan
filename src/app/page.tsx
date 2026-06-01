@@ -199,7 +199,7 @@ export default function Home() {
           <a href="/dashboard" className="nav-btn">Scanner</a>
           <a href="/stats" className="nav-btn">Dashboard</a>
           <a href="/tarifs" className="nav-btn">Tarifs</a>
-          <a href="/stats" className="nav-btn">Mon compte</a>
+          <a href="/account" className="nav-btn">Mon compte</a>
           <a href="/register" className="nav-cta">Commencer →</a>
         </div>
         <div className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)}>
