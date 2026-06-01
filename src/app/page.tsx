@@ -342,9 +342,9 @@ export default function Home() {
         <p className="section-sub">Sans engagement · Mensuel uniquement</p>
         <div className="pricing-cards">
           {[
-            { plan: 'Gratuit', price: 'Gratuit', period: 'pour toujours', features: ['3 scans / mois', 'Score + prix conseillé', '2 plateformes suggérées'], cta: 'Commencer gratuitement', ctaClass: 'outline', pop: false },
-            { plan: 'Pro', price: '12€', period: '/ mois', features: ['Scans illimités', 'Scan en lot (3 articles max)', 'Toutes les plateformes (11+)', 'Titre & description générés', 'Calculateur ROI', 'Dashboard + export CSV'], cta: 'Démarrer le Pro', ctaClass: 'primary', pop: true },
-            { plan: 'Business', price: '39€', period: '/ mois', features: ['Tout le plan Pro', 'Scan en lot illimité', 'Multi-utilisateurs (5)', 'API access', 'Support prioritaire'], cta: "Contacter l'équipe", ctaClass: 'outline', pop: false },
+            { plan: 'Gratuit', price: '0€', period: '/ mois', features: ['3 scans par mois', 'Estimation IA de base', 'Historique 7 jours'], cta: 'Commencer gratuitement', ctaClass: 'outline', pop: false },
+{ plan: 'Pro', price: '11,99€', period: '/ mois', features: ['Scans illimités', 'Scan en lot', 'Historique complet', 'Export CSV', 'Support prioritaire'], cta: 'Passer Pro', ctaClass: 'primary', pop: true },
+{ plan: 'Business', price: '29,99€', period: '/ mois', features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard équipe', 'Onboarding dédié'], cta: 'Contacter', ctaClass: 'outline', pop: false },
           ].map(p => (
             <div key={p.plan} className={`pricing-card${p.pop ? ' pop' : ''}`}>
               {p.pop && <div className="pop-badge">★ Le plus populaire</div>}
