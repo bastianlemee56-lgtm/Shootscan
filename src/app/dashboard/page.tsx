@@ -15,7 +15,12 @@ export default function Dashboard() {
   const [scanCount, setScanCount] = useState(0)
   const [plan, setPlan] = useState('free')
   const [activeTab, setActiveTab] = useState<'simple' | 'lot'>('simple')
+  const [lotImages, setLotImages] = useState<{file: File, preview: string, base64: string}[]>([])
+  const [lotResults, setLotResults] = useState<any[]>([])
+  const [lotLoading, setLotLoading] = useState(false)
+  const [lotError, setLotError] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const lotInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -25,24 +30,20 @@ export default function Dashboard() {
       if (!user) { router.push('/login'); return }
       setEmail(user.email || '')
       const { data: profile } = await supabase
-  .from('profiles')
-  .select('plan, scans_used_this_month')
-  .eq('id', user.id)
-  .single()
-
-if (profile) {
-  setPlan(profile.plan)
-  setScanCount(profile.scans_used_this_month)
-}
+        .from('profiles')
+        .select('plan, scans_used_this_month')
+        .eq('id', user.id)
+        .single()
+      if (profile) {
+        setPlan(profile.plan)
+        setScanCount(profile.scans_used_this_month)
+      }
       const { data } = await supabase
         .from('scans')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
-      if (data) {
-        setHistorique(data)
-        
-      }
+      if (data) setHistorique(data)
     }
     init()
   }, [])
@@ -55,6 +56,20 @@ if (profile) {
       setPreview(reader.result as string)
     }
     reader.readAsDataURL(file)
+  }
+
+  const handleLotFiles = (files: FileList) => {
+    const maxFiles = plan === 'business' ? 10 : 3
+    const selected = Array.from(files).slice(0, maxFiles)
+    const readers = selected.map(file => new Promise<{file: File, preview: string, base64: string}>(resolve => {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const result = reader.result as string
+        resolve({ file, preview: result, base64: result.split(',')[1] })
+      }
+      reader.readAsDataURL(file)
+    }))
+    Promise.all(readers).then(setLotImages)
   }
 
   const handleScan = async () => {
@@ -79,11 +94,37 @@ if (profile) {
     }
   }
 
+  const handleLotScan = async () => {
+    if (lotImages.length === 0) return
+    setLotLoading(true)
+    setLotError('')
+    setLotResults([])
+    const results: any[] = []
+    for (const item of lotImages) {
+      try {
+        const res = await fetch('/api/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: item.base64, plan }),
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || 'Erreur')
+        results.push({ ...data, preview: item.preview })
+      } catch (e: any) {
+        results.push({ error: e.message, preview: item.preview })
+      }
+    }
+    setLotResults(results)
+    setLotLoading(false)
+  }
+
   const handleLogout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
     router.push('/')
   }
+
+  const isPro = plan === 'pro' || plan === 'business'
 
   return (
     <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh' }}>
@@ -103,6 +144,7 @@ if (profile) {
         .tab-btn { flex: 1; padding: 8px; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; background: transparent; color: #4A7A58; transition: all 0.2s; }
         .tab-btn.active { background: white; color: #0A1A10; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .tab-btn .pro-badge { background: #00B874; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
+        .tab-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .mode-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
         .mode-card { background: white; border: 1.5px solid #E0EFE4; border-radius: 12px; padding: 1rem; cursor: pointer; transition: all 0.2s; }
         .mode-card:hover { border-color: #00B874; }
@@ -117,11 +159,15 @@ if (profile) {
         .btn-scan { width: 100%; padding: 14px; background: #00B874; color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
         .btn-scan:hover { background: #008850; }
         .btn-scan:disabled { background: #C0DDD0; cursor: not-allowed; }
+        .lot-previews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+        .lot-preview { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 1; background: #E0EFE4; }
+        .lot-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .lot-result { background: white; border: 1px solid #E0EFE4; border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; display: grid; grid-template-columns: 80px 1fr; gap: 1rem; align-items: start; }
+        .lot-result img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
         .result-card { background: white; border: 1px solid #E0EFE4; border-radius: 16px; padding: 1.5rem; margin-top: 1.25rem; }
         .result-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
         .result-score { width: 52px; height: 52px; border-radius: 50%; background: transparent; color: #00B874; border: 2px solid #00B874; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; flex-shrink: 0; }
         .result-name { font-size: 17px; font-weight: 700; color: #0A1A10; margin-bottom: 4px; }
-        .result-meta { font-size: 13px; color: #4A7A58; }
         .result-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
         .result-tag { background: #E8F5EE; color: #00B874; font-size: 11px; padding: 3px 10px; border-radius: 20px; }
         .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
@@ -134,10 +180,9 @@ if (profile) {
         .nav { background: white; border-bottom: 1px solid #E0EFE4; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
         .nav-logo { font-size: 18px; font-weight: 300; color: #0A1A10; text-decoration: none; }
         .nav-logo strong { font-weight: 600; color: #00B874; }
-        .nav-right { display: flex; align-items: center; gap: 0.75rem; }
-        .nav-email { font-size: 12px; color: #4A7A58; }
-        .nav-logout { font-size: 12px; color: #4A7A58; background: none; border: 1px solid #E0EFE4; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
-        @media (max-width: 600px) { .mode-cards { grid-template-columns: 1fr; } .price-grid { grid-template-columns: 1fr; } }
+        .upgrade-box { background: #E8F5EE; border: 1px solid #00B874; border-radius: 12px; padding: 1.25rem; text-align: center; margin-bottom: 1.25rem; }
+        .upgrade-box p { font-size: 14px; color: #0A1A10; margin-bottom: 0.75rem; }
+        @media (max-width: 600px) { .mode-cards { grid-template-columns: 1fr; } .price-grid { grid-template-columns: 1fr; } .lot-previews { grid-template-columns: repeat(2, 1fr); } }
       `}</style>
 
       <nav className="nav">
@@ -164,84 +209,136 @@ if (profile) {
           <button className={`tab-btn ${activeTab === 'simple' ? 'active' : ''}`} onClick={() => setActiveTab('simple')}>
             ⚡ Scan simple
           </button>
-          <button className={`tab-btn ${activeTab === 'lot' ? 'active' : ''}`} onClick={() => setActiveTab('lot')}>
+          <button
+            className={`tab-btn ${activeTab === 'lot' ? 'active' : ''}`}
+            onClick={() => isPro ? setActiveTab('lot') : null}
+            style={{ opacity: isPro ? 1 : 0.5, cursor: isPro ? 'pointer' : 'not-allowed' }}>
             Scan en lot <span className="pro-badge">Pro</span>
           </button>
         </div>
 
-        <div className="mode-cards">
-          <div className="mode-card">
-            <div className="mode-card-title">🛍 Vider mon armoire</div>
-            <div className="mode-card-sub">Estimation rapide + meilleure plateforme</div>
-          </div>
-          <div className="mode-card">
-            <div className="mode-card-title">📦 Achat / revente pro</div>
-            <div className="mode-card-sub">ROI, marge, calculateur intégré</div>
-          </div>
-        </div>
+        {activeTab === 'simple' && (
+          <>
+            <div className="mode-cards">
+              <div className="mode-card">
+                <div className="mode-card-title">🛍 Vider mon armoire</div>
+                <div className="mode-card-sub">Estimation rapide + meilleure plateforme</div>
+              </div>
+              <div className="mode-card">
+                <div className="mode-card-title">📦 Achat / revente pro</div>
+                <div className="mode-card-sub">ROI, marge, calculateur intégré</div>
+              </div>
+            </div>
 
-        <div className="drop-zone" onClick={() => fileInputRef.current?.click()}
-          onDragOver={e => e.preventDefault()}
-          onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f) }}>
-          {preview ? (
-            <img src={preview} alt="preview" />
-          ) : (
-            <>
-              <div className="drop-icon">📁</div>
-              <div className="drop-text">Glisse ta photo ici ou clique pour uploader</div>
-              <div className="drop-cats">Vêtement · Sneakers · Électronique · Meuble · Livre · Jeux · Montre · Sac · JPG PNG WEBP</div>
-            </>
-          )}
-        </div>
+            <div className="drop-zone" onClick={() => fileInputRef.current?.click()}
+              onDragOver={e => e.preventDefault()}
+              onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f) }}>
+              {preview ? (
+                <img src={preview} alt="preview" />
+              ) : (
+                <>
+                  <div className="drop-icon">📁</div>
+                  <div className="drop-text">Glisse ta photo ici ou clique pour uploader</div>
+                  <div className="drop-cats">Vêtement · Sneakers · Électronique · Meuble · Livre · Jeux · Montre · Sac · JPG PNG WEBP</div>
+                </>
+              )}
+            </div>
 
-        <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }}
-          onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }} />
+            <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }}
+              onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }} />
 
-        {error && <p style={{ color: 'red', fontSize: '13px', marginBottom: '1rem' }}>{error}</p>}
+            {error && <p style={{ color: 'red', fontSize: '13px', marginBottom: '1rem' }}>{error}</p>}
 
-        <button className="btn-scan" onClick={handleScan} disabled={!image || loading}>
-          {loading ? 'Analyse en cours...' : '⚡ Scanner cet article'}
-        </button>
+            <button className="btn-scan" onClick={handleScan} disabled={!image || loading}>
+              {loading ? 'Analyse en cours...' : '⚡ Scanner cet article'}
+            </button>
 
-        {result && (
-          <div className="result-card">
-            <div className="result-header">
-              <div className="result-score">{result.score}</div>
-              <div>
-                <div className="result-name">{result.nom}</div>
-                {result.categorie}{result.etat ? ` · ${result.etat}` : ''}{result.couleur ? ` · ${result.couleur}` : ''}
-                <div className="result-tags">
-                  {result.tags?.map((t: string) => <span key={t} className="result-tag">{t}</span>)}
+            {result && (
+              <div className="result-card">
+                <div className="result-header">
+                  <div className="result-score">{result.score}</div>
+                  <div>
+                    <div className="result-name">{result.nom}</div>
+                    {result.categorie}{result.etat ? ` · ${result.etat}` : ''}{result.couleur ? ` · ${result.couleur}` : ''}
+                    <div className="result-tags">
+                      {result.tags?.map((t: string) => <span key={t} className="result-tag">{t}</span>)}
+                    </div>
+                    {result.plateformes && (
+                      <div style={{marginTop:'0.5rem', display:'flex', gap:'6px', flexWrap:'wrap'}}>
+                        {result.plateformes.map((p: string) => (
+                          <span key={p} style={{background:'#E8F5EE', color:'#00B874', fontSize:'11px', padding:'3px 10px', borderRadius:'20px', border:'1px solid #00B874'}}>{p}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-                {result.plateformes && (
-  <div style={{marginTop:'0.5rem', display:'flex', gap:'6px', flexWrap:'wrap'}}>
-    {result.plateformes.map((p: string) => (
-      <span key={p} style={{background:'#E8F5EE', color:'#00B874', fontSize:'11px', padding:'3px 10px', borderRadius:'20px', border:'1px solid #00B874'}}>{p}</span>
-    ))}
-  </div>
-)}
+                <div className="price-grid">
+                  <div className="price-box"><div className="price-label">Minimum</div><div className="price-val">{result.prix_min}€</div></div>
+                  <div className="price-box recommended"><div className="price-label">Recommandé</div><div className="price-val">{result.prix_conseille}€</div></div>
+                  <div className="price-box"><div className="price-label">Maximum</div><div className="price-val">{result.prix_max}€</div></div>
+                </div>
+                <div className="result-advice">{result.conseil}</div>
+                {result.titre && <div style={{marginTop:'0.75rem', fontWeight:600, color:'#0A1A10'}}>{result.titre}</div>}
+                {result.description && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>{result.description}</div>}
+                {result.roi && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#00B874', fontWeight:600}}>ROI : {result.roi}</div>}
+                {result.etat_conseille && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>État conseillé : {result.etat_conseille}</div>}
               </div>
+            )}
+          </>
+        )}
+
+        {activeTab === 'lot' && isPro && (
+          <>
+            <div className="drop-zone" onClick={() => lotInputRef.current?.click()}
+              onDragOver={e => e.preventDefault()}
+              onDrop={e => { e.preventDefault(); if (e.dataTransfer.files.length) handleLotFiles(e.dataTransfer.files) }}>
+              <div className="drop-icon">📁</div>
+              <div className="drop-text">Glisse plusieurs photos ou clique pour uploader</div>
+              <div className="drop-cats">Max {plan === 'business' ? '10' : '3'} articles · JPG PNG WEBP</div>
             </div>
-            <div className="price-grid">
-              <div className="price-box">
-                <div className="price-label">Minimum</div>
-                <div className="price-val">{result.prix_min}€</div>
+
+            <input ref={lotInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }}
+              onChange={e => { if (e.target.files) handleLotFiles(e.target.files) }} />
+
+            {lotImages.length > 0 && (
+              <div className="lot-previews">
+                {lotImages.map((img, i) => (
+                  <div key={i} className="lot-preview">
+                    <img src={img.preview} alt={`article ${i+1}`} />
+                  </div>
+                ))}
               </div>
-              <div className="price-box recommended">
-                <div className="price-label">Recommandé</div>
-                <div className="price-val">{result.prix_conseille}€</div>
+            )}
+
+            {lotError && <p style={{ color: 'red', fontSize: '13px', marginBottom: '1rem' }}>{lotError}</p>}
+
+            <button className="btn-scan" onClick={handleLotScan} disabled={lotImages.length === 0 || lotLoading}>
+              {lotLoading ? `Analyse en cours... (${lotResults.length}/${lotImages.length})` : `⚡ Scanner ${lotImages.length > 0 ? lotImages.length : ''} article${lotImages.length > 1 ? 's' : ''}`}
+            </button>
+
+            {lotResults.length > 0 && (
+              <div style={{ marginTop: '1.25rem' }}>
+                {lotResults.map((r, i) => (
+                  <div key={i} className="lot-result">
+                    <img src={lotImages[i]?.preview} alt="" />
+                    {r.error ? (
+                      <p style={{ color: 'red', fontSize: '13px' }}>{r.error}</p>
+                    ) : (
+                      <div>
+                        <div style={{ fontWeight: 700, color: '#0A1A10', marginBottom: '4px' }}>{r.nom}</div>
+                        <div style={{ fontSize: '12px', color: '#4A7A58', marginBottom: '6px' }}>{r.categorie}{r.etat ? ` · ${r.etat}` : ''}</div>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <span style={{ fontSize: '13px', color: '#4A7A58' }}>Min: {r.prix_min}€</span>
+                          <span style={{ fontSize: '13px', fontWeight: 700, color: '#00B874' }}>{r.prix_conseille}€</span>
+                          <span style={{ fontSize: '13px', color: '#4A7A58' }}>Max: {r.prix_max}€</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-              <div className="price-box">
-                <div className="price-label">Maximum</div>
-                <div className="price-val">{result.prix_max}€</div>
-              </div>
-            </div>
-            <div className="result-advice">{result.conseil}</div>
-            {result.titre && <div style={{marginTop:'0.75rem', fontWeight:600, color:'#0A1A10'}}>{result.titre}</div>}
-{result.description && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>{result.description}</div>}
-{result.roi && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#00B874', fontWeight:600}}>ROI : {result.roi}</div>}
-{result.etat_conseille && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>État conseillé : {result.etat_conseille}</div>}
-          </div>
+            )}
+          </>
         )}
 
         {historique.length > 0 && (
