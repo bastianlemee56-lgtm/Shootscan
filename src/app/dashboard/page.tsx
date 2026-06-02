@@ -13,7 +13,7 @@ export default function Dashboard() {
   const [error, setError] = useState('')
   const [historique, setHistorique] = useState<any[]>([])
   const [scanCount, setScanCount] = useState(0)
-  const [plan, setPlan] = useState('gratuit')
+  const [plan, setPlan] = useState('free')
   const [activeTab, setActiveTab] = useState<'simple' | 'lot'>('simple')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
@@ -41,12 +41,7 @@ if (profile) {
         .order('created_at', { ascending: false })
       if (data) {
         setHistorique(data)
-        const now = new Date()
-        const thisMonth = data.filter(s => {
-          const d = new Date(s.created_at)
-          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
-        })
-        setScanCount(thisMonth.length)
+        
       }
     }
     init()
