@@ -344,7 +344,7 @@ export default function Home() {
           {[
             { plan: 'Gratuit', price: '0€', period: '/ mois', features: ['3 scans par mois', 'Estimation IA de base', 'Historique 7 jours'], cta: 'Commencer gratuitement', ctaClass: 'outline', pop: false },
 { plan: 'Pro', price: '11,99€', period: '/ mois', features: ['Scans illimités', 'Scan en lot', 'Historique complet', 'Export CSV', 'Support prioritaire'], cta: 'Passer Pro', ctaClass: 'primary', pop: true },
-{ plan: 'Business', price: '29,99€', period: '/ mois', features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard équipe', 'Onboarding dédié'], cta: 'Contacter', ctaClass: 'outline', pop: false },
+{ plan: 'Business', price: '29,99€', period: '/ mois', features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard équipe', 'Onboarding dédié'], cta: 'Passer Business', ctaClass: 'outline', pop: false },
           ].map(p => (
             <div key={p.plan} className={`pricing-card${p.pop ? ' pop' : ''}`}>
               {p.pop && <div className="pop-badge">★ Le plus populaire</div>}
