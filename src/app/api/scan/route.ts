@@ -42,9 +42,12 @@ export async function POST(request: NextRequest) {
     }
 
     const prompt = userPlan === 'free'
-      ? `Analyse cet article a vendre. Reponds UNIQUEMENT en JSON sans markdown :
+  ? `Analyse cet article a vendre. Reponds UNIQUEMENT en JSON sans markdown :
 {"nom": "nom", "score": 85, "categorie": "Electronique", "etat": "Bon etat", "couleur": "Noir", "tags": ["Forte demande", "Populaire"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin"], "conseil": "conseil de vente court"}`
-      : `Analyse cet article a vendre en detail. Reponds UNIQUEMENT en JSON sans markdown :
+  : userPlan === 'business'
+  ? `Analyse cet article a vendre de facon tres complete et experte. Reponds UNIQUEMENT en JSON sans markdown :
+{"nom": "nom complet et precis", "score": 85, "categorie": "categorie", "etat": "etat precis", "couleur": "couleur", "tags": ["tag1", "tag2", "tag3"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace", "Vestiaire Collective", "Back Market", "Depop", "Rakuten"], "conseil": "conseil expert detaille sur comment maximiser la vente", "titre": "titre annonce optimise SEO", "description": "description complete et persuasive pour attirer les acheteurs", "etat_conseille": "etat a mentionner", "roi": "benefice potentiel estime", "meilleure_plateforme": "plateforme ideale pour cet article avec raison", "prix_rapide": "prix si vente rapide souhaitee", "saisonnalite": "meilleure periode pour vendre"}`
+  : `Analyse cet article a vendre en detail. Reponds UNIQUEMENT en JSON sans markdown :
 {"nom": "nom", "score": 85, "categorie": "Electronique", "etat": "Bon etat", "couleur": "Noir", "tags": ["Forte demande", "Populaire"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace"], "conseil": "conseil de vente court", "titre": "titre optimise", "description": "description complete", "etat_conseille": "Tres bon etat", "roi": "benefice potentiel"}`
 
     const response = await anthropic.messages.create({
