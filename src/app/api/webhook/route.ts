@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     if (profile) {
       await supabase
         .from("profiles")
-        .update({ plan: "gratuit", updated_at: new Date().toISOString() })
+        .update({ plan: "free", updated_at: new Date().toISOString() })
         .eq("id", profile.id)
     }
   }
