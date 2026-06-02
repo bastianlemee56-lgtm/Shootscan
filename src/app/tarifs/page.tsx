@@ -95,7 +95,9 @@ export default function Tarifs() {
 
         <div className="toggle">
           <span className={`toggle-label ${!annual ? 'active' : ''}`}>Mensuel</span>
-          <button className="toggle-switch" onClick={() => setAnnual(!annual)} />
+          <button className="toggle-switch" onClick={() => setAnnual(!annual)}>
+  <span style={{ position: 'absolute', width: '18px', height: '18px', background: 'white', borderRadius: '50%', top: '3px', left: annual ? '23px' : '3px', transition: 'left 0.2s' }}></span>
+</button>
           <span className={`toggle-label ${annual ? 'active' : ''}`}>Annuel</span>
           {annual && <span className="badge-save">-31%</span>}
         </div>
