@@ -319,23 +319,31 @@ export default function Dashboard() {
             {lotResults.length > 0 && (
               <div style={{ marginTop: '1.25rem' }}>
                 {lotResults.map((r, i) => (
-                  <div key={i} className="lot-result">
-                    <img src={lotImages[i]?.preview} alt="" />
-                    {r.error ? (
-                      <p style={{ color: 'red', fontSize: '13px' }}>{r.error}</p>
-                    ) : (
-                      <div>
-                        <div style={{ fontWeight: 700, color: '#0A1A10', marginBottom: '4px' }}>{r.nom}</div>
-                        <div style={{ fontSize: '12px', color: '#4A7A58', marginBottom: '6px' }}>{r.categorie}{r.etat ? ` · ${r.etat}` : ''}</div>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                          <span style={{ fontSize: '13px', color: '#4A7A58' }}>Min: {r.prix_min}€</span>
-                          <span style={{ fontSize: '13px', fontWeight: 700, color: '#00B874' }}>{r.prix_conseille}€</span>
-                          <span style={{ fontSize: '13px', color: '#4A7A58' }}>Max: {r.prix_max}€</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+  <div key={i} className="lot-result">
+    <img src={lotImages[i]?.preview} alt="" />
+    {r.error ? (
+      <p style={{ color: 'red', fontSize: '13px' }}>{r.error}</p>
+    ) : (
+      <div>
+        <div style={{ fontWeight: 700, color: '#0A1A10', marginBottom: '4px' }}>{r.nom}</div>
+        <div style={{ fontSize: '12px', color: '#4A7A58', marginBottom: '6px' }}>{r.categorie}{r.etat ? ` · ${r.etat}` : ''}</div>
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '6px' }}>
+          <span style={{ fontSize: '13px', color: '#4A7A58' }}>Min: {r.prix_min}€</span>
+          <span style={{ fontSize: '13px', fontWeight: 700, color: '#00B874' }}>{r.prix_conseille}€</span>
+          <span style={{ fontSize: '13px', color: '#4A7A58' }}>Max: {r.prix_max}€</span>
+        </div>
+        {r.plateformes && (
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '6px' }}>
+            {r.plateformes.slice(0, 3).map((p: string) => (
+              <span key={p} style={{ background: '#E8F5EE', color: '#00B874', fontSize: '11px', padding: '2px 8px', borderRadius: '20px', border: '1px solid #00B874' }}>{p}</span>
+            ))}
+          </div>
+        )}
+        {r.conseil && <div style={{ fontSize: '12px', color: '#4A7A58', marginTop: '4px' }}>{r.conseil}</div>}
+      </div>
+    )}
+  </div>
+))}
               </div>
             )}
           </>
