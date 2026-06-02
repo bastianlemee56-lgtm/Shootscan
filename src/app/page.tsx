@@ -339,7 +339,7 @@ export default function Home() {
       <section className="section" style={{ paddingTop: '2rem' }}>
         <div className="section-tag">Tarifs</div>
         <h2 className="section-title">Des prix <em>simples</em></h2>
-        <p className="section-sub">Sans engagement · Mensuel uniquement</p>
+        <p className="section-sub">Économisez 31% avec l'abonnement annuel → <a href="/tarifs" style={{ color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>Voir les offres</a></p>
         <div className="pricing-cards">
           {[
             { plan: 'Gratuit', price: '0€', period: '/ mois', features: ['3 scans par mois', 'Estimation IA de base', 'Historique 7 jours'], cta: 'Commencer gratuitement', ctaClass: 'outline', pop: false },
