@@ -44,7 +44,7 @@ export default function Tarifs() {
       period: '/mois',
       desc: 'Pour les pros du volume',
       features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard equipe', 'Onboarding dedie'],
-      cta: 'Contacter',
+      cta: 'Passer Business',
       priceId: 'price_1Tb76LKAwbn5ymOfEj6044PF',
       highlight: false,
     },
