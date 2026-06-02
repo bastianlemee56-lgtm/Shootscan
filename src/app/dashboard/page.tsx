@@ -294,7 +294,7 @@ export default function Dashboard() {
               onDrop={e => { e.preventDefault(); if (e.dataTransfer.files.length) handleLotFiles(e.dataTransfer.files) }}>
               <div className="drop-icon">📁</div>
               <div className="drop-text">Glisse plusieurs photos ou clique pour uploader</div>
-              <div className="drop-cats">Max {plan === 'business' ? '10' : '3'} articles · JPG PNG WEBP</div>
+              <div className="drop-cats">{plan === 'business' ? 'Max 10 articles (illimité/mois)' : 'Max 3 articles'} · JPG PNG WEBP</div>
             </div>
 
             <input ref={lotInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }}
