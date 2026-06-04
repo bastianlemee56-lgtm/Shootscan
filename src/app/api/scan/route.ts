@@ -42,13 +42,19 @@ export async function POST(request: NextRequest) {
     }
 
     const prompt = userPlan === 'free'
-  ? `Analyse cet article a vendre. Reponds UNIQUEMENT en JSON sans markdown :
-{"nom": "nom", "score": 85, "categorie": "Electronique", "etat": "Bon etat", "couleur": "Noir", "tags": ["Forte demande", "Populaire"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin"], "conseil": "conseil de vente court"}`
+  ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo.
+Evalue avec precision : l'etat reel visible, la demande du marche, et le prix juste.
+Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
+{"nom": "nom precis de l'article", "score": <nombre entre 0 et 100 selon vendabilite reelle>, "categorie": "categorie precise", "etat": "etat reel parmi : Neuf avec etiquette / Neuf sans etiquette / Tres bon etat / Bon etat / Etat correct / Mauvais etat", "couleur": "couleur principale", "tags": ["tag pertinent 1", "tag pertinent 2"], "prix_min": "<prix bas realiste>", "prix_conseille": "<prix optimal>", "prix_max": "<prix haut>", "plateformes": ["plateforme1", "plateforme2"], "conseil": "conseil de vente concret et utile"}`
   : userPlan === 'business'
-  ? `Analyse cet article a vendre de facon tres complete et experte. Reponds UNIQUEMENT en JSON sans markdown :
-{"nom": "nom complet et precis", "score": 85, "categorie": "categorie", "etat": "etat precis", "couleur": "couleur", "tags": ["tag1", "tag2", "tag3"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace", "Vestiaire Collective", "Back Market", "Depop", "Rakuten"], "conseil": "conseil expert detaille sur comment maximiser la vente", "titre": "titre annonce optimise SEO", "description": "description complete et persuasive pour attirer les acheteurs", "etat_conseille": "etat a mentionner", "roi": "benefice potentiel estime", "meilleure_plateforme": "plateforme ideale pour cet article avec raison", "prix_rapide": "prix si vente rapide souhaitee", "saisonnalite": "meilleure periode pour vendre"}`
-  : `Analyse cet article a vendre en detail. Reponds UNIQUEMENT en JSON sans markdown :
-{"nom": "nom", "score": 85, "categorie": "Electronique", "etat": "Bon etat", "couleur": "Noir", "tags": ["Forte demande", "Populaire"], "prix_min": "12", "prix_conseille": "15", "prix_max": "20", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace"], "conseil": "conseil de vente court", "titre": "titre optimise", "description": "description complete", "etat_conseille": "Tres bon etat", "roi": "benefice potentiel"}`
+  ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo de facon tres complete.
+Evalue avec precision : l'etat reel visible, la demande du marche, la saisonnalite, et le prix juste.
+Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
+{"nom": "nom complet et precis", "score": <nombre entre 0 et 100 selon vendabilite reelle>, "categorie": "categorie precise", "etat": "etat reel parmi : Neuf avec etiquette / Neuf sans etiquette / Tres bon etat / Bon etat / Etat correct / Mauvais etat", "couleur": "couleur principale", "tags": ["tag1", "tag2", "tag3"], "prix_min": "<prix bas realiste>", "prix_conseille": "<prix optimal>", "prix_max": "<prix haut>", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace", "Vestiaire Collective", "Back Market", "Depop", "Rakuten"], "conseil": "conseil expert detaille", "titre": "titre annonce optimise SEO", "description": "description complete et persuasive", "etat_conseille": "etat a mentionner dans l'annonce", "roi": "benefice potentiel estime", "meilleure_plateforme": "plateforme ideale avec raison", "prix_rapide": "<prix si vente rapide>", "saisonnalite": "meilleure periode pour vendre"}`
+  : `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo.
+Evalue avec precision : l'etat reel visible, la demande du marche, et le prix juste.
+Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
+{"nom": "nom precis de l'article", "score": <nombre entre 0 et 100 selon vendabilite reelle>, "categorie": "categorie precise", "etat": "etat reel parmi : Neuf avec etiquette / Neuf sans etiquette / Tres bon etat / Bon etat / Etat correct / Mauvais etat", "couleur": "couleur principale", "tags": ["tag1", "tag2", "tag3"], "prix_min": "<prix bas realiste>", "prix_conseille": "<prix optimal>", "prix_max": "<prix haut>", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace"], "conseil": "conseil detaille", "titre": "titre optimise", "description": "description complete", "etat_conseille": "etat a mentionner", "roi": "benefice potentiel"}`
 
     const response = await anthropic.messages.create({
       model: 'claude-opus-4-5',
@@ -80,14 +86,19 @@ export async function POST(request: NextRequest) {
 
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
-      await supabase.from('scans').insert({
-        user_id: user.id,
-        nom: result.nom,
-        score: result.score,
-        prix_conseille: result.prix_conseille,
-        plateformes: result.plateformes,
-      })
-
+      const { error: insertError } = await supabase.from('scans').insert({
+  user_id: user.id,
+  name: result.nom,
+  resell_score: result.score,
+  price_mid: result.prix_conseille,
+  platforms: result.plateformes,
+  category: result.categorie ?? null,
+  condition: result.etat ?? null,
+  couleur: result.couleur ?? null,
+  tags: result.tags ?? null,
+  conseil: result.conseil ?? null,
+})
+if (insertError) console.error('INSERT ERROR:', insertError)
       if (userPlan === 'free') {
         await supabase
           .from('profiles')

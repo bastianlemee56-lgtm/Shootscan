@@ -350,19 +350,66 @@ export default function Dashboard() {
         )}
 
         {historique.length > 0 && (
-          <div style={{ marginTop: '2rem' }}>
-            <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '1rem', color: '#0A1A10' }}>Historique des scans</h2>
-            {historique.map((scan, i) => (
-              <div key={i} style={{ background: 'white', border: '1px solid #E0EFE4', borderRadius: '10px', padding: '0.75rem 1rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <p style={{ fontWeight: 600, fontSize: '14px', color: '#0A1A10', margin: 0 }}>{scan.nom}</p>
-                  <p style={{ fontSize: '12px', color: '#4A7A58', margin: 0 }}>{scan.categorie}</p>
-                </div>
-                <p style={{ fontWeight: 700, color: '#00B874', margin: 0 }}>{scan.prix_conseille}€</p>
-              </div>
+  <div style={{ marginTop: '2rem' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#0A1A10', margin: 0 }}>Historique des scans</h2>
+      <button
+        onClick={() => {
+          const headers = ['Date', 'Nom', 'Catégorie', 'État', 'Couleur', 'Tags', 'Prix conseillé', 'Plateformes', 'Conseil']
+          const rows = historique.map(s => [
+            new Date(s.created_at).toLocaleDateString('fr-FR'),
+            s.nom ?? '',
+            s.categorie ?? '',
+            s.etat ?? '',
+            s.couleur ?? '',
+            (s.tags ?? []).join(' | '),
+            s.prix_conseille ?? '',
+            (s.plateformes ?? []).join(' | '),
+            s.conseil ?? '',
+          ])
+          const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')
+          const blob = new Blob([csv], { type: 'text/csv' })
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = 'shootscan_historique.csv'
+          a.click()
+          URL.revokeObjectURL(url)
+        }}
+        style={{ background: '#E8F5EE', border: '1px solid #00B874', color: '#00B874', borderRadius: '8px', padding: '6px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
+      >
+        ⬇ Export CSV
+      </button>
+    </div>
+    {historique.map((scan, i) => (
+      <div key={i} style={{ background: 'white', border: '1px solid #E0EFE4', borderRadius: '12px', padding: '1rem', marginBottom: '0.75rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px' }}>
+          <p style={{ fontWeight: 700, fontSize: '14px', color: '#0A1A10', margin: 0 }}>{scan.name}</p>
+          <p style={{ fontWeight: 700, color: '#00B874', margin: 0, flexShrink: 0, marginLeft: '1rem' }}>{scan.price_mid}€</p>
+        </div>
+        <p style={{ fontSize: '12px', color: '#4A7A58', margin: '0 0 6px 0' }}>
+          {[scan.categorie, scan.etat, scan.couleur].filter(Boolean).join(' · ')}
+        </p>
+        {scan.tags?.length > 0 && (
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '6px' }}>
+            {scan.tags.map((t: string) => (
+              <span key={t} style={{ background: '#E8F5EE', color: '#00B874', fontSize: '11px', padding: '2px 8px', borderRadius: '20px' }}>{t}</span>
             ))}
           </div>
         )}
+        {scan.plateformes?.length > 0 && (
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '6px' }}>
+            {scan.plateformes.map((p: string) => (
+              <span key={p} style={{ background: '#F6FAF7', color: '#4A7A58', fontSize: '11px', padding: '2px 8px', borderRadius: '20px', border: '1px solid #E0EFE4' }}>{p}</span>
+            ))}
+          </div>
+        )}
+        {scan.conseil && <p style={{ fontSize: '12px', color: '#4A7A58', margin: 0, fontStyle: 'italic' }}>{scan.conseil}</p>}
+        <p style={{ fontSize: '11px', color: '#8AB098', margin: '6px 0 0 0' }}>{new Date(scan.created_at).toLocaleDateString('fr-FR')}</p>
+      </div>
+    ))}
+  </div>
+)}
       </div>
     </main>
   )
