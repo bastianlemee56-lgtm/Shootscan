@@ -24,7 +24,7 @@ export default function Login() {
     <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <style>{`
         .nav { background: white; border-bottom: 1px solid #E0EFE4; padding: 0 1.5rem; display: flex; align-items: center; height: 56px; }
-        .nav-logo { font-size: 18px; font-weight: 300; color: #0A1A10; text-decoration: none; }
+        .nav-logo { font-size: 20px; font-weight: 300; color: #0A1A10; text-decoration: none; }
         .nav-logo strong { font-weight: 600; color: #00B874; }
         .center { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
         .card { background: white; border: 1px solid #E0EFE4; border-radius: 16px; padding: 2rem; width: 100%; max-width: 400px; }
