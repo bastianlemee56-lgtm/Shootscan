@@ -166,7 +166,7 @@ export default function Dashboard() {
         .lot-result img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
         .result-card { background: white; border: 1px solid #E0EFE4; border-radius: 16px; padding: 1.5rem; margin-top: 1.25rem; }
         .result-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
-        .result-score { width: 52px; height: 52px; border-radius: 50%; background: transparent; color: #00B874; border: 2px solid #00B874; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; flex-shrink: 0; }
+        .result-score { width: 52px; height: 52px; border-radius: 50%; background: transparent; color: #00B874; border: 2px solid #00B874; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0; }
         .result-name { font-size: 17px; font-weight: 700; color: #0A1A10; margin-bottom: 4px; }
         .result-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
         .result-tag { background: #E8F5EE; color: #00B874; font-size: 11px; padding: 3px 10px; border-radius: 20px; }

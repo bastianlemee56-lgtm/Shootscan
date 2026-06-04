@@ -54,7 +54,7 @@ export default function Tarifs() {
     <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh' }}>
       <style>{`
         .nav { background: white; border-bottom: 1px solid #E0EFE4; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-        .nav-logo { font-size: 18px; font-weight: 300; color: #0A1A10; text-decoration: none; }
+        .nav-logo { font-size: 20px; font-weight: 300; color: #0A1A10; text-decoration: none; }
         .nav-logo strong { font-weight: 600; color: #00B874; }
         .wrap { max-width: 900px; margin: 0 auto; padding: 3rem 1rem; }
         .page-title { font-size: 32px; font-weight: 700; color: #0A1A10; text-align: center; margin-bottom: 0.5rem; }
