@@ -34,9 +34,9 @@ export default function Stats() {
   }
 
   const total = scans.length
-  const totalValeur = scans.reduce((acc, s) => acc + (s.prix_conseille || 0), 0)
+  const totalValeur = scans.reduce((acc, s) => acc + (parseFloat(s.price_mid) || 0), 0)
   const prixMoyen = total > 0 ? Math.round(totalValeur / total) : 0
-  const scoreMoyen = total > 0 ? Math.round(scans.reduce((acc, s) => acc + (s.score || 0), 0) / total) : 0
+  const scoreMoyen = total > 0 ? Math.round(scans.reduce((acc, s) => acc + (s.resell_score || 0), 0) / total) : 0
 
   return (
     <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh' }}>
@@ -114,10 +114,10 @@ export default function Stats() {
             scans.map((scan, i) => (
               <div key={i} className="scan-row">
                 <div>
-                  <div className="scan-name">{scan.nom}</div>
-                  <div className="scan-meta">{scan.categorie} · {scan.etat}</div>
+                  <div className="scan-name">{scan.name}</div>
+<div className="scan-meta">{scan.category} · {scan.condition}</div>
                 </div>
-                <div className="scan-price">{scan.prix_conseille}€</div>
+                <div className="scan-price">{scan.price_mid}€</div>
               </div>
             ))
           )}
