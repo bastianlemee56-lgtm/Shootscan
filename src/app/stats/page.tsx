@@ -42,7 +42,7 @@ export default function Stats() {
     <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh' }}>
       <style>{`
         .nav { background: white; border-bottom: 1px solid #E0EFE4; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-        .nav-logo { font-size: 20px; font-weight: 300; color: #0A1A10; text-decoration: none; }
+        .nav-logo { font-size: 20px; font-weight: 300; color: #0A1A10; text-decoration: none; letter-spacing: -0.5px; }
         .nav-logo strong { font-weight: 600; color: #00B874; }
         .nav-right { display: flex; align-items: center; gap: 0.75rem; }
         .nav-email { font-size: 12px; color: #4A7A58; }

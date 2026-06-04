@@ -178,7 +178,7 @@ export default function Dashboard() {
         .price-box.recommended .price-val { color: #00B874; }
         .result-advice { font-size: 13px; color: #4A7A58; line-height: 1.6; padding: 0.75rem; background: #F6FAF7; border-radius: 8px; }
         .nav { background: white; border-bottom: 1px solid #E0EFE4; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-        .nav-logo { font-size: 20px; font-weight: 300; color: #0A1A10; text-decoration: none; }
+        .nav-logo { font-size: 20px; font-weight: 300; color: #0A1A10; text-decoration: none; letter-spacing: -0.5px; }
         .nav-logo strong { font-weight: 600; color: #00B874; }
         .upgrade-box { background: #E8F5EE; border: 1px solid #00B874; border-radius: 12px; padding: 1.25rem; text-align: center; margin-bottom: 1.25rem; }
         .upgrade-box p { font-size: 14px; color: #0A1A10; margin-bottom: 0.75rem; }
