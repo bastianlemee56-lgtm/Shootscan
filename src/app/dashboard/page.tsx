@@ -129,6 +129,7 @@ export default function Dashboard() {
   return (
     <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh' }}>
       <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         .scanner-wrap { max-width: 780px; margin: 0 auto; padding: 2rem 1rem; }
         .page-title { font-size: 28px; font-weight: 700; color: #0A1A10; margin-bottom: 0.25rem; }
         .page-title em { font-style: italic; color: #00B874; font-family: 'Instrument Serif', Georgia, serif; }
