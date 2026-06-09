@@ -217,7 +217,7 @@ export default function Home() {
           <h1>Shoot.<br />Scan.<br /><em>Vends.</em></h1>
           <p className="hero-sub">Une photo suffit. L'IA identifie n'importe quel objet, estime sa valeur et te dit exactement où et comment le vendre pour maximiser ton gain.</p>
           <div className="hero-actions">
-            <a href="/register" className="btn-primary">Scanner un article →</a>
+            <a href="/dashboard" className="btn-primary">Scanner un article →</a>
             <a href="/tarifs" className="btn-ghost">Voir les tarifs</a>
           </div>
           <p className="hero-trust">✓ 3 scans gratuits &nbsp;·&nbsp; ✓ Résultat en 10 sec &nbsp;·&nbsp; ✓ Sans carte bancaire</p>

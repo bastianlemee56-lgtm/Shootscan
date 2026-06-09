@@ -260,7 +260,7 @@ export default function Dashboard() {
                   <div className="result-score">{result.score}</div>
                   <div>
                     <div className="result-name">{result.nom}</div>
-                    {result.categorie}{result.etat ? ` · ${result.etat}` : ''}{result.couleur ? ` · ${result.couleur}` : ''}
+                    <div style={{ fontSize: '13px', color: '#4A7A58' }}>{result.categorie}{result.etat ? ` · ${result.etat}` : ''}{result.couleur ? ` · ${result.couleur}` : ''}</div>
                     <div className="result-tags">
                       {result.tags?.map((t: string) => <span key={t} className="result-tag">{t}</span>)}
                     </div>
