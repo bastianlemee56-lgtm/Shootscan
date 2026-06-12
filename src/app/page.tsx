@@ -162,11 +162,12 @@ export default function Home() {
           .nav-links { display: none; }
           .nav-hamburger { display: flex; }
 
-          .hero { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.25rem 2rem; }
-          .hero h1 { font-size: 38px; }
+          .hero { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.25rem 2rem; text-align: center; }
+          .hero h1 { font-size: 28px; white-space: nowrap; }
           .hero-card { display: none; }
 
-          .cat-pills { padding: 0 1.25rem 2rem; }
+          .cat-pills { display: none; }
+          .plat-strip { display: none; }
 
           .steps { grid-template-columns: 1fr; gap: 1rem; }
           .feats-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -214,7 +215,7 @@ export default function Home() {
             <span className="hero-badge-dot"></span>
             IA de valorisation universelle
           </div>
-          <h1>Shoot.<br />Scan.<br /><em>Vends.</em></h1>
+          <h1>Shoot. Scan. <em>Vends.</em></h1>
           <p className="hero-sub">Une photo suffit. L'IA identifie n'importe quel objet, estime sa valeur et te dit exactement où et comment le vendre pour maximiser ton gain.</p>
           <div className="hero-actions">
             <a href="/dashboard" className="btn-primary">Scanner un article →</a>
