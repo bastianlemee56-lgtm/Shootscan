@@ -247,24 +247,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CAT PILLS */}
-      <div className="cat-pills">
-        {['Tout', '👗 Vêtements', '👟 Sneakers', '📱 Électronique', '🛋️ Meubles', '📚 Livres', '🎮 Jeux vidéo', '⌚ Montres', '👜 Sacs', '🧸 Jouets', '🎸 Instruments', '🏋️ Sport'].map((p, i) => (
-          <span key={p} className="cat-pill" style={i === 0 ? { background: 'var(--mint-light)', borderColor: 'var(--border2)', color: 'var(--mint-dark)' } : {}}>{p}</span>
-        ))}
-      </div>
-
-      {/* PLATEFORMES */}
-      <div className="plat-strip">
-        <div className="plat-strip-inner">
-          <div className="plat-strip-title">Recommandations sur toutes les plateformes</div>
-          <div className="plat-logos">
-            {['Vinted', 'Depop', 'eBay', 'Vestiaire Collective', 'Leboncoin', 'Back Market', 'Rakuten', 'Facebook Marketplace', 'Wallapop', 'Sellpy', 'Momox', 'Cdiscount'].map(p => (
-              <span key={p} className="plat-logo">{p}</span>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* COMMENT ÇA MARCHE */}
       <section className="section">
