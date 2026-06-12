@@ -358,7 +358,7 @@ export default function Home() {
     <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
       <a href="/politique-confidentialite" className="footer-link">Politique de confidentialité</a>
       <a href="/mentions-legales" className="footer-link">Mentions légales</a>
-      <a href="/cgu" className="footer-link">CGU</a>
+      <a href="/rgpd" className="footer-link">RGPD</a>
     </div>
     <div className="footer-copy">© 2025 Shootscan · Fait avec ☘ à Paris</div>
   </div>
