@@ -138,7 +138,7 @@ export default function Home() {
         .pricing-btn.outline:hover { background: var(--mint-light); }
 
         /* CTA */
-        .cta-band { background: var(--mint-xdark); padding: 5rem 2rem; text-align: center; }
+        .cta-band { background: var(--mint-xdark); padding: 3rem 2rem; text-align: center; }
         .cta-band h2 { font-family: var(--serif); font-size: 42px; font-weight: 400; color: white; margin-bottom: 1rem; }
         .cta-band h2 em { font-style: italic; color: #7EDBB0; }
         .cta-band p { font-size: 14px; color: #7EDBB0; margin-bottom: 2rem; }
@@ -352,37 +352,17 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer>
-        <div className="footer-inner">
-          <div>
-            <div className="footer-logo">shoot<strong>scan</strong></div>
-            <div className="footer-desc">L'IA qui valorise n'importe quel objet de seconde main pour revendre plus vite et plus cher.</div>
-          </div>
-          <div>
-            <div className="footer-col-title">Produit</div>
-            <a href="/dashboard" className="footer-link">Scanner</a>
-            <a href="/dashboard" className="footer-link">Dashboard</a>
-            <a href="/tarifs" className="footer-link">Tarifs</a>
-          </div>
-          <div>
-            <div className="footer-col-title">Plateformes</div>
-            <span className="footer-link">Vinted · Depop · eBay</span>
-            <span className="footer-link">Back Market · Rakuten</span>
-            <span className="footer-link">Vestiaire Collective</span>
-            <span className="footer-link">Leboncoin · +6 autres</span>
-          </div>
-          <div>
-            <div className="footer-col-title">Entreprise</div>
-            <a href="#" className="footer-link">À propos</a>
-            <a href="#" className="footer-link">Blog</a>
-            <a href="#" className="footer-link">Contact</a>
-            <a href="#" className="footer-link">CGU</a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span className="footer-copy">© 2025 Shootscan · Tous droits réservés</span>
-          <span className="footer-copy">Fait avec ☘ à Paris</span>
-        </div>
-      </footer>
+  <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '1.5rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', textAlign: 'center' }}>
+    <div className="footer-logo">shoot<strong>scan</strong></div>
+    <div className="footer-desc">L'IA qui valorise n'importe quel objet de seconde main.</div>
+    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+      <a href="/politique-confidentialite" className="footer-link">Politique de confidentialité</a>
+      <a href="/mentions-legales" className="footer-link">Mentions légales</a>
+      <a href="/cgu" className="footer-link">CGU</a>
+    </div>
+    <div className="footer-copy">© 2025 Shootscan · Fait avec ☘ à Paris</div>
+  </div>
+</footer>
 
     </main>
   )
