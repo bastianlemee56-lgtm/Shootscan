@@ -195,7 +195,9 @@ export default function Home() {
 
       {/* NAV */}
       <nav className="nav">
-        <a href="/"><img src="/logo.svg" alt="Shootscan" height="40" style={{ display: 'block' }} /></a>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+  <img src="/logo.svg" alt="Shootscan" height="30" style={{ display: 'block' }} />
+</a>
         <div className="nav-links" style={{ display: menuOpen ? 'flex' : undefined, flexDirection: menuOpen ? 'column' : undefined, position: menuOpen ? 'absolute' : undefined, top: menuOpen ? '56px' : undefined, left: 0, right: 0, background: 'white', padding: menuOpen ? '1rem' : undefined, zIndex: 100, borderBottom: menuOpen ? '1px solid #E0EFE4' : undefined }}>
           <a href="/dashboard" className="nav-btn">Scanner</a>
           <a href="/stats" className="nav-btn">Dashboard</a>
