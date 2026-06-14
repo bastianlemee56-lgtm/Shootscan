@@ -196,7 +196,18 @@ export default function Home() {
       {/* NAV */}
       <nav className="nav">
         <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-  <img src="/logo.svg" alt="Shootscan" height="30" style={{ display: 'block' }} />
+  <svg viewBox="0 0 520 80" height="36" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="80" height="80" rx="14" fill="#0A1A10"/>
+  <path d="M12 22 L12 10 L24 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M68 22 L68 10 L56 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M12 58 L12 70 L24 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M68 58 L68 70 L56 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <text x="40" y="52" fontFamily="Arial Black, sans-serif" fontSize="32" fontWeight="900" fill="#00B874" textAnchor="middle">S</text>
+  <text x="96" y="50" fontFamily="Arial Black, sans-serif" fontSize="30" fontWeight="900">
+    <tspan fill="#0A1A10">Shoot</tspan><tspan fill="#00B874">scan</tspan>
+  </text>
+  <text x="97" y="66" fontFamily="Arial, sans-serif" fontSize="9" fill="#4A7A58" letterSpacing="3">AI VALUATION</text>
+</svg>
 </a>
         <div className="nav-links" style={{ display: menuOpen ? 'flex' : undefined, flexDirection: menuOpen ? 'column' : undefined, position: menuOpen ? 'absolute' : undefined, top: menuOpen ? '56px' : undefined, left: 0, right: 0, background: 'white', padding: menuOpen ? '1rem' : undefined, zIndex: 100, borderBottom: menuOpen ? '1px solid #E0EFE4' : undefined }}>
           <a href="/dashboard" className="nav-btn">Scanner</a>
