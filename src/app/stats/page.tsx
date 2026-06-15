@@ -71,7 +71,31 @@ export default function Stats() {
       `}</style>
 
       <nav className="nav">
-        <a href="/" className="nav-logo">shoot<strong>scan</strong></a>
+        <a href="/" style={{ display: 'flex', alignItems: 'center' }}>
+  <svg viewBox="0 0 520 80" height="36" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <clipPath id="iconClip2">
+        <rect x="0" y="0" width="80" height="80" rx="14"/>
+      </clipPath>
+    </defs>
+    <rect x="0" y="0" width="80" height="80" rx="14" fill="#0A1A10"/>
+    <g clipPath="url(#iconClip2)">
+      <rect x="0" y="38" width="80" height="2" fill="#00B874" opacity="0.9">
+        <animate attributeName="y" values="10;68;10" dur="2.4s" repeatCount="indefinite" calcMode="ease-in-out"/>
+        <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2.4s" repeatCount="indefinite"/>
+      </rect>
+      <text x="40" y="52" fontFamily="Arial Black, sans-serif" fontSize="32" fontWeight="900" fill="#00B874" textAnchor="middle">S</text>
+    </g>
+    <path d="M12 22 L12 10 L24 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M68 22 L68 10 L56 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 58 L12 70 L24 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M68 58 L68 70 L56 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <text x="96" y="50" fontFamily="Arial Black, sans-serif" fontSize="30" fontWeight="900">
+      <tspan fill="#0A1A10">Shoot</tspan><tspan fill="#00B874">scan</tspan>
+    </text>
+    <text x="97" y="66" fontFamily="Arial, sans-serif" fontSize="9" fill="#4A7A58" letterSpacing="3">AI VALUATION</text>
+  </svg>
+</a>
         <a href="/" style={{ fontSize: '13px', color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>← Accueil</a>
       </nav>
 
