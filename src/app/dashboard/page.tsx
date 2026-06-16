@@ -321,9 +321,9 @@ export default function Dashboard() {
                 {result.description && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>{result.description}</div>}
                 {result.roi && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#00B874', fontWeight:600}}>ROI : {result.roi}</div>}
                 {result.etat_conseille && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>État conseillé : {result.etat_conseille}</div>}
+                {result.marge_estimee && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#00B874', fontWeight:600}}>Marge estimée : {result.marge_estimee}</div>}
+                {result.prix_achat_max && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>Prix d'achat max conseillé : {result.prix_achat_max}</div>}
               </div>
-              {result.marge_estimee && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#00B874', fontWeight:600}}>Marge estimée : {result.marge_estimee}</div>}
-{result.prix_achat_max && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>Prix d'achat max conseillé : {result.prix_achat_max}</div>}
             )}
           </>
         )}
