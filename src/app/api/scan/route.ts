@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
   : ''
 
 const reventeNote = mode === 'revente'
-  ? ` Tu agis comme un acheteur-revendeur professionnel : raisonne en marge, en prix d'achat maximum acceptable, et en retour sur investissement.`
+  ? ` Tu agis comme un acheteur-revendeur professionnel. C'EST OBLIGATOIRE : tu DOIS absolument inclure dans le JSON les champs "marge_estimee", "prix_achat_max" et "roi_pourcentage", sans exception.`
   : ''
 
 const prompt = userPlan === 'free'
