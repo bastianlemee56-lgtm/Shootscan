@@ -45,21 +45,22 @@ export async function POST(request: NextRequest) {
   ? `, "marge_estimee": "<estimation en euros de la marge si achat puis revente>", "prix_achat_max": "<prix d'achat maximum recommande pour rester profitable>", "roi_pourcentage": "<retour sur investissement estime en %>"`
   : ''
 
-const reventeNote = mode === 'revente'
+const noEuroRule = `IMPORTANT : tous les champs de prix (prix_min, prix_conseille, prix_max, prix_achat_max) doivent etre des nombres uniquement, SANS le symbole euro. Exemple correct : "12". Exemple incorrect : "12€".`
+  const reventeNote = mode === 'revente'
   ? ` Tu agis comme un acheteur-revendeur professionnel. C'EST OBLIGATOIRE : tu DOIS absolument inclure dans le JSON les champs "marge_estimee", "prix_achat_max" et "roi_pourcentage", sans exception.`
   : ''
 
 const prompt = userPlan === 'free'
-  ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo.${reventeNote}
+  ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo.${reventeNote}${noEuroRule}
 Evalue avec precision : l'etat reel visible, la demande du marche, et le prix juste.
 Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
 {"nom": "nom precis de l'article", "score": <nombre entre 0 et 100 selon vendabilite reelle>, "categorie": "categorie precise", "etat": "etat reel parmi : Neuf avec etiquette / Neuf sans etiquette / Tres bon etat / Bon etat / Etat correct / Mauvais etat", "couleur": "couleur principale", "tags": ["tag pertinent 1", "tag pertinent 2"], "prix_min": "<prix bas realiste>", "prix_conseille": "<prix optimal>", "prix_max": "<prix haut>", "plateformes": ["plateforme1", "plateforme2"], "conseil": "conseil de vente concret et utile"${reventeExtra}}`
   : userPlan === 'business'
-  ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo de facon tres complete.${reventeNote}
+  ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo de facon tres complete.${reventeNote}${noEuroRule}
 Evalue avec precision : l'etat reel visible, la demande du marche, la saisonnalite, et le prix juste.
 Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
 {"nom": "nom complet et precis", "score": <nombre entre 0 et 100 selon vendabilite reelle>, "categorie": "categorie precise", "etat": "etat reel parmi : Neuf avec etiquette / Neuf sans etiquette / Tres bon etat / Bon etat / Etat correct / Mauvais etat", "couleur": "couleur principale", "tags": ["tag1", "tag2", "tag3"], "prix_min": "<prix bas realiste>", "prix_conseille": "<prix optimal>", "prix_max": "<prix haut>"${mode === 'revente' ? `, "marge_estimee": "<calcule la marge en euros entre prix d'achat conseille et prix de revente conseille, exemple: 12€>", "prix_achat_max": "<prix maximum en euros a payer a l'achat pour rester profitable, exemple: 8€>", "roi_pourcentage": "<pourcentage de retour sur investissement, exemple: 150%>"` : ''}, "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace", "Vestiaire Collective", "Back Market", "Depop", "Rakuten"], "conseil": "conseil expert detaille", "titre": "titre annonce optimise SEO", "description": "description complete et persuasive", "etat_conseille": "etat a mentionner dans l'annonce", "roi": "benefice potentiel estime", "meilleure_plateforme": "plateforme ideale avec raison", "prix_rapide": "<prix si vente rapide>", "saisonnalite": "meilleure periode pour vendre"}`
-  : `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo.${reventeNote}
+  : `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo.${reventeNote}${noEuroRule}
 Evalue avec precision : l'etat reel visible, la demande du marche, et le prix juste.
 Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
 {"nom": "nom precis de l'article", "score": <nombre entre 0 et 100 selon vendabilite reelle>, "categorie": "categorie precise", "etat": "etat reel parmi : Neuf avec etiquette / Neuf sans etiquette / Tres bon etat / Bon etat / Etat correct / Mauvais etat", "couleur": "couleur principale", "tags": ["tag1", "tag2", "tag3"], "prix_min": "<prix bas realiste>", "prix_conseille": "<prix optimal>", "prix_max": "<prix haut>", "plateformes": ["Vinted", "Leboncoin", "eBay", "Facebook Marketplace"], "conseil": "conseil detaille", "titre": "titre optimise", "description": "description complete", "etat_conseille": "etat a mentionner", "roi": "benefice potentiel"${reventeExtra}}`
