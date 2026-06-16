@@ -15,6 +15,7 @@ export default function Dashboard() {
   const [scanCount, setScanCount] = useState(0)
   const [plan, setPlan] = useState('free')
   const [activeTab, setActiveTab] = useState<'simple' | 'lot'>('simple')
+  const [mode, setMode] = useState<'armoire' | 'revente'>('armoire')
   const [lotImages, setLotImages] = useState<{file: File, preview: string, base64: string}[]>([])
   const [lotResults, setLotResults] = useState<any[]>([])
   const [lotLoading, setLotLoading] = useState(false)
@@ -81,7 +82,7 @@ export default function Dashboard() {
       const res = await fetch('/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image, plan }),
+        body: JSON.stringify({ image, plan, mode }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur')
@@ -105,7 +106,7 @@ export default function Dashboard() {
         const res = await fetch('/api/scan', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: item.base64, plan }),
+          body: JSON.stringify({ image: item.base64, plan, mode }),
         })
         const data = await res.json()
         if (!res.ok) throw new Error(data.error || 'Erreur')
@@ -245,15 +246,28 @@ export default function Dashboard() {
         {activeTab === 'simple' && (
           <>
             <div className="mode-cards">
-              <div className="mode-card">
-                <div className="mode-card-title">🛍 Vider mon armoire</div>
-                <div className="mode-card-sub">Estimation rapide + meilleure plateforme</div>
-              </div>
-              <div className="mode-card">
-                <div className="mode-card-title">📦 Achat / revente pro</div>
-                <div className="mode-card-sub">ROI, marge, calculateur intégré</div>
-              </div>
-            </div>
+  <div
+    className={`mode-card ${mode === 'armoire' ? 'active' : ''}`}
+    onClick={() => setMode('armoire')}
+    style={{ borderColor: mode === 'armoire' ? '#00B874' : undefined, background: mode === 'armoire' ? '#F0FBF6' : undefined }}
+  >
+    <div className="mode-card-title">👘 Vider mon armoire</div>
+    <div className="mode-card-sub">Estimation rapide + meilleure plateforme</div>
+  </div>
+  <div
+    className={`mode-card ${mode === 'revente' ? 'active' : ''}`}
+    onClick={() => isPro ? setMode('revente') : null}
+    style={{
+      borderColor: mode === 'revente' ? '#00B874' : undefined,
+      background: mode === 'revente' ? '#F0FBF6' : undefined,
+      opacity: isPro ? 1 : 0.5,
+      cursor: isPro ? 'pointer' : 'not-allowed'
+    }}
+  >
+    <div className="mode-card-title">🎯 Achat / revente pro {!isPro && <span className="pro-badge">Pro</span>}</div>
+    <div className="mode-card-sub">{isPro ? 'ROI, marge, calculateur intégré' : 'Disponible en plan Pro'}</div>
+  </div>
+</div>
 
             <div className="drop-zone" onClick={() => fileInputRef.current?.click()}
               onDragOver={e => e.preventDefault()}
