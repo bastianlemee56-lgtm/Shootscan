@@ -316,7 +316,7 @@ export default function Dashboard() {
                   <div className="price-box recommended"><div className="price-label">Recommandé</div><div className="price-val">{result.prix_conseille}€</div></div>
                   <div className="price-box"><div className="price-label">Maximum</div><div className="price-val">{result.prix_max}€</div></div>
                 </div>
-                <div className="result-advice">{result.conseil}</div>
+                {isPro && <div className="result-advice">{result.conseil}</div>}
                 {result.titre && <div style={{marginTop:'0.75rem', fontWeight:600, color:'#0A1A10'}}>{result.titre}</div>}
                 {result.description && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#4A7A58'}}>{result.description}</div>}
                 {result.roi && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#00B874', fontWeight:600}}>ROI : {result.roi}</div>}
