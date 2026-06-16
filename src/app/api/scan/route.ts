@@ -50,7 +50,16 @@ const noEuroRule = `IMPORTANT : tous les champs de prix (prix_min, prix_conseill
   ? ` Tu agis comme un acheteur-revendeur professionnel. C'EST OBLIGATOIRE : tu DOIS absolument inclure dans le JSON les champs "marge_estimee", "prix_achat_max" et "roi_pourcentage", sans exception.`
   : ''
 
-const scoreRule = `IMPORTANT pour le score : utilise toute l'echelle de 0 a 100, sois tres discriminant et varie reellement selon l'objet. Base-toi sur : la demande reelle du marche (forte/faible), l'etat (neuf=+, abime=-), la saisonnalite, la marque/popularite, la concurrence sur le marche de la revente. Un objet banal et peu demande = score entre 20-45. Un objet correct et demande = score entre 45-65. Un objet tres recherche en bon etat = score entre 65-85. Un objet exceptionnel/rare en parfait etat = score entre 85-100. Ne mets JAMAIS systematiquement un score autour de 60-65, varie reellement selon l'objet reel.`
+const scoreRule = `IMPORTANT pour le score (variable cle) : Le score reflete la VENDABILITE GLOBALE = (etat physique x 40%) + (demande/popularite de la marque ou du type d'objet x 40%) + (rapport offre/concurrence sur le marche x 20%).
+Utilise toute l'echelle de 0 a 100 et sois tres precis :
+- Etat Neuf avec etiquette : +20 points par rapport a la moyenne de la categorie
+- Etat Tres bon etat : +10 points
+- Etat Bon etat : 0 point (neutre)
+- Etat correct : -15 points
+- Mauvais etat : -30 points
+Un objet sans marque reconnaissable mais en tres bon etat ne doit jamais scorer sous 45.
+Un objet avec marque reconnue mais en mauvais etat ne doit jamais scorer au-dessus de 55.
+Sois coherent : un meilleur etat physique doit TOUJOURS donner un score egal ou superieur a un etat moins bon pour un objet similaire.`
   const prompt = userPlan === 'free'
   ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo.${reventeNote}${noEuroRule}${scoreRule}
 Evalue avec precision : l'etat reel visible, la demande du marche, et le prix juste.
