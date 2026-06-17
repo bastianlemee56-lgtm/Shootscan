@@ -394,7 +394,8 @@ export default function Dashboard() {
   <div style={{ marginTop: '2rem' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
       <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#0A1A10', margin: 0 }}>Historique des scans</h2>
-      <button
+      {isPro && (
+<button
         onClick={() => {
           const headers = ['Date', 'Nom', 'Catégorie', 'État', 'Couleur', 'Tags', 'Prix conseillé', 'Plateformes', 'Conseil']
           const rows = historique.map(s => [
@@ -420,7 +421,7 @@ export default function Dashboard() {
         style={{ background: '#E8F5EE', border: '1px solid #00B874', color: '#00B874', borderRadius: '8px', padding: '6px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
       >
         ⬇ Export CSV
-      </button>
+      </button>)}
     </div>
     {historique.map((scan, i) => (
       <div key={i} style={{ background: 'white', border: '1px solid #E0EFE4', borderRadius: '12px', padding: '1rem', marginBottom: '0.75rem' }}>
