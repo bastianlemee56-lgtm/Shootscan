@@ -70,7 +70,7 @@ export default function Dashboard() {
       }
       reader.readAsDataURL(file)
     }))
-    Promise.all(readers).then(setLotImages)
+    Promise.all(readers).then(newImages => setLotImages(prev => [...prev, ...newImages].slice(0, maxFiles)))
   }
 
   const handleScan = async () => {
