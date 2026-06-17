@@ -381,6 +381,12 @@ export default function Dashboard() {
           </div>
         )}
         {r.conseil && <div style={{ fontSize: '12px', color: '#4A7A58', marginTop: '4px' }}>{r.conseil}</div>}
+        {r.titre && <div style={{marginTop:'0.5rem', fontWeight:600, color:'#0A1A10'}}>{r.titre}</div>}
+{r.description && <div style={{marginTop:'0.5rem', fontSize:'12px', color:'#4A7A58'}}>{r.description}</div>}
+{r.roi && <div style={{marginTop:'0.5rem', fontSize:'12px', color:'#00B874', fontWeight:600}}>ROI : {r.roi}</div>}
+{r.etat_conseille && <div style={{marginTop:'0.5rem', fontSize:'12px', color:'#4A7A58'}}>État conseillé : {r.etat_conseille}</div>}
+{r.marge_estimee && <div style={{marginTop:'0.5rem', fontSize:'12px', color:'#00B874', fontWeight:600}}>Marge estimée : {r.marge_estimee}</div>}
+{r.prix_achat_max && <div style={{marginTop:'0.5rem', fontSize:'12px', color:'#4A7A58'}}>Prix d'achat max conseillé : {r.prix_achat_max}</div>}
       </div>
     )}
   </div>
