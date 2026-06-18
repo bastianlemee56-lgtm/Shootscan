@@ -35,7 +35,7 @@ export default function Tarifs() {
       desc: 'Pour les revendeurs actifs',
       features: ['Scans illimites', 'Scan en lot', 'Historique complet', 'Export CSV', 'Support prioritaire'],
       cta: 'Passer Pro',
-      priceId: annual ? 'price_1Tb73YKAwbn5ymOfJ2yTOvGO' : 'price_1Tb711KAwbn5ymOfc6uE3QMC',
+      priceId: annual ? 'price_1TjSY6GanXWUCjKgVgZG1xCS' : 'price_1TjSY7GanXWUCjKgu1l9T4op',
       highlight: true,
     },
     {
@@ -45,7 +45,7 @@ export default function Tarifs() {
       desc: 'Pour les pros du volume',
       features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard equipe', 'Onboarding dedie'],
       cta: 'Passer Business',
-      priceId: 'price_1Tb76LKAwbn5ymOfEj6044PF',
+      priceId: 'price_1TjSY6GanXWUCjKgGhElnnvh',
       highlight: false,
     },
   ]

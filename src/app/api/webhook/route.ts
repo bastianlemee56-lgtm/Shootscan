@@ -10,9 +10,9 @@ const supabase = createClient(
 )
 
 const PRICE_TO_PLAN: Record<string, string> = {
-  price_1Tb711KAwbn5ymOfc6uE3QMC: "pro",
-  price_1Tb73YKAwbn5ymOfJ2yTOvGO: "pro",
-  price_1Tb76LKAwbn5ymOfEj6044PF: "business",
+  price_1TjSY7GanXWUCjKgu1l9T4op: "pro",
+  price_1TjSY6GanXWUCjKgVgZG1xCS: "pro",
+  price_1TjSY6GanXWUCjKgGhElnnvh: "business",
 }
 
 export async function POST(req: Request) {
