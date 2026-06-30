@@ -51,66 +51,63 @@ export default function Tarifs() {
   ]
 
   return (
-    <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh' }}>
+    <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#080C09', minHeight: '100vh' }}>
       <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        .nav { background: white; border-bottom: 1px solid #E0EFE4; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-        .nav-logo { font-size: 20px; font-weight: 300; color: #0A1A10; text-decoration: none; letter-spacing: -0.5px; }
-        .nav-logo strong { font-weight: 600; color: #00B874; }
-        .wrap { max-width: 900px; margin: 0 auto; padding: 3rem 1rem; }
-        .page-title { font-size: 32px; font-weight: 700; color: #0A1A10; text-align: center; margin-bottom: 0.5rem; }
-        .page-title em { font-style: italic; color: #00B874; font-family: Georgia, serif; }
-        .page-sub { font-size: 15px; color: #4A7A58; text-align: center; margin-bottom: 2rem; }
-        .toggle { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; }
-        .toggle-label { font-size: 14px; color: #4A7A58; }
-        .toggle-label.active { color: #0A1A10; font-weight: 600; }
-        .toggle-switch { width: 44px; height: 24px; background: #00B874; border-radius: 12px; cursor: pointer; position: relative; border: none; }
-        .badge-save { background: #E8F5EE; color: #00B874; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-        .plan { background: white; border: 1.5px solid #E0EFE4; border-radius: 16px; padding: 1.75rem 1.5rem; position: relative; }
-        .plan.highlight { border-color: #00B874; border-width: 2px; }
-        .plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #00B874; color: white; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 20px; white-space: nowrap; }
-        .plan-name { font-size: 14px; font-weight: 600; color: #4A7A58; margin-bottom: 0.5rem; }
-        .plan-price { font-size: 27px; font-weight: 700; color: #0A1A10; margin-bottom: 0.25rem; }
-        .plan-price span { font-size: 14px; font-weight: 400; color: #4A7A58; }
-        .plan-desc { font-size: 13px; color: #4A7A58; margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid #E0EFE4; }
+        :root { --g: #00B874; --card: rgba(255,255,255,.04); --border: rgba(255,255,255,.08); --text: rgba(255,255,255,.55); }
+        .nav { background: rgba(8,12,9,.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 10; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 4rem 1rem; }
+        .page-title { font-family:'Inter',sans-serif; font-size: 34px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 0.5rem; letter-spacing:-0.5px; }
+        .page-title em { font-style: normal; color: var(--g); }
+        .page-sub { font-size: 15px; color: var(--text); text-align: center; margin-bottom: 2.5rem; }
+        .toggle { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 3rem; }
+        .toggle-label { font-size: 14px; color: var(--text); }
+        .toggle-label.active { color: #fff; font-weight: 600; }
+        .toggle-switch { width: 44px; height: 24px; background: var(--g); border-radius: 12px; cursor: pointer; position: relative; border: none; }
+        .badge-save { background: rgba(0,184,116,.1); color: var(--g); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(0,184,116,.25); }
+        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+        .plan { background: var(--card); border: 1.5px solid var(--border); border-radius: 20px; padding: 1.75rem 1.5rem; position: relative; }
+        .plan.highlight { border-color: var(--g); border-width: 1.5px; background: rgba(0,184,116,.04); }
+        .plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--g); color: white; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 20px; white-space: nowrap; }
+        .plan-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+        .plan-price { font-family:'Inter',sans-serif; font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 0.25rem; }
+        .plan-price span { font-size: 13px; font-weight: 400; color: var(--text); }
+        .plan-desc { font-size: 13px; color: var(--text); margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
         .plan-features { list-style: none; padding: 0; margin: 0 0 1.5rem; }
-        .plan-features li { font-size: 13px; color: #0A1A10; padding: 5px 0; display: flex; align-items: center; gap: 8px; }
-        .plan-features li::before { content: '✓'; color: #00B874; font-weight: 700; }
-        .btn-plan { width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
-        .btn-plan.primary { background: #00B874; color: white; }
-        .btn-plan.primary:hover { background: #008850; }
-        .btn-plan.secondary { background: #F0FAF5; color: #00B874; border: 1.5px solid #00B874; }
-        .btn-plan.secondary:hover { background: #E8F5EE; }
+        .plan-features li { font-size: 13px; color: rgba(255,255,255,.75); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+        .plan-features li::before { content: '✓'; color: var(--g); font-weight: 700; }
+        .btn-plan { width: 100%; padding: 12px; border-radius: 100px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; font-family:'Inter',sans-serif; }
+        .btn-plan.primary { background: var(--g); color: white; }
+        .btn-plan.primary:hover { box-shadow: 0 8px 30px rgba(0,184,116,.4); }
+        .btn-plan.secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+        .btn-plan.secondary:hover { border-color: rgba(255,255,255,.3); }
         @media (max-width: 700px) { .plans { grid-template-columns: 1fr; } }
       `}</style>
 
       <nav className="nav">
         <a href="/" style={{ display: 'flex', alignItems: 'center' }}>
-  <svg viewBox="0 0 520 80" height="36" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <clipPath id="iconClip3">
-        <rect x="0" y="0" width="80" height="80" rx="14"/>
-      </clipPath>
-    </defs>
-    <rect x="0" y="0" width="80" height="80" rx="14" fill="#0A1A10"/>
-    <g clipPath="url(#iconClip3)">
-      <rect x="0" y="38" width="80" height="2" fill="#00B874" opacity="0.9">
-        <animate attributeName="y" values="10;68;10" dur="2.4s" repeatCount="indefinite" calcMode="ease-in-out"/>
-        <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2.4s" repeatCount="indefinite"/>
-      </rect>
-      <text x="40" y="52" fontFamily="Arial Black, sans-serif" fontSize="32" fontWeight="900" fill="#00B874" textAnchor="middle">S</text>
-    </g>
-    <path d="M12 22 L12 10 L24 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M68 22 L68 10 L56 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M12 58 L12 70 L24 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M68 58 L68 70 L56 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <text x="96" y="50" fontFamily="Arial Black, sans-serif" fontSize="30" fontWeight="900">
-      <tspan fill="#0A1A10">Shoot</tspan><tspan fill="#00B874">scan</tspan>
-    </text>
-    <text x="97" y="66" fontFamily="Arial, sans-serif" fontSize="9" fill="#4A7A58" letterSpacing="3">AI VALUATION</text>
-  </svg>
-</a>
+          <svg viewBox="0 0 520 80" height="32" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <clipPath id="iconClip3">
+                <rect x="0" y="0" width="80" height="80" rx="14"/>
+              </clipPath>
+            </defs>
+            <rect x="0" y="0" width="80" height="80" rx="14" fill="#0d160f"/>
+            <g clipPath="url(#iconClip3)">
+              <rect x="0" y="38" width="80" height="2" fill="#00B874" opacity="0.9">
+                <animate attributeName="y" values="10;68;10" dur="2.4s" repeatCount="indefinite" calcMode="ease-in-out"/>
+                <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2.4s" repeatCount="indefinite"/>
+              </rect>
+              <text x="40" y="52" fontFamily="Arial Black, sans-serif" fontSize="32" fontWeight="900" fill="#00B874" textAnchor="middle">S</text>
+            </g>
+            <path d="M12 22 L12 10 L24 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M68 22 L68 10 L56 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 58 L12 70 L24 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M68 58 L68 70 L56 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <text x="96" y="50" fontFamily="Inter, sans-serif" fontSize="28" fontWeight="800">
+              <tspan fill="#ffffff">Shoot</tspan><tspan fill="#00B874">scan</tspan>
+            </text>
+          </svg>
+        </a>
         <a href="/" style={{ fontSize: '13px', color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>Accueil</a>
       </nav>
 
@@ -121,8 +118,8 @@ export default function Tarifs() {
         <div className="toggle">
           <span className={`toggle-label ${!annual ? 'active' : ''}`}>Mensuel</span>
           <button className="toggle-switch" onClick={() => setAnnual(!annual)}>
-  <span style={{ position: 'absolute', width: '18px', height: '18px', background: 'white', borderRadius: '50%', top: '3px', left: annual ? '23px' : '3px', transition: 'left 0.2s' }}></span>
-</button>
+            <span style={{ position: 'absolute', width: '18px', height: '18px', background: 'white', borderRadius: '50%', top: '3px', left: annual ? '23px' : '3px', transition: 'left 0.2s' }}></span>
+          </button>
           <span className={`toggle-label ${annual ? 'active' : ''}`}>Annuel</span>
           {annual && <span className="badge-save">-31%</span>}
         </div>

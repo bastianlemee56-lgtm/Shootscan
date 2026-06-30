@@ -32,14 +32,14 @@ export default function Account() {
   }
 
   return (
-    <main style={{ fontFamily: 'Inter, sans-serif', background: '#F6FAF7', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ background: 'white', border: '1px solid #E0EFE4', borderRadius: '16px', padding: '2rem', width: '100%', maxWidth: '400px' }}>
-        <h1 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '1.5rem', color: '#0A1A10' }}>Mon compte</h1>
-        <p style={{ fontSize: '14px', color: '#4A7A58', marginBottom: '0.5rem' }}>Email</p>
-        <p style={{ fontSize: '15px', fontWeight: 600, color: '#0A1A10', marginBottom: '1.5rem' }}>{email}</p>
-        <p style={{ fontSize: '14px', color: '#4A7A58', marginBottom: '0.5rem' }}>Plan</p>
+    <main style={{ fontFamily: 'Inter, sans-serif', background: '#080C09', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)', borderRadius: '20px', padding: '2.25rem', width: '100%', maxWidth: '400px' }}>
+        <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: '22px', fontWeight: 700, marginBottom: '1.5rem', color: '#fff', letterSpacing: '-0.3px' }}>Mon compte</h1>
+        <p style={{ fontSize: '14px', color: 'rgba(255,255,255,.55)', marginBottom: '0.5rem' }}>Email</p>
+        <p style={{ fontSize: '15px', fontWeight: 600, color: '#fff', marginBottom: '1.5rem' }}>{email}</p>
+        <p style={{ fontSize: '14px', color: 'rgba(255,255,255,.55)', marginBottom: '0.5rem' }}>Plan</p>
         <p style={{ fontSize: '15px', fontWeight: 600, color: '#00B874', marginBottom: '2rem', textTransform: 'capitalize' }}>{plan}</p>
-        <button onClick={handleLogout} style={{ width: '100%', padding: '12px', background: '#0A1A10', color: 'white', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
+        <button onClick={handleLogout} style={{ width: '100%', padding: '13px', background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,.15)', borderRadius: '100px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
           Se déconnecter
         </button>
       </div>

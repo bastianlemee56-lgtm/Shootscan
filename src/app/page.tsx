@@ -1,290 +1,284 @@
 'use client'
 import { useState } from 'react'
+
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false)
+
   return (
-    <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#F6FAF7', minHeight: '100vh', colorScheme: 'light' }}>
+    <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#080C09', minHeight: '100vh' }}>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
         :root {
-          --mint: #00B874;
-          --mint-dark: #008850;
-          --mint-xdark: #005530;
-          --mint-light: #E4F5EC;
-          --mint-xlight: #F2FAF6;
-          --white: #FFFFFF;
-          --bg: #F6FAF7;
-          --bg2: #EDF5EF;
-          --bg3: #E0EFE4;
-          --text: #0A1A10;
-          --text2: #4A7A58;
-          --text3: #8AB098;
-          --border: #C0DDD0;
-          --border2: #9ABDA0;
-          --serif: 'Instrument Serif', Georgia, serif;
-          --sans: 'Inter', system-ui, sans-serif;
-          --r: 10px;
-          --rl: 16px;
+          --g: #00B874;
+          --dark: #080C09;
+          --card: rgba(255,255,255,0.04);
+          --border: rgba(255,255,255,0.07);
+          --text: rgba(255,255,255,0.5);
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.6; }
+        body { font-family:'Inter',sans-serif; background:var(--dark); color:#fff; overflow-x:hidden; }
 
-        /* NAV */
-        .nav { background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); padding: 0 2rem; height: 58px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-        .nav-logo { font-family: var(--sans); font-size: 20px; font-weight: 300; color: var(--text); text-decoration: none; letter-spacing: -0.5px; }
-        .nav-logo strong { font-weight: 600; color: var(--mint); }
-        .nav-links { display: flex; gap: 2px; align-items: center; }
-        .nav-btn { font-size: 13px; color: var(--text2); padding: 6px 14px; border-radius: 20px; text-decoration: none; transition: all 0.15s; }
-        .nav-btn:hover { background: var(--mint-light); color: var(--mint-dark); }
-        .nav-cta { background: var(--mint); color: white; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 500; text-decoration: none; margin-left: 6px; transition: all 0.15s; }
-        .nav-cta:hover { background: var(--mint-dark); }
-        .nav-hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
-        .nav-hamburger span { width: 22px; height: 2px; background: var(--text2); border-radius: 2px; transition: all 0.2s; }
-
-        /* HERO */
-        .hero { max-width: 1080px; margin: 0 auto; padding: 5rem 2rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-        .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--mint-light); border: 0.5px solid var(--border2); color: var(--mint-dark); font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; margin-bottom: 1.5rem; }
-        .hero-badge-dot { width: 5px; height: 5px; background: var(--mint); border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-        .hero h1 { font-family: var(--serif); font-size: 54px; font-weight: 400; line-height: 1.08; color: var(--text); letter-spacing: -0.5px; margin-bottom: 1.25rem; }
-        .hero h1 em { color: var(--mint); font-style: italic; }
-        .hero-sub { font-size: 15px; color: var(--text2); line-height: 1.7; margin-bottom: 2rem; max-width: 420px; }
-        .hero-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .btn-primary { background: var(--mint); color: white; border-radius: var(--r); padding: 12px 22px; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.15s; display: inline-block; }
-        .btn-primary:hover { background: var(--mint-dark); transform: translateY(-1px); }
-        .btn-ghost { background: transparent; color: var(--text2); border: 0.5px solid var(--border2); border-radius: var(--r); padding: 12px 22px; font-size: 13px; text-decoration: none; transition: all 0.15s; display: inline-block; }
-        .btn-ghost:hover { background: var(--mint-light); }
-        .hero-trust { font-size: 11px; color: var(--text3); margin-top: 1rem; }
-        .hero-card { background: var(--white); border-radius: var(--rl); border: 0.5px solid var(--border); overflow: hidden; box-shadow: 0 4px 24px rgba(0,184,116,0.08); }
-        .hero-card-top { background: var(--mint-xlight); padding: 1.25rem; border-bottom: 0.5px solid var(--border); display: flex; gap: 12px; align-items: flex-start; }
-        .hero-ring { width: 54px; height: 54px; border-radius: 50%; border: 2.5px solid var(--mint); background: var(--white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .hero-ring-num { font-family: var(--serif); font-size: 20px; color: var(--mint); }
-        .hero-item-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
-        .hero-item-meta { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
-        .hero-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-        .hero-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; background: var(--white); color: var(--mint-dark); border: 0.5px solid var(--border2); }
-        .hero-card-body { padding: 1.25rem; }
-        .hero-prices { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 10px; }
-        .hero-pc { background: var(--mint-xlight); border-radius: var(--r); padding: 10px; text-align: center; }
-        .hero-plbl { font-size: 9px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
-        .hero-pval { font-size: 17px; font-weight: 500; color: var(--text); font-family: var(--serif); }
-        .hero-pval.hi { color: var(--mint); }
-        .hero-tip { background: var(--mint-xlight); border-radius: var(--r); padding: 10px 12px; font-size: 12px; color: var(--text2); line-height: 1.5; }
-
-        /* CAT PILLS */
-        .cat-pills { display: flex; flex-wrap: wrap; gap: 6px; max-width: 1080px; margin: 0 auto; padding: 0 2rem 3rem; }
-        .cat-pill { font-size: 11px; padding: 5px 13px; border-radius: 20px; background: var(--white); border: 0.5px solid var(--border); color: var(--text2); cursor: pointer; transition: all 0.15s; }
-        .cat-pill:hover { background: var(--mint-light); border-color: var(--border2); color: var(--mint-dark); }
-
-        /* PLATFORMS */
-        .plat-strip { background: var(--white); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); padding: 2rem; }
-        .plat-strip-inner { max-width: 1080px; margin: 0 auto; }
-        .plat-strip-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); text-align: center; margin-bottom: 1.25rem; }
-        .plat-logos { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-        .plat-logo { font-size: 11px; font-weight: 500; padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--bg); color: var(--text2); }
-
-        /* SECTION */
-        .section { max-width: 1080px; margin: 0 auto; padding: 4rem 2rem; }
-        .section-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--mint); font-weight: 500; margin-bottom: 0.5rem; }
-        .section-title { font-family: var(--serif); font-size: 36px; font-weight: 400; color: var(--text); margin-bottom: 0.75rem; letter-spacing: -0.3px; }
-        .section-title em { color: var(--mint); font-style: italic; }
-        .section-sub { font-size: 14px; color: var(--text2); max-width: 480px; line-height: 1.7; margin-bottom: 2.5rem; }
-
-        /* STEPS */
-        .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
-        .step { background: var(--white); border-radius: var(--rl); padding: 1.75rem; border: 0.5px solid var(--border); }
-        .step-num { font-family: var(--serif); font-size: 36px; color: var(--bg3); line-height: 1; margin-bottom: 1rem; }
-        .step-icon { width: 40px; height: 40px; background: var(--mint-light); border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 1rem; }
-        .step-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 0.4rem; }
-        .step-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
-
-        /* FEATS */
-        .feats-band { background: var(--white); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
-        .feats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-top: 2.5rem; }
-        .feat { padding: 1.5rem; border-radius: var(--rl); border: 0.5px solid var(--border); background: var(--bg); }
-        .feat-icon { font-size: 20px; margin-bottom: 0.75rem; }
-        .feat-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 0.3rem; }
-        .feat-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
-
-        /* REVIEWS */
-        .reviews { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-top: 2rem; }
-        .review { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--rl); padding: 1.5rem; }
-        .review-stars { color: var(--mint); font-size: 12px; letter-spacing: 2px; margin-bottom: 0.75rem; }
-        .review-text { font-family: var(--serif); font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 1rem; font-style: italic; }
-        .review-author { display: flex; align-items: center; gap: 8px; }
-        .review-av { width: 30px; height: 30px; border-radius: 50%; background: var(--mint-light); border: 0.5px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: var(--mint-dark); flex-shrink: 0; }
-        .review-name { font-size: 12px; font-weight: 500; color: var(--text); }
-        .review-role { font-size: 10px; color: var(--text3); }
-
-        /* PRICING */
-        .pricing-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
-        .pricing-card { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--rl); padding: 1.75rem; }
-        .pricing-card.pop { border: 1.5px solid var(--mint); }
-        .pop-badge { display: inline-block; background: var(--mint-light); color: var(--mint-xdark); font-size: 10px; font-weight: 500; padding: 2px 9px; border-radius: 10px; margin-bottom: 0.75rem; }
-        .pricing-plan { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.4rem; }
-        .pricing-price { font-size: 27px; font-weight: 700; color: #0A1A10; margin-bottom: 0.25rem; }
-        .pricing-period { font-size: 11px; color: var(--text3); margin-bottom: 1.5rem; }
-        .pricing-feats { list-style: none; margin-bottom: 1.75rem; }
-        .pricing-feats li { font-size: 12px; color: var(--text2); padding: 5px 0; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; gap: 7px; }
-        .pricing-feats li:last-child { border-bottom: none; }
-        .pricing-btn { display: block; width: 100%; padding: 11px; border-radius: var(--r); font-size: 13px; font-weight: 500; text-align: center; text-decoration: none; transition: all 0.15s; }
-        .pricing-btn.primary { background: var(--mint); color: white; }
-        .pricing-btn.primary:hover { background: var(--mint-dark); }
-        .pricing-btn.outline { background: transparent; color: var(--text); border: 0.5px solid var(--border2); }
-        .pricing-btn.outline:hover { background: var(--mint-light); }
-
-        /* CTA */
-        .cta-band { background: var(--mint-xdark); padding: 3rem 2rem; text-align: center; }
-        .cta-band h2 { font-family: var(--serif); font-size: 42px; font-weight: 400; color: white; margin-bottom: 1rem; }
-        .cta-band h2 em { font-style: italic; color: #7EDBB0; }
-        .cta-band p { font-size: 14px; color: #7EDBB0; margin-bottom: 2rem; }
-        .btn-white { background: white; color: var(--mint-xdark); border-radius: var(--r); padding: 13px 26px; font-size: 13px; font-weight: 500; text-decoration: none; display: inline-block; transition: all 0.15s; }
-        .btn-white:hover { background: var(--mint-light); }
-
-        /* FOOTER */
-        footer { background: var(--mint-xdark); padding: 3rem 2rem; }
-        .footer-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; }
-        .footer-logo { font-size: 18px; font-weight: 300; color: white; margin-bottom: 0.6rem; }
-        .footer-logo strong { font-weight: 600; color: #7EDBB0; }
-        .footer-desc { font-size: 12px; color: #4A8A60; line-height: 1.6; }
-        .footer-col-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #4A8A60; margin-bottom: 0.75rem; font-weight: 500; }
-        .footer-link { display: block; font-size: 12px; color: #7EDBB0; margin-bottom: 5px; text-decoration: none; }
-        .footer-link:hover { color: white; }
-        .footer-bottom { max-width: 1080px; margin: 1.75rem auto 0; padding-top: 1.25rem; border-top: 0.5px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-        .footer-copy { font-size: 11px; color: #4A8A60; }
-
-        /* RESPONSIVE MOBILE */
-        @media (max-width: 768px) {
-          .nav-links { display: none; }
-          .nav-hamburger { display: flex; }
-
-          .hero { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.25rem 2rem; text-align: center; }
-          .hero h1 { font-size: 28px; white-space: nowrap; }
-          .hero-card { display: none; }
-
-          .cat-pills { display: none; }
-          .plat-strip { display: none; }
-
-          .steps { grid-template-columns: 1fr; gap: 1rem; }
-          .feats-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-          .reviews { grid-template-columns: 1fr; gap: 1rem; }
-          .pricing-cards { grid-template-columns: 1fr; gap: 1rem; }
-
-          .section { padding: 3rem 1.25rem; }
-          .section-title { font-size: 28px; }
-          .cta-band h2 { font-size: 30px; }
-          .cta-band { padding: 3rem 1.25rem; }
-
-          .footer-inner { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-
-          .plat-strip { padding: 1.5rem 1.25rem; }
+        nav {
+          position:fixed; top:0; left:0; right:0; z-index:100;
+          display:flex; align-items:center; justify-content:space-between;
+          padding:18px 60px;
+          background:rgba(8,12,9,0.8); backdrop-filter:blur(20px);
+          border-bottom:1px solid var(--border);
         }
+        .nav-r { display:flex; align-items:center; gap:28px; }
+        .nav-link { font-size:14px; color:var(--text); text-decoration:none; font-weight:500; transition:color .2s; }
+        .nav-link:hover { color:#fff; }
+        .btn { background:var(--g); color:#fff; border:none; border-radius:100px; padding:10px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:box-shadow .2s, transform .15s; text-decoration: none; display: inline-block; }
+        .btn:hover { box-shadow:0 8px 30px rgba(0,184,116,.4); transform:translateY(-1px); }
 
-        @media (max-width: 480px) {
-          .hero h1 { font-size: 32px; }
-          .feats-grid { grid-template-columns: 1fr; }
-          .footer-inner { grid-template-columns: 1fr; }
-          .hero-actions { flex-direction: column; align-items: flex-start; }
-          .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+        .nav-hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
+        .nav-hamburger span { width: 22px; height: 2px; background: rgba(255,255,255,.6); border-radius: 2px; }
+
+        @media (max-width: 768px) {
+          nav { padding: 16px 24px; }
+          .nav-r a.nav-link { display: none; }
+          .nav-hamburger { display: flex; }
         }
       `}</style>
 
-      {/* NAV */}
-      <nav className="nav">
+      <nav>
         <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-  <svg viewBox="0 0 520 80" height="36" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <clipPath id="iconClip">
-      <rect x="0" y="0" width="80" height="80" rx="14"/>
-    </clipPath>
-  </defs>
-  <rect x="0" y="0" width="80" height="80" rx="14" fill="#0A1A10"/>
-  <g clipPath="url(#iconClip)">
-    <rect x="0" y="38" width="80" height="2" fill="#00B874" opacity="0.9">
-      <animate attributeName="y" values="10;68;10" dur="2.4s" repeatCount="indefinite" calcMode="ease-in-out"/>
-      <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2.4s" repeatCount="indefinite"/>
-    </rect>
-    <text x="40" y="52" fontFamily="Arial Black, sans-serif" fontSize="32" fontWeight="900" fill="#00B874" textAnchor="middle">S</text>
-  </g>
-  <path d="M12 22 L12 10 L24 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-  <path d="M68 22 L68 10 L56 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-  <path d="M12 58 L12 70 L24 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-  <path d="M68 58 L68 70 L56 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-  <text x="96" y="50" fontFamily="Arial Black, sans-serif" fontSize="30" fontWeight="900">
-    <tspan fill="#0A1A10">Shoot</tspan><tspan fill="#00B874">scan</tspan>
-  </text>
-  <text x="97" y="66" fontFamily="Arial, sans-serif" fontSize="9" fill="#4A7A58" letterSpacing="3">AI VALUATION</text>
-</svg>
-</a>
-        <div className="nav-links" style={{ display: menuOpen ? 'flex' : undefined, flexDirection: menuOpen ? 'column' : undefined, position: menuOpen ? 'absolute' : undefined, top: menuOpen ? '56px' : undefined, left: 0, right: 0, background: 'white', padding: menuOpen ? '1rem' : undefined, zIndex: 100, borderBottom: menuOpen ? '1px solid #E0EFE4' : undefined }}>
-          <a href="/dashboard" className="nav-btn">Scanner</a>
-          <a href="/stats" className="nav-btn">Dashboard</a>
-          <a href="/tarifs" className="nav-btn">Tarifs</a>
-          <a href="/account" className="nav-btn">Mon compte</a>
-          <a href="/register" className="nav-cta">Commencer →</a>
-        </div>
+          <svg viewBox="0 0 520 80" height="32" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <clipPath id="iconClip">
+                <rect x="0" y="0" width="80" height="80" rx="14"/>
+              </clipPath>
+            </defs>
+            <rect x="0" y="0" width="80" height="80" rx="14" fill="#0d160f"/>
+            <g clipPath="url(#iconClip)">
+              <rect x="0" y="38" width="80" height="2" fill="#00B874" opacity="0.9">
+                <animate attributeName="y" values="10;68;10" dur="2.4s" repeatCount="indefinite" calcMode="ease-in-out"/>
+                <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2.4s" repeatCount="indefinite"/>
+              </rect>
+              <text x="40" y="52" fontFamily="Arial Black, sans-serif" fontSize="32" fontWeight="900" fill="#00B874" textAnchor="middle">S</text>
+            </g>
+            <path d="M12 22 L12 10 L24 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M68 22 L68 10 L56 10" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 58 L12 70 L24 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M68 58 L68 70 L56 70" fill="none" stroke="#00B874" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <text x="96" y="50" fontFamily="Inter, sans-serif" fontSize="28" fontWeight="800">
+              <tspan fill="#ffffff">Shoot</tspan><tspan fill="#00B874">scan</tspan>
+            </text>
+          </svg>
+        </a>
+        <div className="nav-r">
+  <a href="/dashboard" className="nav-link">Scanner</a>
+  <a href="/tarifs" className="nav-link">Tarifs</a>
+  <a href="/stats" className="nav-link">Dashboard</a>
+  <a href="/account" className="nav-link">Mon compte</a>
+  <a href="/register" className="btn">Scanner un objet →</a>
+</div>
         <div className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)}>
           <span></span><span></span><span></span>
         </div>
       </nav>
+{/* HERO */}
+      <section
+        style={{
+          minHeight: '100vh', display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          padding: '140px 60px 80px', textAlign: 'center',
+          position: 'relative', overflow: 'hidden'
+        }}
+      >
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,184,116,0.09) 0%, transparent 70%)'
+        }} />
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          backgroundImage: 'linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+          maskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%)'
+        }} />
 
-      {/* HERO */}
-      <section className="hero">
-        <div>
-          <div className="hero-badge">
-            <span className="hero-badge-dot"></span>
-            IA de valorisation universelle
-          </div>
-          <h1>Shoot. Scan. <em>Vends.</em></h1>
-          <p className="hero-sub">Une photo suffit. L'IA identifie n'importe quel objet, estime sa valeur et te dit exactement où et comment le vendre pour maximiser ton gain.</p>
-          <div className="hero-actions">
-            <a href="/dashboard" className="btn-primary">Scanner un article →</a>
-            <a href="/tarifs" className="btn-ghost">Voir les tarifs</a>
-          </div>
-          <p className="hero-trust">✓ 3 scans gratuits &nbsp;·&nbsp; ✓ Résultat en 10 sec &nbsp;·&nbsp; ✓ Sans carte bancaire</p>
+        <style>{`
+          .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(0,184,116,0.08); border:1px solid rgba(0,184,116,0.2); border-radius:100px; padding:7px 18px; font-size:13px; font-weight:600; color:var(--g); margin-bottom:36px; position:relative; }
+          .dot { width:7px; height:7px; background:var(--g); border-radius:50%; animation:blink 2s infinite; }
+          @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+          .hero-h1 { font-family:'Inter',sans-serif; font-size: clamp(32px, 4.5vw, 60px); font-weight:700; line-height:1.15; letter-spacing:-1.5px; margin-bottom:24px; max-width:720px; }
+          .hero-sub { font-size:18px; color:var(--text); line-height:1.65; max-width:500px; margin-bottom:44px; font-weight:400; }
+          .hero-sub strong { color:rgba(255,255,255,.8); font-weight:600; }
+          .hero-ctas { display:flex; align-items:center; gap:14px; margin-bottom:60px; }
+          .btn-lg { padding:16px 40px; font-size:16px; font-weight:700; border-radius:100px; }
+          .btn-outline { background:transparent; border:1px solid var(--border); color:rgba(255,255,255,.55); padding:15px 28px; font-size:15px; font-weight:600; border-radius:100px; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
+          .btn-outline:hover { border-color:rgba(255,255,255,.2); color:#fff; }
+          .trust { display:flex; align-items:center; gap:6px; font-size:13px; color:rgba(255,255,255,.28); font-weight:500; }
+          .trust-item { display:flex; align-items:center; gap:5px; }
+          .trust-item::before { content:'✓'; color:var(--g); }
+          .trust-sep { color:rgba(255,255,255,.12); }
+
+          @media (max-width: 768px) {
+            .hero-h1 { font-size: 38px; letter-spacing: -1.5px; }
+            .hero-sub { font-size: 16px; }
+            .hero-ctas { flex-direction: column; align-items: stretch; gap: 12px; }
+            .trust { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .trust-sep { display: none; }
+          }
+        `}</style>
+
+        <div className="hero-badge">
+          <div className="dot"></div>
+          IA de valorisation — En ligne maintenant
         </div>
-        <div className="hero-card">
-          <div className="hero-card-top">
-            <div className="hero-ring"><span className="hero-ring-num">87</span></div>
-            <div style={{ flex: 1 }}>
-              <div className="hero-item-name">iPhone 13 Pro 256Go</div>
-              <div className="hero-item-meta">Électronique · Très bon état · Space Grey</div>
-              <div className="hero-tags">
-                <span className="hero-tag">↑ Forte demande</span>
-                <span className="hero-tag">Toutes saisons</span>
-                <span className="hero-tag">Apple</span>
-              </div>
-            </div>
-          </div>
-          <div className="hero-card-body">
-            <div className="hero-prices">
-              <div className="hero-pc"><div className="hero-plbl">Minimum</div><div className="hero-pval">340€</div></div>
-              <div className="hero-pc"><div className="hero-plbl">Recommandé</div><div className="hero-pval hi">410€</div></div>
-              <div className="hero-pc"><div className="hero-plbl">Maximum</div><div className="hero-pval">470€</div></div>
-            </div>
-            <div className="hero-tip">💡 Vends sur Back Market · Inclue la boîte originale · Photos sur fond blanc</div>
-          </div>
+
+        <h1 className="hero-h1" style={{ color: '#fff' }}>
+          Sais-tu combien vaut<br />ce qui dort chez toi ?
+        </h1>
+
+        <p className="hero-sub">
+          Shootscan analyse ta photo et te dit <strong>combien vaut vraiment ton objet</strong> — et comment le vendre au meilleur prix en moins de 10 secondes.
+        </p>
+
+        <div className="hero-ctas">
+          <a href="/register" className="btn btn-lg">Essaie gratuitement</a>
+          <a href="#demo" className="btn-outline">Voir une démo ↓</a>
+        </div>
+
+        <div className="trust">
+          <div className="trust-item">Sans carte bancaire</div>
+          <div className="trust-sep">·</div>
+          <div className="trust-item">3 scans offerts</div>
+          <div className="trust-sep">·</div>
+          <div className="trust-item">Résultat en 10 secondes</div>
         </div>
       </section>
+      {/* PROOF STRIP */}
+      <div style={{
+        borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
+        padding: '20px 60px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '80px',
+        background: 'rgba(255,255,255,.015)', flexWrap: 'wrap'
+      }}>
+        <style>{`
+          .proof-item { text-align:center; }
+          .proof-num { font-family:'Inter',sans-serif; font-size:22px; font-weight:700; color:#fff; }
+          .proof-label { font-size:13px; color:var(--text); margin-top:2px; }
+          @media (max-width: 768px) {
+            div:has(> .proof-item) { gap: 20px !important; padding: 24px !important; }
+          }
+        `}</style>
+        <div className="proof-item"><div className="proof-num">10s</div><div className="proof-label">pour analyser un objet</div></div>
+        <div className="proof-item"><div className="proof-num">+30€</div><div className="proof-label">récupérés en moyenne</div></div>
+        <div className="proof-item"><div className="proof-num">0€</div><div className="proof-label">pour commencer</div></div>
+        <div className="proof-item"><div className="proof-num">100%</div><div className="proof-label">objets reconnus par l'IA</div></div>
+      </div>
+      {/* DEMO */}
+      <section id="demo" style={{ padding: '120px 60px', textAlign: 'center', position: 'relative' }}>
+        <style>{`
+          .demo-tag { font-size:13px; font-weight:700; color:var(--g); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; }
+          .demo-title { font-family:'Inter',sans-serif; font-size: clamp(26px, 3.5vw, 42px); font-weight:700; color:#fff; margin-bottom:60px; letter-spacing:-1px; }
+          .demo-title em { color:var(--g); font-style:normal; }
 
+          .phone { width:300px; height:610px; margin:0 auto; background:#0d160f; border-radius:40px; border:6px solid #1a241c; box-shadow:0 40px 100px rgba(0,0,0,.6); position:relative; overflow:hidden; }
+          .phone-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:24px; background:#0d160f; border-radius:0 0 16px 16px; z-index:5; }
+          .phone-screen { position:absolute; inset:0; background:linear-gradient(180deg, #0a120c 0%, #080C09 100%); padding:40px 18px 18px; display:flex; flex-direction:column; align-items:center; }
 
-      {/* COMMENT ÇA MARCHE */}
-      <section className="section">
-        <div className="section-tag">Comment ça marche</div>
-        <h2 className="section-title">Simple comme<br />un <em>shoot</em></h2>
-        <p className="section-sub">En moins de 15 secondes, une analyse complète et un plan de vente sur mesure pour n'importe quel objet.</p>
-        <div className="steps">
+          .scan-frame { width:230px; height:230px; border-radius:20px; border:2px solid var(--g); position:relative; overflow:hidden; margin-bottom:22px; background:rgba(0,184,116,.05); }
+          .scan-line { position:absolute; left:0; right:0; height:2px; background:var(--g); box-shadow:0 0 12px var(--g); animation: scan 2.4s ease-in-out infinite; }
+          @keyframes scan { 0%,100%{ top:6%; } 50%{ top:92%; } }
+          .scan-obj { font-size:64px; }
+
+          .demo-card { background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:14px; padding:14px; width:100%; text-align:left; }
+          .demo-card-top { display:flex; gap:10px; align-items:flex-start; margin-bottom: 10px; }
+.demo-ring { width:42px; height:42px; border-radius:50%; border:2px solid var(--g); background:rgba(0,184,116,.06); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.demo-ring-num { font-family:'Inter',sans-serif; font-weight:800; font-size:15px; color:var(--g); }
+.demo-roi { font-size:10px; color:var(--text); margin-top:8px; }
+.demo-roi strong { color:var(--g); }
+.demo-card-name { font-size:13px; font-weight:700; color:#fff; margin-bottom:4px; }
+.demo-card-meta { font-size:11px; color:var(--text); margin-bottom:8px; }
+.demo-tags { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:10px; }
+.demo-tag-pill { font-size:9px; padding:3px 8px; border-radius:10px; background:rgba(0,184,116,.1); color:var(--g); border:1px solid rgba(0,184,116,.25); }
+.demo-prices { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:10px; }
+.demo-pc { background:rgba(0,184,116,.08); border-radius:8px; padding:8px 4px; text-align:center; }
+.demo-plbl { font-size:8px; color:var(--text); text-transform:uppercase; margin-bottom:3px; }
+.demo-pval { font-size:14px; font-weight:800; color:#fff; font-family:'Inter',sans-serif; }
+.demo-pval.hi { color:var(--g); }
+.demo-plat { display:flex; gap:4px; margin-bottom:8px; }
+.demo-plat-pill { font-size:9px; padding:3px 8px; border-radius:10px; border:1px solid var(--border); color:var(--text); }
+.demo-tip { font-size:10px; color:var(--text); line-height:1.5; background:rgba(255,255,255,.03); border-radius:8px; padding:8px 10px; }
+
+          @media (max-width: 768px) {
+            section[id="demo"] { padding: 70px 24px; }
+            .phone { width: 260px; height: 530px; }
+          }
+        `}</style>
+
+        <div className="demo-tag">Démo en direct</div>
+        <h2 className="demo-title">Regarde l'IA <em>travailler</em> en temps réel</h2>
+
+        <div className="phone">
+          <div className="phone-notch"></div>
+          <div className="phone-screen">
+            <div className="scan-frame">
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100%' }}>
+                <span className="scan-obj">👟</span>
+              </div>
+              <div className="scan-line"></div>
+            </div>
+            <div className="demo-card">
+              <div className="demo-card-top">
+                <div className="demo-ring"><span className="demo-ring-num">87</span></div>
+                <div>
+                  <div className="demo-card-name">Nike Air Max 90</div>
+                  <div className="demo-card-meta">Chaussures · Bon état · Taille 42</div>
+                </div>
+              </div>
+              <div className="demo-tags">
+                <span className="demo-tag-pill">↑ Forte demande</span>
+                <span className="demo-tag-pill">Nike</span>
+                <span className="demo-tag-pill">Iconique</span>
+              </div>
+              <div className="demo-prices">
+                <div className="demo-pc"><div className="demo-plbl">Min</div><div className="demo-pval">45€</div></div>
+                <div className="demo-pc"><div className="demo-plbl">Reco</div><div className="demo-pval hi">62€</div></div>
+                <div className="demo-pc"><div className="demo-plbl">Max</div><div className="demo-pval">78€</div></div>
+              </div>
+              <div className="demo-plat">
+                <span className="demo-plat-pill">Vinted</span>
+                <span className="demo-plat-pill">Leboncoin</span>
+              </div>
+              <div className="demo-tip">💡 Vends sur Vinted en priorité · Photos avec fond clair recommandées · Mentionne l'état de la semelle</div>
+              <div className="demo-roi">ROI estimé : <strong>20-35%</strong> · État conseillé pour la vente : Bon état</div>
+            </div>
+        </div>
+      </div>
+    </section>
+    {/* COMMENT ÇA MARCHE */}
+      <section style={{ padding: '100px 60px', maxWidth: '1080px', margin: '0 auto' }}>
+        <style>{`
+          .steps-tag { font-size:13px; font-weight:700; color:var(--g); text-transform:uppercase; letter-spacing:1px; text-align:center; margin-bottom:16px; }
+          .steps-title { font-family:'Inter',sans-serif; font-size: clamp(26px, 3.5vw, 42px); font-weight:700; color:#fff; text-align:center; margin-bottom:60px; letter-spacing:-1px; }
+          .steps-title em { color:var(--g); font-style:normal; }
+          .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+          .step-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:20px; padding:36px 28px; }
+          .step-num { font-family:'Inter',sans-serif; font-size:32px; font-weight:800; color:rgba(255,255,255,.04); line-height:1; margin-bottom:8px; }
+          .step-icon { width:48px; height:48px; background:rgba(0,184,116,.1); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px; }
+          .step-title { font-size:18px; font-weight:700; color:#fff; margin-bottom:8px; }
+          .step-desc { font-size:14px; color:var(--text); line-height:1.6; }
+
+          @media (max-width: 768px) {
+            section:has(.steps-grid) { padding: 60px 24px; }
+            .steps-grid { grid-template-columns: 1fr; gap: 16px; }
+          }
+        `}</style>
+
+        <div className="steps-tag">Comment ça marche</div>
+        <h2 className="steps-title">Simple comme <em>un shoot</em></h2>
+
+        <div className="steps-grid">
           {[
             { num: '01', icon: '📸', title: 'Tu shootes', desc: "Photo ou galerie. Vêtement, iPhone, meuble, livre, montre… L'IA reconnaît tout." },
             { num: '02', icon: '🤖', title: 'On scanne', desc: "L'IA identifie l'objet, analyse l'état, consulte des millions d'annonces et calcule le prix optimal." },
-            { num: '03', icon: '💰', title: 'Tu encaisses', desc: "Score, prix, plateforme idéale, titre d'annonce généré et conseils photo. Il reste juste à publier." },
+            { num: '03', icon: '💰', title: 'Tu encaisses', desc: "Score, prix, plateforme idéale, titre d'annonce généré et conseils. Il reste juste à publier." },
           ].map(s => (
-            <div key={s.num} className="step">
-              <div className="step-num">{s.num}</div>
+            <div key={s.num} className="step-card">
               <div className="step-icon">{s.icon}</div>
               <div className="step-title">{s.title}</div>
               <div className="step-desc">{s.desc}</div>
@@ -292,102 +286,211 @@ export default function Home() {
           ))}
         </div>
       </section>
+      {/* FONCTIONNALITÉS */}
+      <section style={{ background: 'rgba(255,255,255,.015)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '100px 60px' }}>
+        <style>{`
+          .feats-wrap { max-width: 1080px; margin: 0 auto; }
+          .feats-grid2 { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:60px; }
+          .feat-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:18px; padding:28px; transition: border-color .2s, background .2s; }
+          .feat-card:hover { border-color:rgba(0,184,116,.3); background:rgba(255,255,255,.04); }
+          .feat-card-icon { font-size:24px; margin-bottom:14px; }
+          .feat-card-title { font-size:16px; font-weight:700; color:#fff; margin-bottom:6px; }
+          .feat-card-desc { font-size:13px; color:var(--text); line-height:1.6; }
 
-      {/* FEATURES */}
-      <div className="feats-band">
-        <div className="section" style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
-          <div className="section-tag">Fonctionnalités</div>
-          <h2 className="section-title">Tout pour revendre <em>intelligemment</em></h2>
-          <div className="feats-grid">
+          @media (max-width: 768px) {
+            section:has(.feats-grid2) { padding: 60px 24px; }
+            .feats-grid2 { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
+          }
+        `}</style>
+
+        <div className="feats-wrap">
+          <div className="steps-tag">Fonctionnalités</div>
+          <h2 className="steps-title">Tout pour revendre <em>intelligemment</em></h2>
+
+          <div className="feats-grid2">
             {[
-              { icon: '🎯', title: 'Score de revendabilité', desc: 'Un score sur 100 basé sur la demande, l\'état et les tendances actuelles du marché.' },
+              { icon: '🎯', title: 'Score de revendabilité', desc: "Un score sur 100 basé sur la demande, l'état et les tendances actuelles du marché." },
               { icon: '📊', title: '12 plateformes comparées', desc: 'Vinted, Back Market, eBay, Depop, Vestiaire, Leboncoin… On te dit où vendre pour maximiser.' },
               { icon: '✍️', title: 'Annonce prête à copier', desc: 'Titre accrocheur et description optimisée générés automatiquement. Tu publies, c\'est tout.' },
-              { icon: '📦', title: 'Scan en lot', desc: 'Mode Pro : scanne jusqu\'à 3 articles en même temps. Business : lots illimités.' },
-              { icon: '🧮', title: 'Calculateur de marge', desc: 'Entre ton prix d\'achat et calcule ton ROI net en temps réel pour chaque article.' },
+              { icon: '📦', title: 'Scan en lot', desc: "Mode Pro : scanne jusqu'à 3 articles en même temps. Business : lots illimités." },
+              { icon: '🧮', title: 'Calculateur de marge', desc: "Entre ton prix d'achat et calcule ton ROI net en temps réel pour chaque article." },
               { icon: '📂', title: 'Dashboard & export CSV', desc: 'Suis ta valeur totale, tes catégories les plus rentables et exporte tes données.' },
             ].map(f => (
-              <div key={f.title} className="feat">
-                <div className="feat-icon">{f.icon}</div>
-                <div className="feat-title">{f.title}</div>
-                <div className="feat-desc">{f.desc}</div>
+              <div key={f.title} className="feat-card">
+                <div className="feat-card-icon">{f.icon}</div>
+                <div className="feat-card-title">{f.title}</div>
+                <div className="feat-card-desc">{f.desc}</div>
               </div>
             ))}
           </div>
         </div>
-      </div>
-
+      </section>
       {/* TÉMOIGNAGES */}
-      <section className="section">
-        <div className="section-tag">Témoignages</div>
-        <h2 className="section-title">Ils revendent <em>mieux</em></h2>
-        <div className="reviews">
+      <section style={{ padding: '100px 60px', maxWidth: '1080px', margin: '0 auto' }}>
+        <style>{`
+          .rev-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:60px; }
+          .rev-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:18px; padding:26px; }
+          .rev-stars { color:var(--g); font-size:13px; letter-spacing:2px; margin-bottom:14px; }
+          .rev-text { font-size:14px; color:rgba(255,255,255,.75); line-height:1.7; margin-bottom:20px; }
+          .rev-author { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+          .rev-av { width:34px; height:34px; border-radius:50%; background:rgba(0,184,116,.1); border:1px solid rgba(0,184,116,.25); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--g); flex-shrink:0; }
+          .rev-name { font-size:13px; font-weight:700; color:#fff; }
+          .rev-role { font-size:11px; color:var(--text); }
+          .rev-badge { display:inline-block; font-size:10px; font-weight:700; padding:3px 10px; border-radius:10px; text-transform:uppercase; letter-spacing:.3px; }
+          .rev-badge.free { background:rgba(255,255,255,.06); color:rgba(255,255,255,.5); border:1px solid var(--border); }
+          .rev-badge.pro { background:rgba(0,184,116,.1); color:var(--g); border:1px solid rgba(0,184,116,.25); }
+          .rev-badge.business { background:rgba(255,193,7,.1); color:#ffc107; border:1px solid rgba(255,193,7,.25); }
+
+          @media (max-width: 768px) {
+            section:has(.rev-grid) { padding: 60px 24px; }
+            .rev-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
+          }
+        `}</style>
+
+        <div className="steps-tag">Témoignages</div>
+        <h2 className="steps-title">Ils revendent <em>mieux</em></h2>
+
+        <div className="rev-grid">
           {[
-            { stars: '★★★★★', text: '"J\'ai vendu mon iPhone 12 150€ de plus que ce que j\'aurais mis. Le titre d\'annonce généré par l\'IA a tout changé."', av: 'ML', name: 'Marie L.', role: 'Revendeuse · Paris' },
-            { stars: '★★★★★', text: '"Le scan en lot m\'économise 2h par semaine. Je scanne mon stock le dimanche et je publie tout d\'un coup."', av: 'KD', name: 'Kevin D.', role: 'Reseller pro · Lyon' },
-            { stars: '★★★★☆', text: '"L\'IA m\'a indiqué Back Market plutôt que Leboncoin pour mon Mac. +180€ sur la même machine."', av: 'AC', name: 'Amina C.', role: 'Acheteuse-revendeuse · Bordeaux' },
+            { stars: '★★★★☆', text: "Pour mes 3 scans gratuits par mois j'ai déjà repéré 2 objets oubliés que je vais revendre. Ça donne envie de passer Pro.", av: 'TL', name: 'Thomas L.', role: 'Particulier · Nantes', plan: 'free', planLabel: 'Plan Gratuit' },
+            { stars: '★★★★★', text: "J'ai vendu mon iPhone 12 150€ de plus que ce que j'aurais mis. Le titre d'annonce généré par l'IA a tout changé.", av: 'ML', name: 'Marie L.', role: 'Revendeuse · Paris', plan: 'pro', planLabel: 'Plan Pro' },
+            { stars: '★★★★★', text: "Le scan en lot m'économise 2h par semaine. Je scanne mon stock le dimanche et je publie tout d'un coup.", av: 'KD', name: 'Kevin D.', role: 'Reseller pro · Lyon', plan: 'pro', planLabel: 'Plan Pro' },
+            { stars: '★★★★★', text: "Avec le multi-comptes Business, toute mon équipe scanne en simultané. Le dashboard nous fait gagner un temps fou.", av: 'NO', name: 'Noa R.', role: 'Gérant boutique · Marseille', plan: 'business', planLabel: 'Plan Business' },
           ].map(r => (
-            <div key={r.name} className="review">
-              <div className="review-stars">{r.stars}</div>
-              <div className="review-text">{r.text}</div>
-              <div className="review-author">
-                <div className="review-av">{r.av}</div>
+            <div key={r.name} className="rev-card">
+              <div className="rev-stars">{r.stars}</div>
+              <div className="rev-text">"{r.text}"</div>
+              <div className="rev-author">
+                <div className="rev-av">{r.av}</div>
                 <div>
-                  <div className="review-name">{r.name}</div>
-                  <div className="review-role">{r.role}</div>
+                  <div className="rev-name">{r.name}</div>
+                  <div className="rev-role">{r.role}</div>
                 </div>
               </div>
+              <span className={`rev-badge ${r.plan}`}>{r.planLabel}</span>
             </div>
           ))}
         </div>
       </section>
-
       {/* TARIFS */}
-      <section className="section" style={{ paddingTop: '2rem' }}>
-        <div className="section-tag">Tarifs</div>
-        <h2 className="section-title">Des prix <em>simples</em></h2>
-        <p className="section-sub">Économisez 31% sur le plan Pro avec l'abonnement annuel → <a href="/tarifs" style={{ color: '#00B874', textDecoration: 'none', fontWeight: 600 }}>Voir les offres</a></p>
-        <div className="pricing-cards">
-          {[
-            { plan: 'Gratuit', price: '0€', period: '/ mois', features: ['3 scans par mois', 'Estimation IA de base', 'Historique 7 jours'], cta: 'Commencer gratuitement', ctaClass: 'outline', pop: false },
-{ plan: 'Pro', price: '11,99€', period: '/ mois', features: ['Scans illimités', 'Scan en lot', 'Historique complet', 'Export CSV', 'Support prioritaire'], cta: 'Passer Pro', ctaClass: 'primary', pop: true },
-{ plan: 'Business', price: '29,99€', period: '/ mois', features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard équipe', 'Onboarding dédié'], cta: 'Passer Business', ctaClass: 'outline', pop: false },
-          ].map(p => (
-            <div key={p.plan} className={`pricing-card${p.pop ? ' pop' : ''}`}>
-              {p.pop && <div className="pop-badge">★ Le plus populaire</div>}
-              <div className="pricing-plan">{p.plan}</div>
-              <div className="pricing-price">{p.price}</div>
-              <div className="pricing-period">{p.period}</div>
-              <ul className="pricing-feats">
-                {p.features.map(f => <li key={f}><span style={{ color: 'var(--mint)' }}>✓</span> {f}</li>)}
+      <section style={{ background: 'rgba(255,255,255,.015)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '100px 60px' }}>
+        <style>{`
+          .pricing-wrap { max-width: 1080px; margin: 0 auto; }
+          .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:60px; }
+          .price-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:20px; padding:32px 28px; }
+          .price-card.pop { border:1.5px solid var(--g); background:rgba(0,184,116,.04); position:relative; }
+          .price-pop-badge { display:inline-block; background:rgba(0,184,116,.12); color:var(--g); font-size:11px; font-weight:700; padding:4px 12px; border-radius:10px; margin-bottom:14px; }
+          .price-plan { font-size:14px; font-weight:700; color:#fff; margin-bottom:8px; }
+          .price-amount { font-family:'Inter',sans-serif; font-size:26px; font-weight:700; color:#fff; margin-bottom:2px; }
+.price-annual { display:inline-block; font-size:11px; font-weight:700; color:var(--g); background:rgba(0,184,116,.1); border:1px solid rgba(0,184,116,.25); padding:4px 10px; border-radius:8px; margin-top:6px; }
+          .price-period { font-size:12px; color:var(--text); margin-bottom:24px; }
+          .price-feats { list-style:none; margin-bottom:28px; }
+          .price-feats li { font-size:13px; color:rgba(255,255,255,.65); padding:8px 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+          .price-feats li:last-child { border-bottom:none; }
+          .price-feats li::before { content:'✓'; color:var(--g); font-weight:700; }
+          .price-btn { display:block; width:100%; padding:13px; border-radius:100px; font-size:14px; font-weight:700; text-align:center; text-decoration:none; transition:all .2s; font-family:'Inter',sans-serif; }
+          .price-btn.primary { background:var(--g); color:#fff; }
+          .price-btn.primary:hover { box-shadow:0 8px 30px rgba(0,184,116,.4); }
+          .price-btn.outline { background:transparent; color:#fff; border:1px solid var(--border); }
+          .price-btn.outline:hover { border-color:rgba(255,255,255,.3); }
+
+          @media (max-width: 768px) {
+            section:has(.pricing-grid) { padding: 60px 24px; }
+            .pricing-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
+          }
+        `}</style>
+
+        <div className="pricing-wrap">
+          <div className="steps-tag" style={{ textAlign: 'center' }}>Tarifs</div>
+          <h2 className="steps-title" style={{ textAlign: 'center' }}>Des prix <em>simples</em></h2>
+
+          <div className="pricing-grid">
+            <div className="price-card">
+              <div className="price-plan">Gratuit</div>
+              <div className="price-amount">0€</div>
+              <div className="price-period">/ mois</div>
+              <ul className="price-feats">
+                <li>3 scans par mois</li>
+                <li>Estimation IA de base</li>
+                <li>Historique 7 jours</li>
               </ul>
-              <a href="/register" className={`pricing-btn ${p.ctaClass}`}>{p.cta}</a>
+              <a href="/register" className="price-btn outline">Commencer gratuitement</a>
             </div>
-          ))}
+
+            <div className="price-card pop">
+              <div className="price-pop-badge">★ Le plus populaire</div>
+              <div className="price-plan">Pro</div>
+              <div className="price-amount">11,99€</div>
+              <div className="price-period">/ mois</div>
+<div className="price-annual">99€/an = -31% économisés</div>
+              <ul className="price-feats">
+                <li>Scans illimités</li>
+                <li>Scan en lot</li>
+                <li>Historique complet</li>
+                <li>Export CSV</li>
+                <li>Support prioritaire</li>
+              </ul>
+              <a href="/register" className="price-btn primary">Passer Pro</a>
+            </div>
+
+            <div className="price-card">
+              <div className="price-plan">Business</div>
+              <div className="price-amount">29,99€</div>
+              <div className="price-period">/ mois</div>
+              <ul className="price-feats">
+                <li>Tout Pro inclus</li>
+                <li>Multi-comptes</li>
+                <li>API access</li>
+                <li>Dashboard équipe</li>
+                <li>Onboarding dédié</li>
+              </ul>
+              <a href="/register" className="price-btn outline">Passer Business</a>
+            </div>
+          </div>
         </div>
       </section>
-
       {/* CTA FINAL */}
-      <div className="cta-band">
-        <h2>Prêt à <em>encaisser</em> ?</h2>
-        <p>Rejoins +6 000 revendeurs qui utilisent Shootscan chaque mois.</p>
-        <a href="/register" className="btn-white">Scanner mon premier article →</a>
-      </div>
+      <section style={{ padding: '120px 60px', textAlign: 'center' }}>
+        <style>{`
+          .cta-final-title { font-family:'Inter',sans-serif; font-size: clamp(28px, 4vw, 48px); font-weight:700; color:#fff; margin-bottom:16px; letter-spacing:-1px; }
+          .cta-final-title em { color:var(--g); font-style:normal; }
+          .cta-final-sub { font-size:15px; color:var(--text); margin-bottom:36px; }
+          .btn-cta-final { background:var(--g); color:#fff; border:none; border-radius:100px; padding:16px 38px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; text-decoration:none; display:inline-block; transition: box-shadow .2s, transform .15s; }
+          .btn-cta-final:hover { box-shadow:0 8px 30px rgba(0,184,116,.4); transform:translateY(-1px); }
+
+          @media (max-width: 768px) {
+            section:has(.cta-final-title) { padding: 70px 24px; }
+          }
+        `}</style>
+
+        <h2 className="cta-final-title">Prêt à <em>encaisser</em> ?</h2>
+        <p className="cta-final-sub">Rejoins +6 000 revendeurs qui utilisent Shootscan chaque mois.</p>
+        <a href="/register" className="btn-cta-final">Scanner mon premier article →</a>
+      </section>
 
       {/* FOOTER */}
-      <footer>
-  <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '1.5rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', textAlign: 'center' }}>
-    <div className="footer-logo">shoot<strong>scan</strong></div>
-    <div className="footer-desc">L'IA qui valorise n'importe quel objet de seconde main.</div>
-    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-      <a href="/politique-confidentialite" className="footer-link">Politique de confidentialité</a>
-      <a href="/mentions-legales" className="footer-link">Mentions légales</a>
-      <a href="/rgpd" className="footer-link">RGPD</a>
-    </div>
-    <div className="footer-copy">© 2025 Shootscan · Fait avec ☘ à Paris</div>
-  </div>
-</footer>
-
+      <footer style={{ borderTop: '1px solid var(--border)', padding: '50px 60px 30px' }}>
+        <style>{`
+          .footer-inner2 { max-width: 1080px; margin: 0 auto; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
+          .footer-logo2 { font-family:'Inter',sans-serif; font-size:16px; font-weight:700; color:#fff; }
+          .footer-logo2 span { color:var(--g); }
+          .footer-desc2 { font-size:12px; color:var(--text); }
+          .footer-links2 { display:flex; gap:24px; flex-wrap:wrap; justify-content:center; }
+          .footer-link2 { font-size:12px; color:var(--text); text-decoration:none; }
+          .footer-link2:hover { color:#fff; }
+          .footer-copy2 { font-size:11px; color:rgba(255,255,255,.25); margin-top:10px; }
+        `}</style>
+        <div className="footer-inner2">
+          <div className="footer-logo2">Shoot<span>scan</span></div>
+          <div className="footer-desc2">L'IA qui valorise n'importe quel objet de seconde main.</div>
+          <div className="footer-links2">
+            <a href="/politique-confidentialite" className="footer-link2">Politique de confidentialité</a>
+            <a href="/mentions-legales" className="footer-link2">Mentions légales</a>
+            <a href="/rgpd" className="footer-link2">RGPD</a>
+          </div>
+          <div className="footer-copy2">© 2026 Shootscan · Fait avec ☘ en France</div>
+        </div>
+      </footer>
     </main>
   )
 }
