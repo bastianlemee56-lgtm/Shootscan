@@ -36,10 +36,15 @@ export default function Home() {
         .nav-hamburger span { width: 22px; height: 2px; background: rgba(255,255,255,.6); border-radius: 2px; }
 
         @media (max-width: 768px) {
-          nav { padding: 16px 24px; }
-          .nav-r a.nav-link { display: none; }
-          .nav-hamburger { display: flex; }
-        }
+  nav { padding: 14px 20px; }
+  .nav-r { display: none; }
+  .nav-hamburger { display: flex; }
+  .mobile-menu { display: flex; }
+}
+.mobile-menu { flex-direction: column; gap: 0px; position: fixed; top: 56px; right: 16px; left: auto; width: 180px; background: #0d160f; border: 1px solid var(--border); border-radius: 12px; padding: 6px; z-index: 99; }
+.mobile-menu a { padding: 9px 12px; border-radius: 8px; color: rgba(255,255,255,.7); text-decoration: none; font-size: 13px; font-weight: 500; text-align: center; }
+.mobile-menu a.btn { background: var(--g); color: #fff; text-align: center; font-weight: 700; margin-top: 4px; }
+.mobile-menu a.btn { background: var(--g); color: #fff; text-align: center; font-weight: 700; margin-top: 6px; }
       `}</style>
 
       <nav>
@@ -72,18 +77,26 @@ export default function Home() {
   <a href="/tarifs" className="nav-link">Tarifs</a>
   <a href="/stats" className="nav-link">Dashboard</a>
   <a href="/account" className="nav-link">Mon compte</a>
-  <a href="/register" className="btn">Scanner un objet →</a>
 </div>
         <div className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)}>
           <span></span><span></span><span></span>
         </div>
       </nav>
+
+      {menuOpen && (
+        <div className="mobile-menu">
+          <a href="/dashboard" onClick={() => setMenuOpen(false)}>Scanner</a>
+          <a href="/tarifs" onClick={() => setMenuOpen(false)}>Tarifs</a>
+          <a href="/stats" onClick={() => setMenuOpen(false)}>Dashboard</a>
+          <a href="/account" onClick={() => setMenuOpen(false)}>Mon compte</a>
+        </div>
+      )}
 {/* HERO */}
       <section
         style={{
           minHeight: '100vh', display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          padding: '140px 60px 80px', textAlign: 'center',
+alignItems: 'center', justifyContent: 'center',
+          padding: '130px 24px 60px', textAlign: 'center',
           position: 'relative', overflow: 'hidden'
         }}
       >
@@ -115,12 +128,16 @@ export default function Home() {
           .trust-sep { color:rgba(255,255,255,.12); }
 
           @media (max-width: 768px) {
-            .hero-h1 { font-size: 38px; letter-spacing: -1.5px; }
-            .hero-sub { font-size: 16px; }
-            .hero-ctas { flex-direction: column; align-items: stretch; gap: 12px; }
-            .trust { flex-wrap: wrap; justify-content: center; gap: 10px; }
-            .trust-sep { display: none; }
-          }
+  section:has(.hero-h1) { padding: 80px 24px 60px !important; }
+.hero-badge { font-size: 11px; padding: 5px 12px; margin-bottom: 20px; }
+.hero-h1 { font-size: 36px; letter-spacing: -1px; margin-bottom: 44px; line-height: 1.15; }
+.hero-sub { font-size: 14px; margin-bottom: 34px; margin-top: 20px; }
+  .hero-ctas { flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 32px; width: 100%; }
+  .btn-lg { padding: 13px 24px; font-size: 14px; }
+  .btn-outline { padding: 12px 24px; font-size: 13px; }
+  .trust { flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 11px; }
+  .trust-sep { display: none; }
+}
         `}</style>
 
         <div className="hero-badge">
@@ -152,13 +169,14 @@ export default function Home() {
       {/* PROOF STRIP */}
       <div style={{
         borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
-        padding: '20px 60px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '80px',
+        padding: '14px 24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px',
         background: 'rgba(255,255,255,.015)', flexWrap: 'wrap'
       }}>
         <style>{`
           .proof-item { text-align:center; }
-          .proof-num { font-family:'Inter',sans-serif; font-size:22px; font-weight:700; color:#fff; }
+          .proof-num { font-family:'Inter',sans-serif; font-size:16px; font-weight:700; color:#fff; }
+.proof-label { font-size:11px; }
           .proof-label { font-size:13px; color:var(--text); margin-top:2px; }
           @media (max-width: 768px) {
             div:has(> .proof-item) { gap: 20px !important; padding: 24px !important; }
@@ -205,9 +223,9 @@ export default function Home() {
 .demo-tip { font-size:10px; color:var(--text); line-height:1.5; background:rgba(255,255,255,.03); border-radius:8px; padding:8px 10px; }
 
           @media (max-width: 768px) {
-            section[id="demo"] { padding: 70px 24px; }
-            .phone { width: 260px; height: 530px; }
-          }
+  section[id="demo"] { padding: 50px 24px; }
+  .phone { width: 280px; height: 570px; }
+}
         `}</style>
 
         <div className="demo-tag">Démo en direct</div>
@@ -264,9 +282,14 @@ export default function Home() {
           .step-desc { font-size:14px; color:var(--text); line-height:1.6; }
 
           @media (max-width: 768px) {
-            section:has(.steps-grid) { padding: 60px 24px; }
-            .steps-grid { grid-template-columns: 1fr; gap: 16px; }
-          }
+  section:has(.steps-grid) { padding: 40px 24px; }
+  .steps-grid { grid-template-columns: 1fr; gap: 10px; }
+  .step-card { padding: 20px 18px; }
+  .steps-title { font-size: 24px; margin-bottom: 30px; }
+  .step-icon { width: 36px; height: 36px; font-size: 18px; margin-bottom: 10px; }
+  .step-title { font-size: 15px; }
+  .step-desc { font-size: 12px; }
+}
         `}</style>
 
         <div className="steps-tag">Comment ça marche</div>
@@ -298,9 +321,13 @@ export default function Home() {
           .feat-card-desc { font-size:13px; color:var(--text); line-height:1.6; }
 
           @media (max-width: 768px) {
-            section:has(.feats-grid2) { padding: 60px 24px; }
-            .feats-grid2 { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
-          }
+  section:has(.feats-grid2) { padding: 40px 24px; }
+  .feats-grid2 { grid-template-columns: 1fr; gap: 8px; margin-top: 24px; }
+  .feat-card { padding: 18px; }
+  .feat-card-title { font-size: 14px; }
+  .feat-card-desc { font-size: 12px; }
+  .steps-title { font-size: 24px; margin-bottom: 16px; }
+}
         `}</style>
 
         <div className="feats-wrap">
@@ -342,9 +369,14 @@ export default function Home() {
           .rev-badge.business { background:rgba(255,193,7,.1); color:#ffc107; border:1px solid rgba(255,193,7,.25); }
 
           @media (max-width: 768px) {
-            section:has(.rev-grid) { padding: 60px 24px; }
-            .rev-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
-          }
+  section:has(.rev-grid) { padding: 40px 24px; }
+  .rev-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 24px; }
+  .rev-card { padding: 18px; }
+  .rev-text { font-size: 13px; margin-bottom: 14px; }
+  .rev-name { font-size: 12px; }
+  .rev-role { font-size: 10px; }
+  .steps-title { font-size: 24px; margin-bottom: 16px; }
+}
         `}</style>
 
         <div className="steps-tag">Témoignages</div>
@@ -395,9 +427,14 @@ export default function Home() {
           .price-btn.outline:hover { border-color:rgba(255,255,255,.3); }
 
           @media (max-width: 768px) {
-            section:has(.pricing-grid) { padding: 60px 24px; }
-            .pricing-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
-          }
+  section:has(.pricing-grid) { padding: 40px 24px; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 24px; }
+  .price-card { padding: 22px 18px; }
+  .price-amount { font-size: 22px; }
+  .price-plan { font-size: 13px; }
+  .price-feats li { font-size: 12px; }
+  .steps-title { font-size: 24px; margin-bottom: 16px; }
+}
         `}</style>
 
         <div className="pricing-wrap">
@@ -459,8 +496,10 @@ export default function Home() {
           .btn-cta-final:hover { box-shadow:0 8px 30px rgba(0,184,116,.4); transform:translateY(-1px); }
 
           @media (max-width: 768px) {
-            section:has(.cta-final-title) { padding: 70px 24px; }
-          }
+  section:has(.cta-final-title) { padding: 50px 24px; }
+  .cta-final-title { font-size: 26px; }
+  .btn-cta-final { padding: 13px 24px; font-size: 14px; white-space: nowrap; }
+}
         `}</style>
 
         <h2 className="cta-final-title">Prêt à <em>encaisser</em> ?</h2>
