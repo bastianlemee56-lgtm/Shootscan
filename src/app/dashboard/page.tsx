@@ -50,14 +50,30 @@ export default function Dashboard() {
   }, [])
 
   const handleFile = (file: File) => {
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const base64 = (reader.result as string).split(',')[1]
-      setImage(base64)
-      setPreview(reader.result as string)
+  const reader = new FileReader()
+  reader.onloadend = () => {
+    const img = new window.Image()
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      const maxSize = 1200
+      let w = img.width
+      let h = img.height
+      if (w > maxSize || h > maxSize) {
+        if (w > h) { h = (h / w) * maxSize; w = maxSize }
+        else { w = (w / h) * maxSize; h = maxSize }
+      }
+      canvas.width = w
+      canvas.height = h
+      const ctx = canvas.getContext('2d')!
+      ctx.drawImage(img, 0, 0, w, h)
+      const compressed = canvas.toDataURL('image/jpeg', 0.8)
+      setImage(compressed.split(',')[1])
+      setPreview(compressed)
     }
-    reader.readAsDataURL(file)
+    img.src = reader.result as string
   }
+  reader.readAsDataURL(file)
+}
 
   const handleLotFiles = (files: FileList) => {
     const maxFiles = plan === 'business' ? 10 : 3
