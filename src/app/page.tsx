@@ -31,6 +31,8 @@ export default function Home() {
         .nav-link:hover { color:#fff; }
         .btn { background:var(--g); color:#fff; border:none; border-radius:100px; padding:10px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:box-shadow .2s, transform .15s; text-decoration: none; display: inline-block; }
         .btn:hover { box-shadow:0 8px 30px rgba(0,184,116,.4); transform:translateY(-1px); }
+        .btn-lg { animation: breathe 3s ease-in-out infinite; }
+@keyframes breathe { 0%,100%{ box-shadow:0 8px 24px rgba(0,184,116,.25); } 50%{ box-shadow:0 8px 34px rgba(0,184,116,.55); } }
 
         .nav-hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
         .nav-hamburger span { width: 22px; height: 2px; background: rgba(255,255,255,.6); border-radius: 2px; }
@@ -103,6 +105,11 @@ alignItems: 'center', justifyContent: 'center',
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,184,116,0.09) 0%, transparent 70%)'
+        }} />
+        <div style={{
+          position: 'absolute', top: '180px', left: '50%', transform: 'translateX(-50%)',
+          width: '600px', height: '400px', pointerEvents: 'none',
+          background: 'radial-gradient(circle, rgba(0,184,116,0.16) 0%, transparent 70%)'
         }} />
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
