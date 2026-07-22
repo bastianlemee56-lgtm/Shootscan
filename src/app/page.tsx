@@ -153,11 +153,11 @@ alignItems: 'center', justifyContent: 'center',
         </div>
 
         <h1 className="hero-h1" style={{ color: '#fff' }}>
-          Sais-tu combien vaut<br />ce qui dort chez toi ?
+          Et si ça valait plus que tu ne le crois ?
         </h1>
 
         <p className="hero-sub">
-          Shootscan analyse ta photo et te dit <strong>combien vaut vraiment ton objet</strong> — et comment le vendre au meilleur prix en moins de 10 secondes.
+          Ta photo. <strong>Un prix juste</strong>, et la meilleure façon de vendre. En 10 secondes.
         </p>
 
         <div className="hero-ctas">
@@ -169,9 +169,62 @@ alignItems: 'center', justifyContent: 'center',
           <div className="trust-item">Sans carte bancaire</div>
           <div className="trust-sep">·</div>
           <div className="trust-item">3 scans offerts</div>
-          <div className="trust-sep">·</div>
-          <div className="trust-item">Résultat en 10 secondes</div>
         </div>
+      </section>
+      {/* BANDEAU TÉMOIGNAGES */}
+      <section style={{ padding: '0px 0 20px', textAlign: 'center' }}>
+        <style>{`
+          .marquee-wrap2 {
+            position: relative; overflow: hidden; margin-bottom: 14px;
+            -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+          }
+          .marquee-track2 { display:flex; gap:14px; width:max-content; }
+          .marquee-wrap2:hover .marquee-track2 { animation-play-state: paused; }
+          .track-l2 { animation: scroll-left2 60s linear infinite; }
+          .track-r2 { animation: scroll-right2 60s linear infinite; }
+          @keyframes scroll-left2 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+          @keyframes scroll-right2 { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+          .rev-h2 { flex-shrink:0; display:flex; align-items:center; gap:14px; background:rgba(255,255,255,.03);
+            border:1px solid var(--border); border-radius:100px; padding:20px 26px; white-space:nowrap; }
+          .rev-h2-stars { color:var(--g); font-size:13px; flex-shrink:0; }
+          .rev-h2-text { font-size:13px; color:rgba(255,255,255,.8); font-style:italic; }
+          .rev-h2-name { font-size:12px; color:var(--text); font-weight:700; flex-shrink:0; }
+          .rev-h2-name::before { content:'— '; color:var(--border); }
+          .rev-h2-plan { font-size:10px; font-weight:700; padding:3px 10px; border-radius:10px;
+            text-transform:uppercase; letter-spacing:.3px; flex-shrink:0; }
+          .rev-h2-plan.free { background:rgba(255,255,255,.06); color:rgba(255,255,255,.5); border:1px solid var(--border); }
+          .rev-h2-plan.pro { background:rgba(0,184,116,.1); color:var(--g); border:1px solid rgba(0,184,116,.25); }
+          .rev-h2-plan.business { background:rgba(255,193,7,.1); color:#ffc107; border:1px solid rgba(255,193,7,.25); }
+
+          @media (max-width: 768px) {
+            .rev-h2 { padding: 14px 18px; }
+            .rev-h2-text { font-size: 12px; }
+          }
+        `}</style>
+
+        {[0, 1].map((rowIdx) => (
+          <div className="marquee-wrap2" key={rowIdx}>
+            <div className={`marquee-track2 ${rowIdx === 0 ? 'track-l2' : 'track-r2'}`}>
+              {[...Array(2)].flatMap(() => [
+                { stars: '★★★★☆', text: "pour mes 3 scans gratuits par mois j'ai déjà repéré 2 objets oubliés que je vais revendre", name: 'Thomas L.', plan: 'free', planLabel: 'Plan Gratuit' },
+                { stars: '★★★★★', text: "j'ai vendu mon iPhone 12 150€ de plus que ce que j'aurais mis grâce au titre généré", name: 'Marie L.', plan: 'pro', planLabel: 'Plan Pro' },
+                { stars: '★★★★★', text: "le scan en lot m'économise 2h par semaine, je scanne le dimanche et je publie tout", name: 'Kevin D.', plan: 'pro', planLabel: 'Plan Pro' },
+                { stars: '★★★★★', text: "avec le multi-comptes toute mon équipe scanne en simultané, un vrai gain de temps", name: 'Noa R.', plan: 'business', planLabel: 'Plan Business' },
+                { stars: '★★★★★', text: "le titre d'annonce généré par l'IA a vraiment tout changé pour mes ventes", name: 'Julie P.', plan: 'pro', planLabel: 'Plan Pro' },
+                { stars: '★★★★☆', text: "simple et rapide, j'ai vendu mon vélo en 2 jours grâce au prix recommandé", name: 'Antoine M.', plan: 'free', planLabel: 'Plan Gratuit' },
+              ]).map((r, i) => (
+                <div key={i} className="rev-h2">
+                  <span className="rev-h2-stars">{r.stars}</span>
+                  <span className="rev-h2-text">"{r.text}"</span>
+                  <span className="rev-h2-name">{r.name}</span>
+                  <span className={`rev-h2-plan ${r.plan}`}>{r.planLabel}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </section>
       
       {/* DEMO */}
@@ -360,58 +413,7 @@ alignItems: 'center', justifyContent: 'center',
           </div>
         </div>
       </section>
-      {/* TÉMOIGNAGES */}
-      <section style={{ padding: '100px 60px', maxWidth: '1080px', margin: '0 auto' }}>
-        <style>{`
-          .rev-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:60px; }
-          .rev-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:18px; padding:26px; }
-          .rev-stars { color:var(--g); font-size:13px; letter-spacing:2px; margin-bottom:14px; }
-          .rev-text { font-size:14px; color:rgba(255,255,255,.75); line-height:1.7; margin-bottom:20px; }
-          .rev-author { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-          .rev-av { width:34px; height:34px; border-radius:50%; background:rgba(0,184,116,.1); border:1px solid rgba(0,184,116,.25); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--g); flex-shrink:0; }
-          .rev-name { font-size:13px; font-weight:700; color:#fff; }
-          .rev-role { font-size:11px; color:var(--text); }
-          .rev-badge { display:inline-block; font-size:10px; font-weight:700; padding:3px 10px; border-radius:10px; text-transform:uppercase; letter-spacing:.3px; }
-          .rev-badge.free { background:rgba(255,255,255,.06); color:rgba(255,255,255,.5); border:1px solid var(--border); }
-          .rev-badge.pro { background:rgba(0,184,116,.1); color:var(--g); border:1px solid rgba(0,184,116,.25); }
-          .rev-badge.business { background:rgba(255,193,7,.1); color:#ffc107; border:1px solid rgba(255,193,7,.25); }
-
-          @media (max-width: 768px) {
-  section:has(.rev-grid) { padding: 40px 24px; }
-  .rev-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 24px; }
-  .rev-card { padding: 18px; }
-  .rev-text { font-size: 13px; margin-bottom: 14px; }
-  .rev-name { font-size: 12px; }
-  .rev-role { font-size: 10px; }
-  .steps-title { font-size: 24px; margin-bottom: 16px; }
-}
-        `}</style>
-
-        <div className="steps-tag">Témoignages</div>
-        <h2 className="steps-title">Ils revendent <em>mieux</em></h2>
-
-        <div className="rev-grid">
-          {[
-            { stars: '★★★★☆', text: "Pour mes 3 scans gratuits par mois j'ai déjà repéré 2 objets oubliés que je vais revendre. Ça donne envie de passer Pro.", av: 'TL', name: 'Thomas L.', role: 'Particulier · Nantes', plan: 'free', planLabel: 'Plan Gratuit' },
-            { stars: '★★★★★', text: "J'ai vendu mon iPhone 12 150€ de plus que ce que j'aurais mis. Le titre d'annonce généré par l'IA a tout changé.", av: 'ML', name: 'Marie L.', role: 'Revendeuse · Paris', plan: 'pro', planLabel: 'Plan Pro' },
-            { stars: '★★★★★', text: "Le scan en lot m'économise 2h par semaine. Je scanne mon stock le dimanche et je publie tout d'un coup.", av: 'KD', name: 'Kevin D.', role: 'Reseller pro · Lyon', plan: 'pro', planLabel: 'Plan Pro' },
-            { stars: '★★★★★', text: "Avec le multi-comptes Business, toute mon équipe scanne en simultané. Le dashboard nous fait gagner un temps fou.", av: 'NO', name: 'Noa R.', role: 'Gérant boutique · Marseille', plan: 'business', planLabel: 'Plan Business' },
-          ].map(r => (
-            <div key={r.name} className="rev-card">
-              <div className="rev-stars">{r.stars}</div>
-              <div className="rev-text">"{r.text}"</div>
-              <div className="rev-author">
-                <div className="rev-av">{r.av}</div>
-                <div>
-                  <div className="rev-name">{r.name}</div>
-                  <div className="rev-role">{r.role}</div>
-                </div>
-              </div>
-              <span className={`rev-badge ${r.plan}`}>{r.planLabel}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      
       {/* TARIFS */}
       <section style={{ background: 'rgba(255,255,255,.015)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '100px 60px' }}>
         <style>{`
