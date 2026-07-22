@@ -173,29 +173,9 @@ alignItems: 'center', justifyContent: 'center',
           <div className="trust-item">Résultat en 10 secondes</div>
         </div>
       </section>
-      {/* PROOF STRIP */}
-      <div style={{
-        borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
-        padding: '14px 24px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px',
-        background: 'rgba(255,255,255,.015)', flexWrap: 'wrap'
-      }}>
-        <style>{`
-          .proof-item { text-align:center; }
-          .proof-num { font-family:'Inter',sans-serif; font-size:16px; font-weight:700; color:#fff; }
-.proof-label { font-size:11px; }
-          .proof-label { font-size:13px; color:var(--text); margin-top:2px; }
-          @media (max-width: 768px) {
-            div:has(> .proof-item) { gap: 20px !important; padding: 24px !important; }
-          }
-        `}</style>
-        <div className="proof-item"><div className="proof-num">10s</div><div className="proof-label">pour analyser un objet</div></div>
-        <div className="proof-item"><div className="proof-num">+30€</div><div className="proof-label">récupérés en moyenne</div></div>
-        <div className="proof-item"><div className="proof-num">0€</div><div className="proof-label">pour commencer</div></div>
-        <div className="proof-item"><div className="proof-num">100%</div><div className="proof-label">objets reconnus par l'IA</div></div>
-      </div>
+      
       {/* DEMO */}
-      <section id="demo" style={{ padding: '120px 60px', textAlign: 'center', position: 'relative' }}>
+      <section id="demo" style={{ padding: '10px 60px', textAlign: 'center', position: 'relative' }}>
         <style>{`
           .demo-tag { font-size:13px; font-weight:700; color:var(--g); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; }
           .demo-title { font-family:'Inter',sans-serif; font-size: clamp(26px, 3.5vw, 42px); font-weight:700; color:#fff; margin-bottom:60px; letter-spacing:-1px; }
@@ -275,7 +255,28 @@ alignItems: 'center', justifyContent: 'center',
         </div>
       </div>
     </section>
-    {/* COMMENT ÇA MARCHE */}
+    {/* PROOF STRIP */}
+      <div style={{
+        borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
+        padding: '14px 24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px',
+        background: 'rgba(255,255,255,.015)', flexWrap: 'wrap'
+      }}>
+        <style>{`
+          .proof-item { text-align:center; }
+          .proof-num { font-family:'Inter',sans-serif; font-size:16px; font-weight:700; color:#fff; }
+.proof-label { font-size:11px; }
+          .proof-label { font-size:13px; color:var(--text); margin-top:2px; }
+          @media (max-width: 768px) {
+            div:has(> .proof-item) { gap: 20px !important; padding: 24px !important; }
+          }
+        `}</style>
+        <div className="proof-item"><div className="proof-num">10s</div><div className="proof-label">pour analyser un objet</div></div>
+        <div className="proof-item"><div className="proof-num">+30€</div><div className="proof-label">récupérés en moyenne</div></div>
+        <div className="proof-item"><div className="proof-num">0€</div><div className="proof-label">pour commencer</div></div>
+        <div className="proof-item"><div className="proof-num">100%</div><div className="proof-label">objets reconnus par l'IA</div></div>
+      </div>
+      {/* COMMENT ÇA MARCHE */}
       <section style={{ padding: '100px 60px', maxWidth: '1080px', margin: '0 auto' }}>
         <style>{`
           .steps-tag { font-size:13px; font-weight:700; color:var(--g); text-transform:uppercase; letter-spacing:1px; text-align:center; margin-bottom:16px; }
