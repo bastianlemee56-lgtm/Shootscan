@@ -33,9 +33,9 @@ export async function POST(request: NextRequest) {
       userPlan = profile?.plan ?? 'free'
       scansUsed = profile?.scans_used_this_month ?? 0
 
-      if (userPlan === 'free' && scansUsed >= 3) {
+      if (userPlan === 'free' && scansUsed >= 1) {
         return NextResponse.json(
-          { error: 'Limite de 3 scans/mois atteinte. Passez au plan Pro !' },
+          { error: 'Vous avez utilisé votre scan gratuit. Passez au plan Pro pour continuer !' },
           { status: 403 }
         )
       }
@@ -60,12 +60,7 @@ Utilise toute l'echelle de 0 a 100 et sois tres precis :
 Un objet sans marque reconnaissable mais en tres bon etat ne doit jamais scorer sous 45.
 Un objet avec marque reconnue mais en mauvais etat ne doit jamais scorer au-dessus de 55.
 Sois coherent : un meilleur etat physique doit TOUJOURS donner un score egal ou superieur a un etat moins bon pour un objet similaire.`
-  const prompt = userPlan === 'free'
-  ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo.${reventeNote}${noEuroRule}${scoreRule}
-Evalue avec precision : l'etat reel visible, la demande du marche, et le prix juste.
-Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
-{"nom": "nom precis de l'article", "score": <nombre entre 0 et 100 selon vendabilite reelle>, "categorie": "categorie precise", "etat": "etat reel parmi : Neuf avec etiquette / Neuf sans etiquette / Tres bon etat / Bon etat / Etat correct / Mauvais etat", "couleur": "couleur principale", "tags": ["tag pertinent 1", "tag pertinent 2"], "prix_min": "<prix bas realiste>", "prix_conseille": "<prix optimal>", "prix_max": "<prix haut>", "plateformes": ["plateforme1", "plateforme2"], "conseil": "conseil de vente concret et utile"${reventeExtra}}`
-  : userPlan === 'business'
+  const prompt = userPlan === 'business'
   ? `Tu es un expert en revente d'articles d'occasion. Analyse attentivement cette photo de facon tres complete.${reventeNote}${noEuroRule}${scoreRule}
 Evalue avec precision : l'etat reel visible, la demande du marche, la saisonnalite, et le prix juste.
 Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
