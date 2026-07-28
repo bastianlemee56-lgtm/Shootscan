@@ -30,12 +30,12 @@ export default function Tarifs() {
     },
     {
       name: 'Pro',
-      price: annual ? '8,25' : '11,99',
+      price: annual ? '6,67' : '9,99',
       period: '/mois',
       desc: 'Pour les revendeurs actifs',
       features: ['Scans illimites', 'Scan en lot', 'Historique complet', 'Export CSV', 'Support prioritaire'],
       cta: 'Passer Pro',
-      priceId: annual ? 'price_1TjSY6GanXWUCjKgVgZG1xCS' : 'price_1TjSY7GanXWUCjKgu1l9T4op',
+      priceId: annual ? 'price_1TyJhtGanXWUCjKgIyGcpRHN' : 'price_1TyJN5GanXWUCjKgKgILV8jR',
       highlight: true,
     },
     {
