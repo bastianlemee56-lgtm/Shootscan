@@ -168,7 +168,7 @@ alignItems: 'center', justifyContent: 'center',
         <div className="trust">
           <div className="trust-item">Sans carte bancaire</div>
           <div className="trust-sep">·</div>
-          <div className="trust-item">3 scans offerts</div>
+          <div className="trust-item">1 scan gratuit détaillé</div>
         </div>
       </section>
       {/* BANDEAU TÉMOIGNAGES */}
@@ -457,8 +457,8 @@ alignItems: 'center', justifyContent: 'center',
               <div className="price-amount">0€</div>
               <div className="price-period">/ mois</div>
               <ul className="price-feats">
-                <li>3 scans par mois</li>
-                <li>Estimation IA de base</li>
+                <li>1 scan gratuit détaillé</li>
+                <li>Tags, plateformes & conseils inclus</li>
                 <li>Historique 7 jours</li>
               </ul>
               <a href="/register" className="price-btn outline">Commencer gratuitement</a>
@@ -467,9 +467,9 @@ alignItems: 'center', justifyContent: 'center',
             <div className="price-card pop">
               <div className="price-pop-badge">★ Le plus populaire</div>
               <div className="price-plan">Pro</div>
-              <div className="price-amount">11,99€</div>
+              <div className="price-amount">9,99€</div>
               <div className="price-period">/ mois</div>
-<div className="price-annual">99€/an = -31% économisés</div>
+<div className="price-annual">79,99€/an = -33% économisés</div>
               <ul className="price-feats">
                 <li>Scans illimités</li>
                 <li>Scan en lot</li>

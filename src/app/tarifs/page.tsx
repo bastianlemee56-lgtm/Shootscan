@@ -23,7 +23,7 @@ export default function Tarifs() {
       price: '0',
       period: '/mois',
       desc: 'Pour decouvrir Shootscan',
-      features: ['3 scans par mois', 'Estimation IA de base', 'Historique 7 jours'],
+      features: ['1 scan gratuit détaillé', 'Tags, plateformes & conseils inclus', 'Historique 7 jours'],
       cta: 'Commencer gratuitement',
       priceId: null,
       highlight: false,
