@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
 
     let scansUsed = 0
     let userPlan = 'free'
+    let creditsRestants = 0
 
     if (currentUser) {
       const { data: profile } = await supabaseCheck
@@ -33,9 +34,17 @@ export async function POST(request: NextRequest) {
       userPlan = profile?.plan ?? 'free'
       scansUsed = profile?.scans_used_this_month ?? 0
 
-      if (userPlan === 'free' && scansUsed >= 1) {
+      const { data: creditsProfile } = await supabaseCheck
+        .from('profiles')
+        .select('credits_scans')
+        .eq('id', currentUser.id)
+        .single()
+
+      creditsRestants = creditsProfile?.credits_scans ?? 0
+
+      if (creditsRestants <= 0) {
         return NextResponse.json(
-          { error: 'Vous avez utilisé votre scan gratuit. Passez au plan Pro pour continuer !' },
+          { error: 'Vous n\'avez plus de scans disponibles. Achetez un pack pour continuer !' },
           { status: 403 }
         )
       }
@@ -112,12 +121,10 @@ Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
   conseil: result.conseil ?? null,
 })
 if (insertError) console.error('INSERT ERROR:', insertError)
-      if (userPlan === 'free') {
-        await supabase
-          .from('profiles')
-          .update({ scans_used_this_month: scansUsed + 1 })
-          .eq('id', user.id)
-      }
+      await supabase
+        .from('profiles')
+        .update({ credits_scans: creditsRestants - 1 })
+        .eq('id', user.id)
     }
 
     return NextResponse.json(result)
