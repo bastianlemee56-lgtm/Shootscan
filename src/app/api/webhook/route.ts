@@ -14,6 +14,11 @@ const PRICE_TO_PLAN: Record<string, string> = {
   price_1TjSY6GanXWUCjKgVgZG1xCS: "pro",
   price_1TjSY6GanXWUCjKgGhElnnvh: "business",
 }
+const PRICE_TO_CREDITS: Record<string, number> = {
+  price_1Tz1nCGanXWUCjKgzSKfVxYF: 5,
+  price_1Tz1oEGanXWUCjKgNk5YLqc3: 15,
+  price_1Tz1opGanXWUCjKg9fhFuzlJ: 30,
+}
 
 export async function POST(req: Request) {
   const body = await req.text()
@@ -36,17 +41,37 @@ export async function POST(req: Request) {
     console.log("userId:", userId, "priceId:", priceId)
 
     if (userId && priceId) {
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          plan: PRICE_TO_PLAN[priceId] ?? "pro",
-          stripe_customer_id: session.customer as string,
-          stripe_subscription_id: session.subscription as string,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", userId)
+      if (PRICE_TO_CREDITS[priceId]) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("credits_scans")
+          .eq("id", userId)
+          .single()
 
-      console.log("Supabase error:", error)
+        const creditsActuels = profile?.credits_scans ?? 0
+
+        const { error } = await supabase
+          .from("profiles")
+          .update({
+            credits_scans: creditsActuels + PRICE_TO_CREDITS[priceId],
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", userId)
+
+        console.log("Supabase error (pack):", error)
+      } else {
+        const { error } = await supabase
+          .from("profiles")
+          .update({
+            plan: PRICE_TO_PLAN[priceId] ?? "pro",
+            stripe_customer_id: session.customer as string,
+            stripe_subscription_id: session.subscription as string,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", userId)
+
+        console.log("Supabase error (abonnement):", error)
+      }
     }
   }
 
