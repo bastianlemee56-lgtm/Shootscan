@@ -453,45 +453,40 @@ alignItems: 'center', justifyContent: 'center',
 
           <div className="pricing-grid">
             <div className="price-card">
-              <div className="price-plan">Gratuit</div>
-              <div className="price-amount">0€</div>
-              <div className="price-period">/ mois</div>
+              <div className="price-plan">Pack Mini</div>
+              <div className="price-amount">2,99€</div>
+              <div className="price-period">/ 5 scans</div>
               <ul className="price-feats">
-                <li>1 scan gratuit détaillé</li>
+                <li>5 scans détaillés</li>
                 <li>Tags, plateformes & conseils inclus</li>
-                <li>Historique 7 jours</li>
+                <li>Historique complet</li>
               </ul>
-              <a href="/register" className="price-btn outline">Commencer gratuitement</a>
+              <a href="/tarifs" className="price-btn outline">Acheter</a>
             </div>
 
             <div className="price-card pop">
               <div className="price-pop-badge">★ Le plus populaire</div>
-              <div className="price-plan">Pro</div>
-              <div className="price-amount">9,99€</div>
-              <div className="price-period">/ mois</div>
-<div className="price-annual">79,99€/an = -33% économisés</div>
+              <div className="price-plan">Pack Confort</div>
+              <div className="price-amount">6,99€</div>
+              <div className="price-period">/ 15 scans</div>
               <ul className="price-feats">
-                <li>Scans illimités</li>
-                <li>Scan en lot</li>
+                <li>15 scans détaillés</li>
+                <li>Tags, plateformes & conseils inclus</li>
                 <li>Historique complet</li>
-                <li>Export CSV</li>
-                <li>Support prioritaire</li>
               </ul>
-              <a href="/register" className="price-btn primary">Passer Pro</a>
+              <a href="/tarifs" className="price-btn primary">Acheter</a>
             </div>
 
             <div className="price-card">
-              <div className="price-plan">Business</div>
-              <div className="price-amount">29,99€</div>
-              <div className="price-period">/ mois</div>
+              <div className="price-plan">Pack Maxi</div>
+              <div className="price-amount">12,99€</div>
+              <div className="price-period">/ 30 scans</div>
               <ul className="price-feats">
-                <li>Tout Pro inclus</li>
-                <li>Multi-comptes</li>
-                <li>API access</li>
-                <li>Dashboard équipe</li>
-                <li>Onboarding dédié</li>
+                <li>30 scans détaillés</li>
+                <li>Tags, plateformes & conseils inclus</li>
+                <li>Historique complet</li>
               </ul>
-              <a href="/register" className="price-btn outline">Passer Business</a>
+              <a href="/tarifs" className="price-btn outline">Acheter</a>
             </div>
           </div>
         </div>

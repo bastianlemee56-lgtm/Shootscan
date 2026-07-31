@@ -120,7 +120,7 @@ export default function Tarifs() {
             <div key={plan.name} className={`plan ${plan.highlight ? 'highlight' : ''}`}>
               {plan.highlight && <div className="plan-badge">Le plus populaire</div>}
               <div className="plan-name">{plan.name}</div>
-              <div className="plan-price">{plan.price}<span>{plan.period}</span></div>
+              <div className="plan-price">{plan.price}€<span>{plan.period}</span></div>
               <div className="plan-desc">{plan.desc}</div>
               <ul className="plan-features">
                 {plan.features.map(f => <li key={f}>{f}</li>)}
