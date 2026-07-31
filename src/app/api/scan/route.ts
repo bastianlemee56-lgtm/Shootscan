@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 
       creditsRestants = creditsProfile?.credits_scans ?? 0
 
-      if (creditsRestants <= 0) {
+      if (creditsRestants <= 0 && currentUser.email !== 'bastian_lemee56@icloud.com') {
         return NextResponse.json(
           { error: 'Vous n\'avez plus de scans disponibles. Achetez un pack pour continuer !' },
           { status: 403 }
@@ -121,10 +121,12 @@ Reponds UNIQUEMENT en JSON valide sans markdown ni commentaire :
   conseil: result.conseil ?? null,
 })
 if (insertError) console.error('INSERT ERROR:', insertError)
-      await supabase
-        .from('profiles')
-        .update({ credits_scans: creditsRestants - 1 })
-        .eq('id', user.id)
+      if (user.email !== 'bastian_lemee56@icloud.com') {
+        await supabase
+          .from('profiles')
+          .update({ credits_scans: creditsRestants - 1 })
+          .eq('id', user.id)
+      }
     }
 
     return NextResponse.json(result)

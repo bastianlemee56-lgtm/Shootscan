@@ -12,8 +12,7 @@ export default function Dashboard() {
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState('')
   const [historique, setHistorique] = useState<any[]>([])
-  const [scanCount, setScanCount] = useState(0)
-  const [plan, setPlan] = useState('free')
+  const [credits, setCredits] = useState(0)
   const [activeTab, setActiveTab] = useState<'simple' | 'lot'>('simple')
   const [mode, setMode] = useState<'armoire' | 'revente'>('armoire')
   const [lotImages, setLotImages] = useState<{file: File, preview: string, base64: string}[]>([])
@@ -32,12 +31,11 @@ export default function Dashboard() {
       setEmail(user.email || '')
       const { data: profile } = await supabase
         .from('profiles')
-        .select('plan, scans_used_this_month')
+        .select('credits_scans')
         .eq('id', user.id)
         .single()
       if (profile) {
-        setPlan(profile.plan)
-        setScanCount(profile.scans_used_this_month)
+        setCredits(profile.credits_scans ?? 0)
       }
       const { data } = await supabase
         .from('scans')
@@ -76,7 +74,7 @@ export default function Dashboard() {
 }
 
   const handleLotFiles = (files: FileList) => {
-    const maxFiles = plan === 'business' ? 10 : 3
+    const maxFiles = 5
     const selected = Array.from(files).slice(0, maxFiles)
     const readers = selected.map(file => new Promise<{file: File, preview: string, base64: string}>(resolve => {
       const reader = new FileReader()
@@ -98,12 +96,12 @@ export default function Dashboard() {
       const res = await fetch('/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image, plan, mode }),
+        body: JSON.stringify({ image, mode }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur')
       setResult(data)
-      setScanCount(c => c + 1)
+      setCredits(c => c - 1)
     } catch (e: any) {
       setError(e.message)
     } finally {
@@ -122,11 +120,12 @@ export default function Dashboard() {
         const res = await fetch('/api/scan', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: item.base64, plan, mode }),
+          body: JSON.stringify({ image: item.base64, mode }),
         })
         const data = await res.json()
         if (!res.ok) throw new Error(data.error || 'Erreur')
         results.push({ ...data, preview: item.preview })
+        setCredits(c => c - 1)
       } catch (e: any) {
         results.push({ error: e.message, preview: item.preview })
       }
@@ -141,8 +140,6 @@ export default function Dashboard() {
     router.push('/')
   }
 
-  const isPro = plan === 'pro' || plan === 'business'
-
   return (
     <main style={{ fontFamily: "'Inter', system-ui, sans-serif", background: '#080C09', minHeight: '100vh' }}>
       <style>{`
@@ -154,15 +151,11 @@ export default function Dashboard() {
         .scan-limit-bar { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
         .scan-limit-info { flex: 1; }
         .scan-limit-label { font-size: 12px; color: var(--text); margin-bottom: 6px; }
-        .scan-limit-track { height: 6px; background: rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; }
-        .scan-limit-fill { height: 100%; background: var(--g); border-radius: 3px; transition: width 0.3s; }
         .scan-limit-count { font-size: 13px; color: #fff; font-weight: 600; white-space: nowrap; }
         .upgrade-link { font-size: 12px; color: var(--g); cursor: pointer; text-decoration: none; white-space: nowrap; }
         .tab-switch { display: flex; background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: 10px; padding: 4px; margin-bottom: 1.25rem; gap: 4px; }
         .tab-btn { flex: 1; padding: 8px; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; background: transparent; color: var(--text); transition: all 0.2s; font-family:'Inter',sans-serif; }
         .tab-btn.active { background: rgba(0,184,116,.12); color: #fff; }
-        .tab-btn .pro-badge { background: var(--g); color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
-        .tab-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .mode-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
         .mode-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; padding: 1rem; cursor: pointer; transition: all 0.2s; }
         .mode-card:hover { border-color: var(--g); }
@@ -235,13 +228,10 @@ export default function Dashboard() {
 
         <div className="scan-limit-bar">
           <div className="scan-limit-info">
-            <div className="scan-limit-label">Scans utilisés ce mois</div>
-            <div className="scan-limit-track">
-              <div className="scan-limit-fill" style={{ width: `${(scanCount / 3) * 100}%` }}></div>
-            </div>
+            <div className="scan-limit-label">Scans disponibles</div>
           </div>
-          <div className="scan-limit-count">{plan === 'free' ? `${scanCount} / 3` : '∞ Illimité'}</div>
-          {plan === 'free' && <a href="/tarifs" className="upgrade-link">Passer Pro →</a>}
+          <div className="scan-limit-count">{credits} scan{credits > 1 ? 's' : ''} restant{credits > 1 ? 's' : ''}</div>
+          {credits <= 0 && <a href="/tarifs" className="upgrade-link">Acheter un pack →</a>}
         </div>
 
         <div className="tab-switch">
@@ -250,9 +240,8 @@ export default function Dashboard() {
           </button>
           <button
             className={`tab-btn ${activeTab === 'lot' ? 'active' : ''}`}
-            onClick={() => isPro ? setActiveTab('lot') : null}
-            style={{ opacity: isPro ? 1 : 0.5, cursor: isPro ? 'pointer' : 'not-allowed' }}>
-            Scan en lot <span className="pro-badge">Pro</span>
+            onClick={() => setActiveTab('lot')}>
+            Scan en lot
           </button>
         </div>
 
@@ -269,16 +258,14 @@ export default function Dashboard() {
               </div>
               <div
                 className={`mode-card ${mode === 'revente' ? 'active' : ''}`}
-                onClick={() => isPro ? setMode('revente') : null}
+                onClick={() => setMode('revente')}
                 style={{
                   borderColor: mode === 'revente' ? '#00B874' : undefined,
                   background: mode === 'revente' ? 'rgba(0,184,116,.06)' : undefined,
-                  opacity: isPro ? 1 : 0.5,
-                  cursor: isPro ? 'pointer' : 'not-allowed'
                 }}
               >
-                <div className="mode-card-title">🎯 Achat / revente pro {!isPro && <span className="pro-badge">Pro</span>}</div>
-                <div className="mode-card-sub">{isPro ? 'ROI, marge, calculateur intégré' : 'Disponible en plan Pro'}</div>
+                <div className="mode-card-title">🎯 Achat / revente pro</div>
+                <div className="mode-card-sub">ROI, marge, calculateur intégré</div>
               </div>
             </div>
 
@@ -329,7 +316,7 @@ export default function Dashboard() {
                   <div className="price-box recommended"><div className="price-label">Recommandé</div><div className="price-val">{result.prix_conseille}€</div></div>
                   <div className="price-box"><div className="price-label">Maximum</div><div className="price-val">{result.prix_max}€</div></div>
                 </div>
-                {isPro && <div className="result-advice">{result.conseil}</div>}
+                <div className="result-advice">{result.conseil}</div>
                 {result.titre && <div style={{marginTop:'0.75rem', fontWeight:600, color:'#fff'}}>{result.titre}</div>}
                 {result.description && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'rgba(255,255,255,.55)'}}>{result.description}</div>}
                 {result.roi && <div style={{marginTop:'0.5rem', fontSize:'13px', color:'#00B874', fontWeight:600}}>ROI : {result.roi}</div>}
@@ -341,14 +328,14 @@ export default function Dashboard() {
           </>
         )}
 
-        {activeTab === 'lot' && isPro && (
+        {activeTab === 'lot' && (
           <>
             <div className="drop-zone" onClick={() => lotInputRef.current?.click()}
               onDragOver={e => e.preventDefault()}
               onDrop={e => { e.preventDefault(); if (e.dataTransfer.files.length) handleLotFiles(e.dataTransfer.files) }}>
               <div className="drop-icon">📁</div>
               <div className="drop-text">Glisse plusieurs photos ou clique pour uploader</div>
-              <div className="drop-cats">{plan === 'business' ? 'Max 10 articles (illimité/mois)' : 'Max 3 articles'} · JPG PNG WEBP</div>
+              <div className="drop-cats">Max 5 articles · JPG PNG WEBP</div>
             </div>
 
             <input ref={lotInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }}
@@ -413,35 +400,33 @@ export default function Dashboard() {
           <div style={{ marginTop: '2rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
               <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#fff', margin: 0 }}>Historique des scans</h2>
-              {isPro && (
-                <button
-                  onClick={() => {
-                    const headers = ['Date', 'Nom', 'Catégorie', 'État', 'Couleur', 'Tags', 'Prix conseillé', 'Plateformes', 'Conseil']
-                    const rows = historique.map(s => [
-                      new Date(s.created_at).toLocaleDateString('fr-FR'),
-                      s.nom ?? '',
-                      s.categorie ?? '',
-                      s.etat ?? '',
-                      s.couleur ?? '',
-                      (s.tags ?? []).join(' | '),
-                      s.prix_conseille ?? '',
-                      (s.plateformes ?? []).join(' | '),
-                      s.conseil ?? '',
-                    ])
-                    const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')
-                    const blob = new Blob([csv], { type: 'text/csv' })
-                    const url = URL.createObjectURL(blob)
-                    const a = document.createElement('a')
-                    a.href = url
-                    a.download = 'shootscan_historique.csv'
-                    a.click()
-                    URL.revokeObjectURL(url)
-                  }}
-                  style={{ background: 'rgba(0,184,116,.1)', border: '1px solid #00B874', color: '#00B874', borderRadius: '8px', padding: '6px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
-                >
-                  ⬇ Export CSV
-                </button>
-              )}
+              <button
+                onClick={() => {
+                  const headers = ['Date', 'Nom', 'Catégorie', 'État', 'Couleur', 'Tags', 'Prix conseillé', 'Plateformes', 'Conseil']
+                  const rows = historique.map(s => [
+                    new Date(s.created_at).toLocaleDateString('fr-FR'),
+                    s.nom ?? '',
+                    s.categorie ?? '',
+                    s.etat ?? '',
+                    s.couleur ?? '',
+                    (s.tags ?? []).join(' | '),
+                    s.prix_conseille ?? '',
+                    (s.plateformes ?? []).join(' | '),
+                    s.conseil ?? '',
+                  ])
+                  const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')
+                  const blob = new Blob([csv], { type: 'text/csv' })
+                  const url = URL.createObjectURL(blob)
+                  const a = document.createElement('a')
+                  a.href = url
+                  a.download = 'shootscan_historique.csv'
+                  a.click()
+                  URL.revokeObjectURL(url)
+                }}
+                style={{ background: 'rgba(0,184,116,.1)', border: '1px solid #00B874', color: '#00B874', borderRadius: '8px', padding: '6px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
+              >
+                ⬇ Export CSV
+              </button>
             </div>
             {historique.map((scan, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)', borderRadius: '12px', padding: '1rem', marginBottom: '0.75rem' }}>
