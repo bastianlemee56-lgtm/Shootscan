@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Tarifs() {
-  const [annual, setAnnual] = useState(false)
   const router = useRouter()
 
   const handleCheckout = async (priceId: string) => {
@@ -19,33 +18,33 @@ export default function Tarifs() {
 
   const plans = [
     {
-      name: 'Gratuit',
-      price: '0',
-      period: '/mois',
-      desc: 'Pour decouvrir Shootscan',
-      features: ['1 scan gratuit détaillé', 'Tags, plateformes & conseils inclus', 'Historique 7 jours'],
-      cta: 'Commencer gratuitement',
-      priceId: null,
+      name: 'Pack Mini',
+      price: '2,99',
+      period: '/ 5 scans',
+      desc: 'Pour tester ou vendre 2-3 objets',
+      features: ['5 scans détaillés', 'Tags, plateformes & conseils inclus', 'Historique complet'],
+      cta: 'Acheter',
+      priceId: 'price_1Tz1nCGanXWUCjKgzSKfVxYF',
       highlight: false,
     },
     {
-      name: 'Pro',
-      price: annual ? '6,67' : '9,99',
-      period: '/mois',
-      desc: 'Pour les revendeurs actifs',
-      features: ['Scans illimites', 'Scan en lot', 'Historique complet', 'Export CSV', 'Support prioritaire'],
-      cta: 'Passer Pro',
-      priceId: annual ? 'price_1TyJhtGanXWUCjKgIyGcpRHN' : 'price_1TyJN5GanXWUCjKgKgILV8jR',
+      name: 'Pack Confort',
+      price: '6,99',
+      period: '/ 15 scans',
+      desc: 'Pour vider un dressing ou un placard',
+      features: ['15 scans détaillés', 'Tags, plateformes & conseils inclus', 'Historique complet'],
+      cta: 'Acheter',
+      priceId: 'price_1Tz1oEGanXWUCjKgNk5YLqc3',
       highlight: true,
     },
     {
-      name: 'Business',
-      price: '29,99',
-      period: '/mois',
-      desc: 'Pour les pros du volume',
-      features: ['Tout Pro inclus', 'Multi-comptes', 'API access', 'Dashboard equipe', 'Onboarding dedie'],
-      cta: 'Passer Business',
-      priceId: 'price_1TjSY6GanXWUCjKgGhElnnvh',
+      name: 'Pack Maxi',
+      price: '12,99',
+      period: '/ 30 scans',
+      desc: 'Pour un grand nettoyage ou un déménagement',
+      features: ['30 scans détaillés', 'Tags, plateformes & conseils inclus', 'Historique complet'],
+      cta: 'Acheter',
+      priceId: 'price_1Tz1opGanXWUCjKg9fhFuzlJ',
       highlight: false,
     },
   ]
@@ -112,17 +111,9 @@ export default function Tarifs() {
       </nav>
 
       <div className="wrap">
-        <div className="page-title">Choisir un <em>plan</em></div>
-        <div className="page-sub">Commence gratuitement, passe Pro quand tu es pret.</div>
+        <div className="page-title">Choisir un <em>pack</em></div>
+        <div className="page-sub">1 scan offert à l'inscription, puis des packs sans engagement.</div>
 
-        <div className="toggle">
-          <span className={`toggle-label ${!annual ? 'active' : ''}`}>Mensuel</span>
-          <button className="toggle-switch" onClick={() => setAnnual(!annual)}>
-            <span style={{ position: 'absolute', width: '18px', height: '18px', background: 'white', borderRadius: '50%', top: '3px', left: annual ? '23px' : '3px', transition: 'left 0.2s' }}></span>
-          </button>
-          <span className={`toggle-label ${annual ? 'active' : ''}`}>Annuel</span>
-          {annual && <span className="badge-save">-31%</span>}
-        </div>
 
         <div className="plans">
           {plans.map((plan) => (

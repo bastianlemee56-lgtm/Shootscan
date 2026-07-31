@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Non connecté' }, { status: 401 })
 
     const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
+      mode: 'payment',
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
       customer_email: user.email,
