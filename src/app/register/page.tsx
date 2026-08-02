@@ -74,9 +74,9 @@ export default function Register() {
       <div className="center">
         <div className="card">
           <div className="card-title">Créer un <em>compte</em></div>
-          <div className="card-sub">3 scans gratuits, sans carte bancaire.</div>
+          <div className="card-sub">1 scan gratuit détaillé, sans carte bancaire.</div>
 
-          <div className="badge">✓ 3 scans gratuits offerts</div>
+          <div className="badge">✓ 1 scan gratuit détaillé offert</div>
 
           <div className="field">
             <label>Email</label>
