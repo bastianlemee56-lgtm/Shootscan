@@ -18,6 +18,11 @@ export const metadata = {
   title: "Shootscan — Estime la valeur de tes objets en une photo",
   description: "L'IA qui analyse tes objets et te dit combien ils valent.",
 };
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export default function RootLayout({
   children,
